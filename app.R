@@ -8,42 +8,44 @@
 #
 
 library(shiny)
+library(shinydashboard)
+library(mongolite)
+library(tidyverse)
+library(DT)
+
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
-
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
+ui <- basicPage(
+    h2("MongoDB test"),
+    DT::dataTableOutput("test1"),
+    DT::dataTableOutput("test2")
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+    output$test1 <- DT::renderDataTable({
+        mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
+        colname <- "antibody_collection"
+        dbname <- "material"
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+        con <- mongo(collection = colname, url = mongoUrl, db = dbname)
+        Drug_temp <- con$find() %>% as_tibble()
+        Drug_temp
     })
+
 }
+
+
+# ui <- fluidPage(
+#     textInput("name", "What's your name?"),
+#     textOutput("greeting")
+# )
+# 
+# server <- function(input, output, session) {
+#     output$greeting <- renderText({
+#         paste0("Hello ", input$name, "!")
+#     })
+# }
 
 # Run the application 
 shinyApp(ui = ui, server = server)

@@ -8,9 +8,10 @@ collection_fun <- function(collection_name, url) {
              db = "material", 
              url = url,
              verbose = TRUE, 
-             options = ssl_options()
-  )
+             options = ssl_options())
+  m$find() %>% as_tibble() %>% unnest(names_sep = "_") %>% return()
 }
 
 temp <- collection_fun(collection_name = "blood_collection", url = mongoUrl)
-temp_tibble <- temp$find() %>% as_tibble() %>% unnest(names_sep = "_")
+
+temp %>% View()

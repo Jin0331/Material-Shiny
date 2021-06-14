@@ -73,17 +73,17 @@ ui <- dashboardPage(
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
       # First tab content
-      tabItem(tabName = "home",
+      tabItem(tabName = "home", 
               fluidRow( 
-                valueBox(10 * 2, "Blood",icon = icon("credit-card"), color = "red"),
-                valueBox(10 * 2, "FF",icon = icon("credit-card"), color = "yellow"),
-                valueBox(10 * 2, "FFPE",icon = icon("th"), color = "aqua"),
-                valueBox(10 * 2, "PDX",icon = icon("credit-card"), color = "purple"),
-                valueBox(10 * 2, "Antibody",icon = icon("credit-card"), color = "fuchsia"),
-                valueBox(10 * 2, "Cell Line",icon = icon("credit-card"), color = "maroon"),
-                valueBox(10 * 2, "Commercial Drug",icon = icon("credit-card"), color = "teal"),
-                valueBox(10 * 2, "Protein",icon = icon("credit-card"), color = "olive"),
-                valueBox(10 * 2, "shRNA / siRNA",icon = icon("credit-card"), color = "lime")
+                valueBox(10 * 2, "Blood",icon = icon("burn"), color = "red"),
+                valueBox(10 * 2, "FF",icon = icon("prescription-bottle"), color = "yellow"),
+                valueBox(10 * 2, "FFPE",icon = icon("flask"), color = "aqua"),
+                valueBox(10 * 2, "PDX",icon = icon("prescription"), color = "purple"),
+                valueBox(10 * 2, "Antibody",icon = icon("vial"), color = "fuchsia"),
+                valueBox(10 * 2, "Cell Line",icon = icon("eye-dropper"), color = "maroon"),
+                valueBox(10 * 2, "Commercial Drug",icon = icon("capsules"), color = "teal"),
+                valueBox(10 * 2, "Protein",icon = icon("hubspot"), color = "olive"),
+                valueBox(10 * 2, "shRNA / siRNA",icon = icon("dna"), color = "lime")
                 )
               
               

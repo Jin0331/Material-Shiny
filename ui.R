@@ -1,7 +1,5 @@
-
-
 ui <- dashboardPage(
-  skin = "black",
+  skin = "yellow",
   title = "WMBIO Material",
   
   # HEADER ------------------------------------------------------------------
@@ -9,7 +7,7 @@ ui <- dashboardPage(
   dashboardHeader(
     # title = span(img(src = "radar.svg", height = 35), "WMBIO Material"),
     title = span("WMBIO Material"),
-    titleWidth = 300,
+    titleWidth = 250,
     tags$li(
       a(
         strong("ABOUT WMBIO"),
@@ -24,52 +22,19 @@ ui <- dashboardPage(
   
   # SIDEBAR -----------------------------------------------------------------
   
-  dashboardSidebar(
-    width = 300,
-    introBox(data.step = 3, data.intro = intro$text[3], #  intro tour
-             div(class = "inlay", style = "height:15px;width:100%;background-color: #ecf0f5;"),
-             sidebarMenu(
-               introBox(data.step = 1, data.intro = intro$text[1], # intro tour
-                        div(id = "sidebar_button",
-                            bsButton(inputId = "confirm", 
-                                     label = "START RADAR", 
-                                     icon = icon("play-circle"), 
-                                     style = "danger")
-                        )
-               ),
-               div(class = "inlay", style = "height:15px;width:100%;background-color: #ecf0f5;"),
-               menuItem(
-                 "DOWNLOAD SELECTION",
-                 tabName = "download",
-                 icon = icon("download"),
-                 textInput(
-                   inputId = "filename",
-                   placeholder = "Name download file",
-                   label = ""
-                 ),
-                 div(
-                   downloadButton(
-                     outputId = "downloadData",
-                     label = "Save Antimicrobial/Admission Data",
-                     icon = icon("download"),
-                     style = "color: black; margin-left: 15px; margin-bottom: 5px;"
-                   )
-                 ),
-                 div(
-                   downloadButton(
-                     outputId = "downloadMicroData",
-                     label = "Save Microbiology Data",
-                     icon = icon("download"),
-                     style = "color: black; margin-left: 15px; margin-bottom: 5px;"
-                   )
-                 )
-               ),
-               br()
-               
-             )
+  dashboardSidebar(width = 250,
+    sidebarMenu(
+      menuItem("Dashboard", tabName = "home", icon = icon("dashboard")),
+      menuItem("Blood", tabName = "blood", icon = icon("dashboard")),
+      menuItem("FF", tabName = "ff", icon = icon("dashboard")),
+      menuItem("FFPE", tabName = "ffpe", icon = icon("dashboard")),
+      menuItem("PDX", tabName = "pdx", icon = icon("dashboard")),
+      menuItem("Antibody", tabName = "antibody", icon = icon("dashboard")),
+      menuItem("Cell Line", tabName = "celline", icon = icon("dashboard")),
+      menuItem("Commercial Drug", tabName = "drug", icon = icon("dashboard")),
+      menuItem("Protein", tabName = "protein", icon = icon("dashboard")),
+      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dashboard"))
     )),
-  
-  
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
@@ -81,78 +46,14 @@ ui <- dashboardPage(
     ),
     
     useShinyjs(),
-    introjsUI(),
     
     # MAIN BODY ---------------------------------------------------------------
-    
-    fluidRow(
-      column(
-        width = 12,
-        introBox(
-          bsButton("blood", 
-                   label = "BLOOD", 
-                   icon = icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("ff", 
-                   label = "FF", 
-                   icon = icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("pdx", 
-                   label = "PDX", 
-                   icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("antibody", 
-                   label = "ANTIBODY", 
-                   icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("celline", 
-                   label = "Cell Line", 
-                   icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("drug", 
-                   label = "DRUG", 
-                   icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("protein", 
-                   label = "PROTEIN", 
-                   icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          bsButton("rna", 
-                   label = "shRNA / siRNA", 
-                   icon("spinner", class = "spinner-box"), 
-                   style = "success"),
-          data.step = 2, data.intro = intro$text[2])
-      )
-    ),
-    
-    fluid_design("antimicrobials_panel", "box1", "box2", "box3", "box4"),
-    fluid_design("diagnostics_panel", "box5", "box6", "box7", "box8"),
-    fluid_design("outcome_panel", "box_los1", "box_los2", "box_los3", NULL),
-    
-    fluidRow(
-      div(
-        id = "patients_panel", 
-        column(
-          width = 12,
-          introBox(data.step = 4, data.intro = intro$text[4],
-                   uiOutput("box_pat")
-          )
-        ),
-        column(
-          width = 6,
-          uiOutput("box_pat2")
-        ),
-        column(
-          width = 6,
-          uiOutput("box_year")
-        )
-      )
-    )
+
   )
 )
 
-ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"), 
-                 tags_top = tags$img(
-                   src = "http://www.wmbio.co/images/common/logo.png", width = 240
-                 ),
-                 enable_admin = TRUE)
+# ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"), 
+#                  tags_top = tags$img(
+#                    src = "http://www.wmbio.co/images/common/logo.png", width = 240
+#                  ),
+#                  enable_admin = TRUE)

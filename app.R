@@ -13,6 +13,19 @@ library(mongolite)
 library(tidyverse)
 library(DT)
 
+# mongo function
+mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
+
+collection_fun <- function(collection_name, url) {
+    m <- mongo(collection = collection_name, 
+               db = "material", 
+               url = url,
+               verbose = TRUE, 
+               options = ssl_options()
+    )
+}
+
+
 
 # Define UI for application that draws a histogram
 ui <- basicPage(
@@ -24,11 +37,9 @@ ui <- basicPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
     output$test1 <- DT::renderDataTable({
-        mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
         colname <- "antibody_collection"
-        dbname <- "material"
 
-        con <- mongo(collection = colname, url = mongoUrl, db = dbname)
+        con <- collection_fun(collection_name = colname, url = mongoUrl)
         Drug_temp <- con$find() %>% as_tibble()
         Drug_temp
     })

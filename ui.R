@@ -23,18 +23,44 @@ ui <- dashboardPage(
   # SIDEBAR -----------------------------------------------------------------
   
   dashboardSidebar(width = 250,
-    sidebarMenu(
-      menuItem("Dashboard", tabName = "home", icon = icon("dashboard")),
-      menuItem("Blood", tabName = "blood", icon = icon("dashboard")),
-      menuItem("FF", tabName = "ff", icon = icon("dashboard")),
-      menuItem("FFPE", tabName = "ffpe", icon = icon("dashboard")),
-      menuItem("PDX", tabName = "pdx", icon = icon("dashboard")),
-      menuItem("Antibody", tabName = "antibody", icon = icon("dashboard")),
-      menuItem("Cell Line", tabName = "celline", icon = icon("dashboard")),
-      menuItem("Commercial Drug", tabName = "drug", icon = icon("dashboard")),
-      menuItem("Protein", tabName = "protein", icon = icon("dashboard")),
-      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dashboard"))
-    )),
+    sidebarMenu(id = "side", 
+      menuItem("Home", tabName = "home", icon = icon("home")),
+      menuItem("Blood", tabName = "blood", icon = icon("elementor")),
+      menuItem("FF", tabName = "ff", icon = icon("elementor")),
+      menuItem("FFPE", tabName = "ffpe", icon = icon("elementor")),
+      menuItem("PDX", tabName = "pdx", icon = icon("elementor")),
+      menuItem("Antibody", tabName = "antibody", icon = icon("elementor")),
+      menuItem("Cell Line", tabName = "celline", icon = icon("elementor")),
+      menuItem("Commercial Drug", tabName = "drug", icon = icon("elementor")),
+      menuItem("Protein", tabName = "protein", icon = icon("elementor")),
+      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("elementor"))
+    ),
+    
+    # condition paner for BLOOD, FF, FFPE, PDX
+    conditionalPanel(
+      condition = "input.side == 'blood'",
+      selectInput("blood_table", "Table Select", 
+                  choices = list("List" = 1, "Result" = 2))
+    ),
+    conditionalPanel(
+      condition = "input.side == 'ff'",
+      selectInput("ff_table", "Table Select", 
+                  choices = list("List" = 1, "Result" = 2))
+    ),
+    conditionalPanel(
+      condition = "input.side == 'ffpe'",
+      selectInput("ffpe_table", "Table Select", 
+                  choices = list("List" = 1, "Result" = 2))
+    ),
+    conditionalPanel(
+      condition = "input.side == 'pdx'",
+      selectInput("pdx_table", "Table Select", 
+                  choices = list("List" = 1, "Result" = 2))
+    )
+    
+    
+    
+    ), 
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
@@ -44,11 +70,49 @@ ui <- dashboardPage(
         type = "text/css", 
         href = "radar_style.css")
     ),
-    
-    useShinyjs(),
-    
     # MAIN BODY ---------------------------------------------------------------
-
+    tabItems(
+      # First tab content
+      tabItem(tabName = "home",
+              fluidRow(
+                box(plotOutput("plot1", height = 250)),
+                
+                box(
+                  title = "Controls",
+                  sliderInput("slider", "Number of observations:", 1, 100, 50)
+                )
+              )
+      ),
+      
+      # Second tab content
+      tabItem(tabName = "blood",
+              h2("Blood tab content")
+      ),
+      tabItem(tabName = "ff",
+              h2("FF tab content")
+      ),
+      tabItem(tabName = "ffpe",
+              h2("FFPE tab content")
+      ),
+      tabItem(tabName = "pdx",
+              h2("PDX tab content")
+      ),
+      tabItem(tabName = "antibody",
+              h2("Antibody tab content")
+      ),
+      tabItem(tabName = "celline",
+              h2("Cell Line tab content")
+      ),
+      tabItem(tabName = "drug",
+              h2("Commercial Drug tab content")
+      ),
+      tabItem(tabName = "protein",
+              h2("Protein tab content")
+      ),
+      tabItem(tabName = "shsirna",
+              h2("shRNA / siRNA tab content")
+      )
+    )
   )
 )
 

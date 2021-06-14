@@ -10,9 +10,15 @@ server <- function(input, output, session) {
   )
   
   # SERVER ----
+  set.seed(122)
+  histdata <- rnorm(500)
+  output$plot1 <- renderPlot({
+    data <- histdata[seq_len(input$slider)]
+    hist(data)
+  })
+  
   output$test1 <- DT::renderDataTable({
     colname <- "blood_collection"
-    
     Antibody <- collection_to_DF(collection_name = colname, url = mongoUrl)
     Antibody
   })

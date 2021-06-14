@@ -5,8 +5,8 @@ ui <- dashboardPage(
   # HEADER ------------------------------------------------------------------
   
   dashboardHeader(
-    # title = span(img(src = "radar.svg", height = 35), "WMBIO Material"),
-    title = span("WMBIO Material"),
+    title = span(img(src = "radar.svg", height = 35), "WMBIO"),
+    #title = span("WMBIO"),
     titleWidth = 250,
     tags$li(
       a(
@@ -74,8 +74,9 @@ ui <- dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "home", 
+              fluidRow(), 
               fluidRow( 
-                valueBox(10 * 2, "Blood",icon = icon("burn"), color = "red"),
+                valueBox(10 * 2, "Blood",icon = icon("tint"), color = "red"),
                 valueBox(10 * 2, "FF",icon = icon("prescription-bottle"), color = "yellow"),
                 valueBox(10 * 2, "FFPE",icon = icon("flask"), color = "aqua"),
                 valueBox(10 * 2, "PDX",icon = icon("prescription"), color = "purple"),
@@ -121,8 +122,8 @@ ui <- dashboardPage(
   )
 )
 
-# ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"), 
-#                  tags_top = tags$img(
-#                    src = "http://www.wmbio.co/images/common/logo.png", width = 240
-#                  ),
-#                  enable_admin = TRUE)
+ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"),
+                 tags_top = tags$img(
+                   src = "http://www.wmbio.co/images/common/logo.png", width = 240
+                 ),
+                 enable_admin = TRUE)

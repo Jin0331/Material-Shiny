@@ -151,4 +151,8 @@ ui <- dashboardPage(
   )
 )
 
-ui <- secure_app(ui, enable_admin = TRUE)
+ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"), 
+                 tags_top = tags$img(
+                   src = "http://www.wmbio.co/images/common/logo.png", width = 240
+                 ),
+                 enable_admin = TRUE)

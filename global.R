@@ -1,14 +1,14 @@
-
-
-# WELCOME TO RadaR
-
-#RadaR is licensed under the GNU General Public License (GPL) v2.0 (https://github.com/ceefluz/radar/blob/master/LICENSE)
-
 # INSTALL DEPENDENCIES ----------------------------------------------------
-
 source('dependencies.R')
+
 # load all packages
 lapply(required_packages, require, character.only = TRUE)
+
+# SHINYMANAGER ----
+lang <- shinymanager:::language$new()
+lang$add(
+  "Please authenticate" = "WMBIO MATERIAL PAGE"
+)
 
 # RELATED FUNCTION --------------------------------------------------------
 collection_to_DF <- function(collection_name, url) {
@@ -50,6 +50,6 @@ fluid_design <- function(id, w, x, y, z) {
 source("./ui.R", local = TRUE)  
 source("./server.R", local = TRUE)  
 
-shinyApp(ui, server)
+shinyApp(ui, server, options = list(host = "0.0.0.0", port = "8888"))
 
 

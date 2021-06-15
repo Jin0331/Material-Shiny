@@ -33,6 +33,34 @@ value_func <- function(N, row_count, icon, color){
   })
 }
 
+# chat db & function 
+connection <- shiny.collections::connect()
+get_random_username <- function() {
+  paste0("User", round(runif(1, 10000, 99999)))
+}
+render_msg_divs <- function(collection) {
+  div(class = "ui very relaxed list",
+      collection %>%
+        arrange(time) %>%
+        by_row(~ div(class = "item",
+                     a(class = "header", .$user),
+                     div(class = "description", .$text)
+        )) %>% {.$.out}
+  )
+}
+
+render_msg_divs <- function(collection) {
+  div(class = "ui very relaxed list",
+      collection %>%
+        arrange(time) %>%
+        by_row(~ div(class = "item",
+                     a(class = "header", .$user),
+                     div(class = "description", .$text)
+        )) %>% {.$.out}
+  )
+}
+
+
 
 # HELP & INTRO DATA ------------------------------------------------------
 steps <- read_csv2("help.csv")

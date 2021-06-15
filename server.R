@@ -9,7 +9,37 @@ server <- function(input, output, session) {
     )
   )
   
-  # SERVER ----
+  # AUTO-REFRESH
+  shinyjs::runjs(
+    "function reload_page() {
+      window.location.reload();
+      setTimeout(reload_page, 500000);
+    }
+    setTimeout(reload_page, 500000);
+")
+  
+  # LiveCHAT ----
+  chat <- shiny.collections::collection("chat", connection)
+  updateTextInput(session, "username_field",
+                  value = get_random_username()
+  )
+  
+  observeEvent(input$send, {
+    new_message <- list(user = input$username_field,
+                        text = input$message_field,
+                        time = Sys.time())
+    shiny.collections::insert(chat, new_message)
+    updateTextInput(session, "message_field", value = "")
+  })
+  
+  output$chatbox <- renderUI({
+    if (!is_empty(chat$collection)) {
+      render_msg_divs(chat$collection)
+    } else {
+      tags$span("Empty chat")
+    }
+  })
+  
   # INFOBOX_RENDER ----
   output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>% 
     value_func(N = "Blood", row_count = ., icon = icon("tint"), color = "red")
@@ -39,11 +69,12 @@ server <- function(input, output, session) {
   output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>% 
     value_func(N = "shRNA / siRNA", row_count = ., icon = icon("dna"), color = "lime")
   
-  # LiveCHAT ----
-  # output$test1 <- DT::renderDataTable({
-  #   colname <- "blood_collection"
-  #   Antibody <- collection_to_DF(collection_name = colname, url = mongoUrl)
-  #   Antibody
-  # })
+  
+  # DT ----
+  output$test1 <- DT::renderDataTable({
+    colname <- "blood_collection"
+    Antibody <- collection_to_DF(collection_name = colname, url = mongoUrl)
+    Antibody
+  })
  
 }

@@ -1,12 +1,12 @@
 ui <- dashboardPage(
-  skin = "yellow-light",
+  skin = "midnight",
   scrollToTop = TRUE,
   title = "WMBIO Material",
   
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
-    title = span(img(src = "radar.svg", height = 35), "WMBIO"),
+    title = span(img(src = "WMB-2.png", height = 35), "WMBIO"),
     #title = span("WMBIO"),
     titleWidth = 250,
     tags$li(
@@ -75,10 +75,17 @@ ui <- dashboardPage(
     useShinyjs(),
     tags$head(
       tags$link(
-        rel = "stylesheet", 
-        type = "text/css", 
+        rel = "stylesheet",
+        type = "text/css",
         href = "radar_style.css")
     ),
+    tags$style(HTML("
+                    #chatbox {
+                      padding: .5em;
+                      border: 1px solid #777;
+                      height: 300px;
+                      overflow-y: scroll;
+                    }")),
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
       # First tab content
@@ -100,7 +107,7 @@ ui <- dashboardPage(
               # ),
               fluidRow( 
                 box(title = "Contents",
-                    status = "danger",
+                    status = "black",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
                     width = 12,
@@ -110,22 +117,23 @@ ui <- dashboardPage(
                     valueBoxOutput("valuebox7"), valueBoxOutput("valuebox8"), valueBoxOutput("valuebox9")
                 ),
                 box(
-                  title = "Live Chat",
-                  status = "black",
+                  title = "Live Chat :)",
+                  status = "black", 
                   icon = icon("user-friends"),
                   solidHeader = TRUE,
+                  collapsible = TRUE,
                   width = 6,
                   div(textInput(
-                    "username_field", "Username", width = "200px")),
+                    "username_field", "ID", width = "200px")),
                   uiOutput("chatbox"),
                   div(style = "display:inline-block",
-                      textInput("message_field", "Your message", width = "500px")),
+                      textInput("message_field", "Message", width = "400px")),
                   div(style = "display:inline-block",
-                      actionButton("send", "Send"))
+                      actionButton("send", "", icon = icon("arrow-alt-circle-up")))
                 ),
                 box(
-                  title = "Notice",
-                  status = "info",
+                  title = "✺Notice✺",
+                  status = "danger",
                   icon = icon("volume-down"),
                   solidHeader = TRUE,
                   width = 6)

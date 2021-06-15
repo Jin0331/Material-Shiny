@@ -1,9 +1,10 @@
 ui <- dashboardPage(
-  skin = "yellow",
+  skin = "yellow-light",
+  scrollToTop = TRUE,
   title = "WMBIO Material",
   
   # HEADER ------------------------------------------------------------------
-  
+  options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
     title = span(img(src = "radar.svg", height = 35), "WMBIO"),
     #title = span("WMBIO"),
@@ -21,7 +22,6 @@ ui <- dashboardPage(
   ),
   
   # SIDEBAR -----------------------------------------------------------------
-  
   dashboardSidebar(width = 250,
     sidebarMenu(id = "side", 
       menuItem("Home", tabName = "home", icon = icon("home")),
@@ -64,6 +64,7 @@ ui <- dashboardPage(
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
+    useShinyjs(),
     tags$head(
       tags$link(
         rel = "stylesheet", 
@@ -74,7 +75,16 @@ ui <- dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "home", 
-              fluidRow(), 
+              fluidRow(
+                box(
+                  solidHeader = FALSE,
+                  title = "Status summary",
+                  background = NULL,
+                  width = 4,
+                  status = "danger"
+                )
+              ),
+              
               fluidRow( 
                 valueBox(10 * 2, "Blood",icon = icon("tint"), color = "red"),
                 valueBox(10 * 2, "FF",icon = icon("prescription-bottle"), color = "yellow"),
@@ -92,7 +102,7 @@ ui <- dashboardPage(
       
       # Second tab content
       tabItem(tabName = "blood",
-              h2("Blood tab content")
+              lapply(1:20, box, width = 12, title = "box")
       ),
       tabItem(tabName = "ff",
               h2("FF tab content")
@@ -118,7 +128,7 @@ ui <- dashboardPage(
       tabItem(tabName = "shsirna",
               h2("shRNA / siRNA tab content")
       )
-    )
+    ) # tabItems END
   )
 )
 

@@ -22,18 +22,26 @@ ui <- dashboardPage(
   ),
   
   # SIDEBAR -----------------------------------------------------------------
-  dashboardSidebar(width = 250,
+  dashboardSidebar(width = 250, collapsed = TRUE,
     sidebarMenu(id = "side", 
       menuItem("Home", tabName = "home", icon = icon("home")),
-      menuItem("Blood", tabName = "blood", icon = icon("elementor")),
-      menuItem("FF", tabName = "ff", icon = icon("elementor")),
-      menuItem("FFPE", tabName = "ffpe", icon = icon("elementor")),
-      menuItem("PDX", tabName = "pdx", icon = icon("elementor")),
-      menuItem("Antibody", tabName = "antibody", icon = icon("elementor")),
-      menuItem("Cell Line", tabName = "celline", icon = icon("elementor")),
-      menuItem("Commercial Drug", tabName = "drug", icon = icon("elementor")),
-      menuItem("Protein", tabName = "protein", icon = icon("elementor")),
-      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("elementor"))
+      menuItem("Blood", tabName = "blood", icon = icon("tint"),
+               menuSubItem("List", tabName = "blood_list"),
+               menuSubItem("Result", tabName = "blood_result")),
+      menuItem("FF", tabName = "ff", icon = icon("prescription-bottle"),
+               menuSubItem("List", tabName = "ff_list"),
+               menuSubItem("Result", tabName = "ff_result")),
+      menuItem("FFPE", tabName = "ffpe", icon = icon("flask"),
+               menuSubItem("List", tabName = "ffpe_list"),
+               menuSubItem("Result", tabName = "ffpe_result")),
+      menuItem("PDX", tabName = "pdx", icon = icon("prescription"),
+               menuSubItem("List", tabName = "pdx_list"),
+               menuSubItem("Result", tabName = "pdx_result")),
+      menuItem("Antibody", tabName = "antibody", icon = icon("vial")),
+      menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+      menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+      menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna"))
     ),
     
     # condition paner for BLOOD, FF, FFPE, PDX
@@ -75,33 +83,59 @@ ui <- dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "home", 
-              fluidRow(
-                box(
-                  solidHeader = FALSE,
-                  title = "Status summary",
-                  background = NULL,
-                  width = 4,
-                  status = "danger"
-                )
-              ),
-              
+              # fluidRow(
+              #   box(
+              #     solidHeader = TRUE,
+              #     title = "Pipeline",
+              #     background = NULL,
+              #     width = 6,
+              #     status = "danger",
+              #     fluidRow(
+              #       column(1, 
+              #              div(style="display: inline-block; width: 0%;",
+              #                  img(src="http://www.wmbio.co/data/plupload/o_1evon0bmg1sc4148hde01djrk6la.png", 
+              #                      height=450, width=760)))
+              #     )
+              #   )
+              # ),
               fluidRow( 
-                valueBox(10 * 2, "Blood",icon = icon("tint"), color = "red"),
-                valueBox(10 * 2, "FF",icon = icon("prescription-bottle"), color = "yellow"),
-                valueBox(10 * 2, "FFPE",icon = icon("flask"), color = "aqua"),
-                valueBox(10 * 2, "PDX",icon = icon("prescription"), color = "purple"),
-                valueBox(10 * 2, "Antibody",icon = icon("vial"), color = "fuchsia"),
-                valueBox(10 * 2, "Cell Line",icon = icon("eye-dropper"), color = "maroon"),
-                valueBox(10 * 2, "Commercial Drug",icon = icon("capsules"), color = "teal"),
-                valueBox(10 * 2, "Protein",icon = icon("hubspot"), color = "olive"),
-                valueBox(10 * 2, "shRNA / siRNA",icon = icon("dna"), color = "lime")
-                )
-              
+                box(title = "Contents",
+                    status = "danger",
+                    solidHeader = TRUE, 
+                    icon = icon("window-restore"),
+                    width = 12,
+                    # VALUEBOX ----
+                    valueBoxOutput("valuebox1"), valueBoxOutput("valuebox2"), valueBoxOutput("valuebox3"),
+                    valueBoxOutput("valuebox4"), valueBoxOutput("valuebox5"), valueBoxOutput("valuebox6"),
+                    valueBoxOutput("valuebox7"), valueBoxOutput("valuebox8"), valueBoxOutput("valuebox9")
+                ),
+                box(
+                  title = "Live Chat",
+                  status = "black",
+                  icon = icon("user-friends"),
+                  solidHeader = TRUE,
+                  width = 6,
+                  div(textInput(
+                    "username_field", "Username", width = "200px")),
+                  uiOutput("chatbox"),
+                  div(style = "display:inline-block",
+                      textInput("message_field", "Your message", width = "500px")),
+                  div(style = "display:inline-block",
+                      actionButton("send", "Send"))
+                ),
+                box(
+                  title = "Notice",
+                  status = "info",
+                  icon = icon("volume-down"),
+                  solidHeader = TRUE,
+                  width = 6)
+               )
               
       ),
       
       # Second tab content
-      tabItem(tabName = "blood",
+      tabItem(tabName = "blood_list",
+              
               lapply(1:20, box, width = 12, title = "box")
       ),
       tabItem(tabName = "ff",
@@ -131,9 +165,9 @@ ui <- dashboardPage(
     ) # tabItems END
   )
 )
-
-ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"),
-                 tags_top = tags$img(
-                   src = "http://www.wmbio.co/images/common/logo.png", width = 240
-                 ),
-                 enable_admin = TRUE)
+# 
+# ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"),
+#                  tags_top = tags$img(
+#                    src = "http://www.wmbio.co/images/common/logo.png", width = 240
+#                  ),
+#                  enable_admin = TRUE)

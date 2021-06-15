@@ -5,9 +5,8 @@ source('dependencies.R')
 set_labels(
   language = "en","Please authenticate" = "WMBIO MATERIAL PAGE")
 
-
-
 # RELATED FUNCTION --------------------------------------------------------
+mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
              db = "material", 
@@ -17,7 +16,22 @@ collection_to_DF <- function(collection_name, url) {
   m$find() %>% as_tibble() %>% unnest(names_sep = "_") %>% return()
 }
 
-mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
+collection_cnt <- function(collection_name, url) {
+  m <- mongo(collection = collection_name, 
+             db = "material", 
+             url = url,
+             verbose = TRUE, 
+             options = ssl_options())
+  m$count() %>% return()
+}
+
+value_func <- function(N, row_count, icon, color){
+  renderValueBox({
+    valueBox(
+      row_count, N, icon = icon, color = color
+    )
+  })
+}
 
 
 # HELP & INTRO DATA ------------------------------------------------------

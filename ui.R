@@ -42,33 +42,7 @@ ui <- dashboardPage(
       menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
       menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
       menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna"))
-    ),
-    
-    # condition paner for BLOOD, FF, FFPE, PDX
-    conditionalPanel(
-      condition = "input.side == 'blood'",
-      selectInput("blood_table", "Table Select", 
-                  choices = list("List" = 1, "Result" = 2))
-    ),
-    conditionalPanel(
-      condition = "input.side == 'ff'",
-      selectInput("ff_table", "Table Select", 
-                  choices = list("List" = 1, "Result" = 2))
-    ),
-    conditionalPanel(
-      condition = "input.side == 'ffpe'",
-      selectInput("ffpe_table", "Table Select", 
-                  choices = list("List" = 1, "Result" = 2))
-    ),
-    conditionalPanel(
-      condition = "input.side == 'pdx'",
-      selectInput("pdx_table", "Table Select", 
-                  choices = list("List" = 1, "Result" = 2))
-    )
-    
-    
-    
-    ), 
+    )), 
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
@@ -90,32 +64,31 @@ ui <- dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "home", 
-              # fluidRow(
-              #   box(
-              #     solidHeader = TRUE,
-              #     title = "Pipeline",
-              #     background = NULL,
-              #     width = 6,
-              #     status = "danger",
-              #     fluidRow(
-              #       column(1, 
-              #              div(style="display: inline-block; width: 0%;",
-              #                  img(src="http://www.wmbio.co/data/plupload/o_1evon0bmg1sc4148hde01djrk6la.png", 
-              #                      height=450, width=760)))
-              #     )
-              #   )
-              # ),
               fluidRow( 
                 box(title = "Contents",
-                    status = "black",
+                    status = "maroon",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
                     width = 12,
+                    collapsible = TRUE,
                     # VALUEBOX ----
                     valueBoxOutput("valuebox1"), valueBoxOutput("valuebox2"), valueBoxOutput("valuebox3"),
                     valueBoxOutput("valuebox4"), valueBoxOutput("valuebox5"), valueBoxOutput("valuebox6"),
                     valueBoxOutput("valuebox7"), valueBoxOutput("valuebox8"), valueBoxOutput("valuebox9")
                 ),
+                box(title = "Total Search",
+                    align = "middle",
+                    icon = icon("search"),
+                    width = 12,
+                    collapsible = TRUE,
+                    solidHeader = TRUE, 
+                    status = "info",
+                    textInput("search_keyword", label = h2("Keword")),
+                    
+                    box(
+                        width = 12
+                        )
+                    ),
                 box(
                   title = "Live Chat :)",
                   status = "black", 
@@ -133,7 +106,7 @@ ui <- dashboardPage(
                 ),
                 box(
                   title = "✺Notice✺",
-                  status = "danger",
+                  status = "orange",
                   icon = icon("volume-down"),
                   solidHeader = TRUE,
                   width = 6)

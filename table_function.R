@@ -1,4 +1,4 @@
-table_frame <-
+table_frame_Blood <-
   function() {
     htmltools::withTags(table(class = 'display',
                               thead(

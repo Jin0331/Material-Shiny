@@ -75,10 +75,17 @@ server <- function(input, output, session) {
     value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime")
   
   # DT ----
-  output$test1 <- DT::renderDataTable({
+  output$blood_list_dt <- DT::renderDataTable({
     colname <- "blood_collection"
-    Antibody <- collection_to_DF(collection_name = colname, url = mongoUrl)
-    Antibody
-  })
+    blood <- collection_to_DF(collection_name = colname, url = mongoUrl);names(blood) <- blood_list_colname
+    blood <- blood %>% select(-WMB_NO, -Treatment_history_Treatment_History1_Responder,
+                              -Treatment_history_Treatment_History1_Non_Responder,
+                              -Blood1, -Blood2, -Blood3, -Blood4, -Blood5)
+    blood
+
+  }, options = list(scrollX = TRUE,
+                    autoWidth = TRUE,
+                    columnDefs = list(list(width = '170px', targets = "_all", className = 'dt-center')))
+  )
  
 }

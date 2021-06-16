@@ -60,6 +60,19 @@ render_msg_divs <- function(collection) {
   )
 }
 
+# DT COLUMN NAMES
+blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
+                        "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",
+                        "Tumor Grade", "Tumor Stage", "기본정보(성별)", "기본정보(나이)", "기본정보(신장)",
+                        "기본정보(체중)", "Smoking정보(Status)", "Smoking정보(Cigarettes/Day)", "Smoking정보(Duration)",
+                        "Alcohol정보(Status)", "Alcohol정보(Drinks/Day)", "Alcohol정보(Duration)", "Prior Treatment",
+                        "Erbitux(Responder)", "Erbitux(Non-Responder)", "Treatment_history_Treatment_History1_Responder",
+                        "Treatment_history_Treatment_History1_Non_Responder", "Single cell 분리날짜(날짜)", 
+                        "Single cell 분리날짜(수행자)", "Cell population(정보)", "Cell population(수행자)",
+                        "Cytokine profile(정보)", "Cytokine profile(수행자)","In vitro-coculture with(정보)", 
+                        "In vitro-coculture with(수행자)", "Tested drug(정보)", "Tested drug(수행자)", "환자정보",
+                        "Blood1", "Blood2", "Blood3", "Blood4", "Blood5")
+
 
 
 # HELP & INTRO DATA ------------------------------------------------------

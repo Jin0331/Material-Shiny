@@ -109,7 +109,8 @@ ui <- dashboardPage(
                       width = 8,
                       collapsible = TRUE,
                       solidHeader = TRUE, 
-                      status = "info"
+                      status = "info",
+                      dataTableOutput("summary_table")
                   
                 )),
                 box(
@@ -139,17 +140,13 @@ ui <- dashboardPage(
       
       # Second tab content
       tabItem(tabName = "blood_list",
-              
-              lapply(1:20, box, width = 12, title = "box")
-      ),
-      tabItem(tabName = "ff",
-              h2("FF tab content")
-      ),
-      tabItem(tabName = "ffpe",
-              h2("FFPE tab content")
-      ),
-      tabItem(tabName = "pdx",
-              h2("PDX tab content")
+              box(title = tags$p("Blood List", style = "font-size: 120%; font-weight: bold; color: white"),
+                  width = 12,
+                  status = "primary",
+                  solidHeader = TRUE,
+                  icon = icon("tint"),
+                  DT::dataTableOutput("blood_list_dt")   
+              )
       ),
       tabItem(tabName = "antibody",
               h2("Antibody tab content")

@@ -145,6 +145,7 @@ ui <- dashboardPage(
                   status = "primary",
                   solidHeader = TRUE,
                   icon = icon("tint"),
+                  
                   DT::dataTableOutput("blood_list_dt")   
               )
       ),

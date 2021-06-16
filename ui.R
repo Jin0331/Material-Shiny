@@ -72,21 +72,23 @@ ui <- dashboardPage(
       ")),
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
-      # First tab content
+      # HOME PAGE ---------------------------------------------------------------
       tabItem(tabName = "home", 
               fluidRow( 
+                # INFOBOX UI
                 box(title = tags$p("Contents", style = "font-size: 130%; font-weight: bold;"),
                     status = "maroon",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
                     width = 12,
                     collapsible = TRUE,
-                    # VALUEBOX ----
+                    # VALUEBOX 
                     infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
                     infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
                     infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9"),
                     infoBoxOutput("out1")
                 ),
+                ## TOTAL SEARCH UI
                 box(width = 12,
                     title = tags$p("Total Search", style = "font-size: 130%; font-weight: bold;"),
                     icon = icon("search"),
@@ -113,7 +115,8 @@ ui <- dashboardPage(
                       dataTableOutput("summary_table")
                   
                 )),
-                box(
+                ## LIVECHAT UI
+                box(   
                   title = tags$p("Live Chat :)", style = "font-size: 130%; font-weight: bold;"),
                   status = "black", 
                   icon = icon("user-friends"),
@@ -128,6 +131,7 @@ ui <- dashboardPage(
                   div(style = "display:inline-block",
                       actionButton("send", "", icon = icon("arrow-alt-circle-up")))
                 ),
+                # NOTICE UI
                 box(
                   title = tags$p("✺Notice✺", style = "font-size: 130%; font-weight: bold;"),
                   status = "orange",
@@ -137,17 +141,22 @@ ui <- dashboardPage(
                )
               
       ),
-      
-      # Second tab content
+      # TABLE PAGE ----
+      # BLOOD UI
       tabItem(tabName = "blood_list",
-              box(title = tags$p("Blood List", style = "font-size: 120%; font-weight: bold; color: white"),
-                  width = 12,
-                  status = "primary",
-                  solidHeader = TRUE,
-                  icon = icon("tint"),
-                  
-                  DT::dataTableOutput("blood_list_dt")   
-              )
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Blood List", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("tint"),
+                           selectizeInput(inputId = "table_select", label = "Filter", 
+                                          choices = c("ALL",names(blood)),
+                                          selected = "ALL", width = "500px", multiple = TRUE),
+                           DT::dataTableOutput("blood_list_dt")   
+                       ))
+              ),
       ),
       tabItem(tabName = "antibody",
               h2("Antibody tab content")
@@ -168,6 +177,7 @@ ui <- dashboardPage(
   )
 )
 
+# LOGIN UI ----
 # ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"),
 #                  tags_top = tags$img(
 #                    src = "http://www.wmbio.co/images/common/logo.png", width = 240

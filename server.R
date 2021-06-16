@@ -75,8 +75,17 @@ server <- function(input, output, session) {
     value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime")
   
   # DT ----
+  # BLOOOD DT
+  DF <- reactive({
+    switch(input$blood_list_dt,
+           "ALL")
+  })
+  
+  
   output$blood_list_dt <- DT::renderDataTable({ blood },
-                                              options = list(scrollX = TRUE, autoWidth = TRUE,
+                                              rownames = FALSE,
+                                              options = list(iDisplayLength = 15, 
+                                                             scrollX = TRUE, autoWidth = TRUE,
                                                              columnDefs = list(list(width = '170px', 
                                                                                     targets = "_all", 
                                                                                     className = 'dt-center')))

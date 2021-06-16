@@ -76,28 +76,23 @@ server <- function(input, output, session) {
   
   # DT ----
   # BLOOOD DT
-  # select_col <- reactive({
-  #   blood %>% 
-  #     select(input$table_select)
+  output$blood_list_dt <- render_DT(blood)
+  
+  output$antibody_dt <- render_DT(antibody)
+  
+  
+  # filter 기능 보류
+  # observeEvent(input$columns, {
+  #   # cols <- input$columns ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
+  #   if("ALL" %in% input$columns){
+  #     blood_temp <- blood
+  #   } else {
+  #     blood_temp <- blood %>% select(input$columns)    
+  #   }
+  #   
+  #   output$blood_list_dt <- render_DT(blood_temp)
+  #   # output$blood_list_dt <- reder_DT(blood_temp)
   # })
-
-  observeEvent(input$columns, {
-    cols <- as.numeric(input$columns) ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
-    output$ex_out <- renderPrint(cols) 
-    # if(length(input$columns) == 1){
-    #   df <- data.frame(blood[,cols])
-    #   names(df) <- names(blood)[cols]
-    #   # output$blood_list_dt = renderDataTable(df)
-    #   output$ex_out <- renderPrint(input$columns)
-    # } else {
-    #   # output$blood_list_dt = renderDataTable(blood[,cols])
-    #   output$ex_out <- renderPrint(input$columns)
-    # }
-  })
-    
-  # output$ex_out <- renderPrint(input$col)
-
-  # output$blood_list_dt <- reder_DT(select_col)
 
  
 }

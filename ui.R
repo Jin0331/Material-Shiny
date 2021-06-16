@@ -151,17 +151,23 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("tint"),
-                           selectizeInput(inputId = "columns", label = "Filter", 
-                                          choices = c("ALL", names(blood)),
-                                          selected = NULL, width = "500px", multiple = TRUE),
+                           # selectizeInput(inputId = "columns", label = "Filter", 
+                           #                choices = c("ALL", names(blood)),
+                           #                selected = NULL, width = "500px", multiple = TRUE),
                            # actionButton(inputId = "filter_run", label = "selected"),
-                           verbatimTextOutput('ex_out'),
                            DT::dataTableOutput("blood_list_dt")
-                       ))
-              ),
+                       )))
       ),
       tabItem(tabName = "antibody",
-              h2("Antibody tab content")
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Antibody", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("vial"),
+                           DT::dataTableOutput("antibody_dt")
+                       )))
       ),
       tabItem(tabName = "celline",
               h2("Cell Line tab content")

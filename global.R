@@ -62,14 +62,12 @@ render_msg_divs <- function(collection) {
 
 # DT COLUMN NAMES
 ## DT TABLE FUNCTION
-reder_DT <- function(DF_NAME){
-  DT::renderDataTable({ DF_NAME },
-                      rownames = FALSE,
-                      options = list(iDisplayLength = 15, 
+render_DT <- function(DF_NAME){
+  DT::renderDataTable(DF_NAME, rownames = FALSE,
+                      options = list(iDisplayLength = 15, searchHighlight = TRUE,
                                      scrollX = TRUE, autoWidth = TRUE,
                                      columnDefs = list(list(width = '170px', 
-                                                            targets = "_all", 
-                                                            className = 'dt-center'))))
+                                                            targets = "_all"))))
 }
 
 ## blood colname and DF
@@ -89,6 +87,15 @@ blood <- collection_to_DF(collection_name = "blood_collection", url = mongoUrl);
 blood <- blood %>% select(-WMB_NO, -Treatment_history_Treatment_History1_Responder,
                           -Treatment_history_Treatment_History1_Non_Responder,
                           -Blood1, -Blood2, -Blood3, -Blood4, -Blood5)
+
+## antibody colnam and DF
+antibody_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
+                      "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
+                      "보관 위치", "관리자(관리팀)", "제조사", "비고" )
+antibody <- collection_to_DF(collection_name = "antibody_collection", url = mongoUrl);names(antibody) <- antibody_colname
+antibody <- antibody %>% select(-WMB_NO, -No)
+
+
 
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  

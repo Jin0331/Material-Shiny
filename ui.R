@@ -1,12 +1,12 @@
 ui <- dashboardPage(
-  skin = "midnight",
+  skin = "black-light",
   scrollToTop = TRUE,
   title = "WMBIO Material",
   
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
-    title = span(img(src = "WMB-2.png", height = 35), "WMBIO"),
+    title = span(img(src = "WMB.png", height = 30), "WMBIO"),
     #title = span("WMBIO"),
     titleWidth = 250,
     tags$li(
@@ -76,19 +76,31 @@ ui <- dashboardPage(
                     valueBoxOutput("valuebox4"), valueBoxOutput("valuebox5"), valueBoxOutput("valuebox6"),
                     valueBoxOutput("valuebox7"), valueBoxOutput("valuebox8"), valueBoxOutput("valuebox9")
                 ),
-                box(title = "Total Search",
-                    align = "middle",
+                box(width = 12,
+                    title = "Total Search",
                     icon = icon("search"),
-                    width = 12,
-                    collapsible = TRUE,
-                    solidHeader = TRUE, 
-                    status = "info",
-                    textInput("search_keyword", label = h2("Keword")),
-                    
-                    box(
-                        width = 12
-                        )
-                    ),
+                  box(title = "Table / Keywords",
+                      width = 4,
+                      collapsible = TRUE,
+                      solidHeader = TRUE, 
+                      status = "info",
+                      selectizeInput(inputId = "table_select", label = NULL, 
+                                            choices = c("","Blood", "FF", "FFPE", "PDX", "Antibody",
+                                                        "Cell Line", "Commercial Drug", "Protein", "shRNA / siRNA"),
+                                            selected = "", options = list(placeholder="Table Select",
+                                                                          plugins = list('restore_on_backspace')),
+                                            width = "600px"),
+                      selectizeInput(inputId = "keyword", label = NULL, multiple = TRUE,
+                                            choices = NULL, options = list(placeholder="Keyword", create = TRUE),
+                                            width = "600px")
+                      ),
+                  box(title = "Summary Table",
+                      width = 8,
+                      collapsible = TRUE,
+                      solidHeader = TRUE, 
+                      status = "info"
+                  
+                )),
                 box(
                   title = "Live Chat :)",
                   status = "black", 
@@ -146,7 +158,7 @@ ui <- dashboardPage(
     ) # tabItems END
   )
 )
-# 
+
 # ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"),
 #                  tags_top = tags$img(
 #                    src = "http://www.wmbio.co/images/common/logo.png", width = 240

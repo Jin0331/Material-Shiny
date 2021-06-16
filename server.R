@@ -17,7 +17,13 @@ server <- function(input, output, session) {
     }
     setTimeout(reload_page, 500000);
 ")
-  
+  # TOTAL SEARCH ----
+  observe({
+    
+    table_k <- isolate(input$table_select) # don't allow re-evaluation as users type
+    keyword_k <- input$keyword
+    updateSelectizeInput(session,"keyword",choices=keyword_k,selected=keyword_k)
+  })
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)
   updateTextInput(session, "username_field",

@@ -151,10 +151,12 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("tint"),
-                           selectizeInput(inputId = "table_select", label = "Filter", 
-                                          choices = c("ALL",names(blood)),
-                                          selected = "ALL", width = "500px", multiple = TRUE),
-                           DT::dataTableOutput("blood_list_dt")   
+                           selectizeInput(inputId = "columns", label = "Filter", 
+                                          choices = c("ALL", names(blood)),
+                                          selected = NULL, width = "500px", multiple = TRUE),
+                           # actionButton(inputId = "filter_run", label = "selected"),
+                           verbatimTextOutput('ex_out'),
+                           DT::dataTableOutput("blood_list_dt")
                        ))
               ),
       ),

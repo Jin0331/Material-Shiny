@@ -76,19 +76,28 @@ server <- function(input, output, session) {
   
   # DT ----
   # BLOOOD DT
-  DF <- reactive({
-    switch(input$blood_list_dt,
-           "ALL")
+  # select_col <- reactive({
+  #   blood %>% 
+  #     select(input$table_select)
+  # })
+
+  observeEvent(input$columns, {
+    cols <- as.numeric(input$columns) ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
+    output$ex_out <- renderPrint(cols) 
+    # if(length(input$columns) == 1){
+    #   df <- data.frame(blood[,cols])
+    #   names(df) <- names(blood)[cols]
+    #   # output$blood_list_dt = renderDataTable(df)
+    #   output$ex_out <- renderPrint(input$columns)
+    # } else {
+    #   # output$blood_list_dt = renderDataTable(blood[,cols])
+    #   output$ex_out <- renderPrint(input$columns)
+    # }
   })
-  
-  
-  output$blood_list_dt <- DT::renderDataTable({ blood },
-                                              rownames = FALSE,
-                                              options = list(iDisplayLength = 15, 
-                                                             scrollX = TRUE, autoWidth = TRUE,
-                                                             columnDefs = list(list(width = '170px', 
-                                                                                    targets = "_all", 
-                                                                                    className = 'dt-center')))
-  )
+    
+  # output$ex_out <- renderPrint(input$col)
+
+  # output$blood_list_dt <- reder_DT(select_col)
+
  
 }

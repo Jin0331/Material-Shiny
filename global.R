@@ -61,6 +61,17 @@ render_msg_divs <- function(collection) {
 }
 
 # DT COLUMN NAMES
+## DT TABLE FUNCTION
+reder_DT <- function(DF_NAME){
+  DT::renderDataTable({ DF_NAME },
+                      rownames = FALSE,
+                      options = list(iDisplayLength = 15, 
+                                     scrollX = TRUE, autoWidth = TRUE,
+                                     columnDefs = list(list(width = '170px', 
+                                                            targets = "_all", 
+                                                            className = 'dt-center'))))
+}
+
 ## blood colname and DF
 blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
                         "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",

@@ -1,5 +1,6 @@
 ui <- dashboardPage(
   skin = "black-light",
+  # skin = "midnight",
   scrollToTop = TRUE,
   title = "WMBIO Material",
   
@@ -60,26 +61,36 @@ ui <- dashboardPage(
                       height: 300px;
                       overflow-y: scroll;
                     }")),
+    tags$script(HTML("
+        var openTab = function(tabName){
+          $('a', $('.sidebar')).each(function() {
+            if(this.getAttribute('data-value') == tabName) {
+              this.click()
+            };
+          });
+        }
+      ")),
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
       # First tab content
       tabItem(tabName = "home", 
               fluidRow( 
-                box(title = "Contents",
+                box(title = tags$p("Contents", style = "font-size: 130%; font-weight: bold;"),
                     status = "maroon",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
                     width = 12,
                     collapsible = TRUE,
                     # VALUEBOX ----
-                    valueBoxOutput("valuebox1"), valueBoxOutput("valuebox2"), valueBoxOutput("valuebox3"),
-                    valueBoxOutput("valuebox4"), valueBoxOutput("valuebox5"), valueBoxOutput("valuebox6"),
-                    valueBoxOutput("valuebox7"), valueBoxOutput("valuebox8"), valueBoxOutput("valuebox9")
+                    infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
+                    infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
+                    infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9"),
+                    infoBoxOutput("out1")
                 ),
                 box(width = 12,
-                    title = "Total Search",
+                    title = tags$p("Total Search", style = "font-size: 130%; font-weight: bold;"),
                     icon = icon("search"),
-                  box(title = "Table / Keywords",
+                  box(title = tags$p("Table / Keywords", style = "font-weight: bold;"),
                       width = 4,
                       collapsible = TRUE,
                       solidHeader = TRUE, 
@@ -94,7 +105,7 @@ ui <- dashboardPage(
                                             choices = NULL, options = list(placeholder="Keyword", create = TRUE),
                                             width = "600px")
                       ),
-                  box(title = "Summary Table",
+                  box(title = tags$p("Summary Table", style = "font-weight: bold;"),
                       width = 8,
                       collapsible = TRUE,
                       solidHeader = TRUE, 
@@ -102,7 +113,7 @@ ui <- dashboardPage(
                   
                 )),
                 box(
-                  title = "Live Chat :)",
+                  title = tags$p("Live Chat :)", style = "font-size: 130%; font-weight: bold;"),
                   status = "black", 
                   icon = icon("user-friends"),
                   solidHeader = TRUE,
@@ -117,7 +128,7 @@ ui <- dashboardPage(
                       actionButton("send", "", icon = icon("arrow-alt-circle-up")))
                 ),
                 box(
-                  title = "✺Notice✺",
+                  title = tags$p("✺Notice✺", style = "font-size: 130%; font-weight: bold;"),
                   status = "orange",
                   icon = icon("volume-down"),
                   solidHeader = TRUE,

@@ -25,11 +25,11 @@ collection_cnt <- function(collection_name, url) {
   m$count() %>% return()
 }
 
-value_func <- function(N, row_count, icon, color){
-  renderValueBox({
-    valueBox(
-      row_count, N, icon = icon, color = color
-    )
+value_func <<- function(N, tab_name,row_count, icon, color){
+  renderInfoBox({
+    infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
+      a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('",tab_name,"')"), href = "#"),
+        icon = icon, color = color)
   })
 }
 

@@ -63,11 +63,14 @@ render_msg_divs <- function(collection) {
 # DT COLUMN NAMES
 ## DT TABLE FUNCTION
 render_DT <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, rownames = FALSE,
-                      options = list(iDisplayLength = 15, searchHighlight = TRUE,
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = 'Buttons',
+                      options = list(iDisplayLength = 15, searchHighlight = TRUE,fixedColumns = TRUE,
+                                     buttons = c("colvis",'copy', 'csv'),
+                                     dom = "Bfrtip",
                                      scrollX = TRUE, autoWidth = TRUE,
-                                     columnDefs = list(list(width = '170px', 
-                                                            targets = "_all"))))
+                                     columnDefs = list(list(
+                                       width = '170px', 
+                                       targets = "_all"))))
 }
 
 ## blood colname and DF

@@ -81,3 +81,8 @@
 2021-06-15T14:56:47.957538000 1.968961s info: Table 0a997d62-3c3f-4f1c-ab71-424573994be2: Starting a new Raft election for term 3.
 2021-06-15T14:56:48.216896000 2.228329s info: Table 1f1e7e0a-72de-4981-b598-af3a85a45127: This server is Raft leader for term 3. Latest log index is 6.
 2021-06-15T14:56:48.268846000 2.280280s info: Table 0a997d62-3c3f-4f1c-ab71-424573994be2: This server is Raft leader for term 3. Latest log index is 7.
+2021-06-17T15:27:14.739162000 174630.707176s notice: Server got SIGINT from pid 438, uid 501; shutting down...
+2021-06-17T15:27:14.740891000 174630.708902s notice: Shutting down client connections...
+2021-06-17T15:27:14.742222000 174630.710232s notice: All client connections closed.
+2021-06-17T15:27:14.742229000 174630.710239s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2021-06-17T15:27:14.790033000 174630.758045s notice: Storage engine shut down.

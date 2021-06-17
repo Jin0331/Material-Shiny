@@ -79,6 +79,8 @@ server <- function(input, output, session) {
   output$blood_list_dt <- render_DT(blood)
   
   output$antibody_dt <- render_DT(antibody)
+  output$celline_dt <- render_DT(celline)
+  output$drug_dt <- render_DT(drug)
   
   
   # filter 기능 보류

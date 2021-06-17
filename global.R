@@ -88,14 +88,27 @@ blood <- blood %>% select(-WMB_NO, -Treatment_history_Treatment_History1_Respond
                           -Treatment_history_Treatment_History1_Non_Responder,
                           -Blood1, -Blood2, -Blood3, -Blood4, -Blood5)
 
-## antibody colnam and DF
+## antibody colname and DF
 antibody_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
                       "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
                       "보관 위치", "관리자(관리팀)", "제조사", "비고" )
 antibody <- collection_to_DF(collection_name = "antibody_collection", url = mongoUrl);names(antibody) <- antibody_colname
 antibody <- antibody %>% select(-WMB_NO, -No)
 
+## celline colname and DF
+celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Picture", "Chemoresistance status",
+                     "Mutation status", "RON Genotype", "IGSF1 Genotype", "P34 Genotype", "Media Condition",
+                     "GROWTH PATTERN", "계대비율 및 주기", "구매처", "특이사항", "RON(RT-PCR)", "KRAS(RT)", "BRAF(RT-PCR)",
+                     "EGFR(RT-PCR)", "RON(WB)", "BRAF(WB)", "EGFR(WB)", "New1","New2","New3","New4","New5","New6","New7",
+                     "New8","New9","New10")
+celline <- collection_to_DF(collection_name = "celline_collection", url = mongoUrl);names(celline) <- celline_colname
+celline <- celline %>% select(-WMB_NO, -New1:-New10)
 
+## drug colname and DF
+drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
+                  "보관위치", "관리자", "비고", "Data sheet", "New1","New2", "New3", "New4", "New5", "New6")
+drug <- collection_to_DF(collection_name = "drug_collection", url = mongoUrl);names(drug) <- drug_colname
+drug <- drug %>% select(-WMB_NO, -New1:-New6)
 
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  

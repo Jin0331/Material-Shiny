@@ -170,16 +170,26 @@ ui <- dashboardPage(
                        )))
       ),
       tabItem(tabName = "celline",
-              h2("Cell Line tab content")
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Cell Line", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("virus"),
+                           DT::dataTableOutput("celline_dt")
+                       )))
       ),
       tabItem(tabName = "drug",
-              h2("Commercial Drug tab content")
-      ),
-      tabItem(tabName = "protein",
-              h2("Protein tab content")
-      ),
-      tabItem(tabName = "shsirna",
-              h2("shRNA / siRNA tab content")
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Commercial Drug", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("capsules"),
+                           DT::dataTableOutput("drug_dt")
+                       )))
       )
     ) # tabItems END
   )

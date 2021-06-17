@@ -104,7 +104,7 @@ celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Pi
 celline <- collection_to_DF(collection_name = "celline_collection", url = mongoUrl);names(celline) <- celline_colname
 celline <- celline %>% select(-WMB_NO, -New1:-New10)
 
-## drug colname and DF
+## drug colname and DFd
 drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
                   "보관위치", "관리자", "비고", "Data sheet", "New1","New2", "New3", "New4", "New5", "New6")
 drug <- collection_to_DF(collection_name = "drug_collection", url = mongoUrl);names(drug) <- drug_colname

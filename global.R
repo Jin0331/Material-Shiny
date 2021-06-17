@@ -104,11 +104,25 @@ celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Pi
 celline <- collection_to_DF(collection_name = "celline_collection", url = mongoUrl);names(celline) <- celline_colname
 celline <- celline %>% select(-WMB_NO, -New1:-New10)
 
-## drug colname and DFd
+## drug colname and DF
 drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
                   "보관위치", "관리자", "비고", "Data sheet", "New1","New2", "New3", "New4", "New5", "New6")
 drug <- collection_to_DF(collection_name = "drug_collection", url = mongoUrl);names(drug) <- drug_colname
 drug <- drug %>% select(-WMB_NO, -New1:-New6)
+
+## protein colname and DF
+protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "Lot no", "남은량", "위치", "Data sheet",
+                     "New1","New2", "New3", "New4", "New5", "New6", "New7","New8", "New9", "New10")
+protein <- collection_to_DF(collection_name = "protein_collection", url = mongoUrl);names(protein) <- protein_colname
+protein <- protein %>% select(-WMB_NO, -New1:-New10)
+
+## si/shRNA colname and DF
+shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "Type", "농도", "Sequence", "제조사",
+                     "Stock vial 입고일", "Stock vial 재고 수량", "Stock vial 보관 위치", "소분 vial 재고 수량",
+                     "위치(냉동고/Box이름)", "관리자", "Data sheet", "여분1","여분2","여분3","여분4","여분5","여분6",
+                     "여분7","여분8","여분9","여분10")
+shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
+shsirna <- shsirna %>% select(-WMB_NO)
 
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  

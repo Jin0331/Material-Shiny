@@ -190,6 +190,28 @@ ui <- dashboardPage(
                            icon = icon("capsules"),
                            DT::dataTableOutput("drug_dt")
                        )))
+      ),
+      tabItem(tabName = "protein",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Protein", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("share-alt"),
+                           DT::dataTableOutput("protein_dt")
+                       )))
+      ),
+      tabItem(tabName = "shsirna",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("shRNA / siRNA", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("dna"),
+                           DT::dataTableOutput("shsirna_dt")
+                       )))
       )
     ) # tabItems END
   )

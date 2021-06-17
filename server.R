@@ -81,6 +81,8 @@ server <- function(input, output, session) {
   output$antibody_dt <- render_DT(antibody)
   output$celline_dt <- render_DT(celline)
   output$drug_dt <- render_DT(drug)
+  output$protein_dt <- render_DT(protein)
+  output$shsirna_dt <- render_DT(shsirna)
   
   
   # filter 기능 보류

@@ -15,7 +15,7 @@ if (length(new.packages)) {
 rm(new.packages)
 
 library(checkpoint)
-checkpoint(snapshot_date ="2021-06-14", checkpoint_location = "/Users/wmbio/")
+checkpoint(snapshot_date ="2021-06-15", checkpoint_location = "/Users/wmbio/")
 
 
 # LIST OF REQUIRED PACKAGES -----------------------------------------------

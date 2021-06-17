@@ -33,6 +33,17 @@ value_func <<- function(N, tab_name,row_count, icon, color){
   })
 }
 
+# DT actionButton
+shinyInput <- function(FUN, n, id, ...) {
+  # for each of n, create a new input using the FUN function and convert
+  # to a character
+  vapply(seq_len(n), function(i){
+    as.character(FUN(paste0(id, i), ...))
+  }, character(1))
+  
+}
+
+
 # chat db & function 
 connection <- shiny.collections::connect()
 get_random_username <- function() {
@@ -63,14 +74,16 @@ render_msg_divs <- function(collection) {
 # DT COLUMN NAMES
 ## DT TABLE FUNCTION
 render_DT <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = 'Buttons',
-                      options = list(iDisplayLength = 15, searchHighlight = TRUE,fixedColumns = TRUE,
-                                     buttons = c("colvis",'copy', 'csv'),
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable"), escape = FALSE,
+                      selection=list(mode="single", target="cell"),
+                      options = list(iDisplayLength = 15, searchHighlight = TRUE,
+                                     keys = TRUE,
+                                     # buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
                                      scrollX = TRUE, autoWidth = TRUE,
                                      columnDefs = list(list(
-                                       width = '170px', 
-                                       targets = "_all"))))
+                                       className = 'dt-center',
+                                       width = '170px', targets = "_all"))))
 }
 
 ## blood colname and DF

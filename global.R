@@ -6,6 +6,7 @@ set_labels(
   language = "en","Please authenticate" = "WMBIO MATERIAL PAGE")
 
 # RELATED FUNCTION --------------------------------------------------------
+PDF_url <- "http://192.168.0.7:18080/PDF/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
@@ -78,7 +79,7 @@ render_DT <- function(DF_NAME){
                       selection=list(mode="single", target="cell"),
                       options = list(iDisplayLength = 15, searchHighlight = TRUE,
                                      keys = TRUE,
-                                     # buttons = c("colvis",'copy', 'csv'),
+                                     buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
                                      scrollX = TRUE, autoWidth = TRUE,
                                      columnDefs = list(list(

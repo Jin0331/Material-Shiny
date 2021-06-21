@@ -78,15 +78,29 @@ server <- function(input, output, session) {
   # BLOOOD DT
   output$blood_list_dt <- render_DT(blood)
   
+  # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)
+  
+  # CELLINE DT
   output$celline_dt <- render_DT(celline)
   
-  drug <- drug %>% mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
-                                        paste0("<a href='",`Data sheet`,"'>", "LINK","</a>"),
-                                        `Data sheet`))
-  
+  # DRUG DT
+  drug <- drug %>% 
+    mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, "_PDF"), 
+                                                paste0(str_remove(`Data sheet`, pattern = "_PDF"), ".pdf"), `Data sheet`)) %>% 
+    mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
+                                        paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
+                                        paste0("<a href='", PDF_url, "/drug/",`Data sheet`, "'>", "PDF</a>")))
   output$drug_dt <- render_DT(drug)
+  
+  # PROTEIN DT
+  protein <- protein %>% 
+    mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
+                                 paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
+                                 paste0("<a href='", PDF_url, "/protein/",`Data sheet`,".pdf", "'>", "PDF</a>")))
   output$protein_dt <- render_DT(protein)
+  
+  
   output$shsirna_dt <- render_DT(shsirna)
   
   

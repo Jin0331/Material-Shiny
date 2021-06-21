@@ -47,17 +47,17 @@ server <- function(input, output, session) {
   
   # VALUEBOX_RENDER ----
   output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>% 
-    value_func(N = "Blood", tab_name = "blood_list", row_count = ., icon = icon("tint"), color = "red")
+    value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
   
   output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>% 
-    value_func(N = "FF", tab_name = "ff_list", row_count = ., icon = icon("prescription-bottle"), color = "orange")
+    value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
   
   # # 이부분 수정해야됨, FFPE ---
   output$valuebox3 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-    value_func(N = "FFPE", tab_name = "ffpe_list", row_count = ., icon = icon("flask"), color = "aqua")
+    value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
 
   output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>% 
-    value_func(N = "PDX", tab_name = "pdx_list", row_count = ., icon = icon("prescription"), color = "purple")
+    value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
   
   output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>% 
     value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("vial"), color = "fuchsia")
@@ -76,7 +76,12 @@ server <- function(input, output, session) {
   
   # DT ----
   # BLOOOD DT
-  output$blood_list_dt <- render_DT(blood)
+  output$blood_dt <- render_DT(blood)
+  
+  
+  
+  
+  
   
   # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)
@@ -107,11 +112,10 @@ server <- function(input, output, session) {
                                  ))
   output$protein_dt <- render_DT(protein)
   
-  
+  # shRNA/siRNA DT
   output$shsirna_dt <- render_DT(shsirna)
   
-  
-  # filter 기능 보류
+  # filter 기능 보류 --- 추후 삭제 
   # observeEvent(input$columns, {
   #   # cols <- input$columns ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
   #   if("ALL" %in% input$columns){
@@ -123,6 +127,4 @@ server <- function(input, output, session) {
   #   output$blood_list_dt <- render_DT(blood_temp)
   #   # output$blood_list_dt <- reder_DT(blood_temp)
   # })
-
- 
 }

@@ -26,18 +26,10 @@ ui <- dashboardPage(
   dashboardSidebar(width = 250, collapsed = TRUE,
     sidebarMenu(id = "side", 
       menuItem("Home", tabName = "home", icon = icon("home")),
-      menuItem("Blood", tabName = "blood", icon = icon("tint"),
-               menuSubItem("List", tabName = "blood_list"),
-               menuSubItem("Result", tabName = "blood_result")),
-      menuItem("FF", tabName = "ff", icon = icon("prescription-bottle"),
-               menuSubItem("List", tabName = "ff_list"),
-               menuSubItem("Result", tabName = "ff_result")),
-      menuItem("FFPE", tabName = "ffpe", icon = icon("flask"),
-               menuSubItem("List", tabName = "ffpe_list"),
-               menuSubItem("Result", tabName = "ffpe_result")),
-      menuItem("PDX", tabName = "pdx", icon = icon("prescription"),
-               menuSubItem("List", tabName = "pdx_list"),
-               menuSubItem("Result", tabName = "pdx_result")),
+      menuItem("Blood", tabName = "blood", icon = icon("tint")),
+      menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
+      menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
+      menuItem("PDX", tabName = "pdx", icon = icon("prescription")),
       menuItem("Antibody", tabName = "antibody", icon = icon("vial")),
       menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
       menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
@@ -143,7 +135,7 @@ ui <- dashboardPage(
       ),
       # TABLE PAGE ----
       # BLOOD UI
-      tabItem(tabName = "blood_list",
+      tabItem(tabName = "blood",
               fluidRow(
                 column(width = 12, 
                        box(title = tags$p("Blood List", style = "font-size: 120%; font-weight: bold; color: white"),
@@ -155,7 +147,7 @@ ui <- dashboardPage(
                            #                choices = c("ALL", names(blood)),
                            #                selected = NULL, width = "500px", multiple = TRUE),
                            # actionButton(inputId = "filter_run", label = "selected"),
-                           DT::dataTableOutput("blood_list_dt")
+                           div(DT::dataTableOutput("blood_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "antibody",
@@ -166,7 +158,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("vial"),
-                           DT::dataTableOutput("antibody_dt")
+                           div(DT::dataTableOutput("antibody_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "celline",
@@ -177,7 +169,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("virus"),
-                           DT::dataTableOutput("celline_dt")
+                           div(DT::dataTableOutput("celline_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "drug",
@@ -188,7 +180,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("capsules"),
-                           DT::dataTableOutput("drug_dt")
+                           div(DT::dataTableOutput("drug_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "protein",
@@ -199,7 +191,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("share-alt"),
-                           DT::dataTableOutput("protein_dt")
+                           div(DT::dataTableOutput("protein_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "shsirna",
@@ -210,7 +202,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("dna"),
-                           DT::dataTableOutput("shsirna_dt")
+                           div(DT::dataTableOutput("shsirna_dt"), style = "font-size:70%")
                        )))
       )
     ) # tabItems END

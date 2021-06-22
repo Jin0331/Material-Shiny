@@ -34,17 +34,6 @@ value_func <<- function(N, tab_name,row_count, icon, color){
   })
 }
 
-# DT actionButton
-shinyInput <- function(FUN, n, id, ...) {
-  # for each of n, create a new input using the FUN function and convert
-  # to a character
-  vapply(seq_len(n), function(i){
-    as.character(FUN(paste0(id, i), ...))
-  }, character(1))
-  
-}
-
-
 # chat db & function 
 connection <- shiny.collections::connect()
 get_random_username <- function() {
@@ -103,7 +92,6 @@ dat0 <- data.frame(COUNTRY = names(children))
 
 Dat <- NestedData(dat = dat0, children = unname(children))
 
-library(DT)
 ## whether to show row names
 rowNames = FALSE
 colIdx <- as.integer(rowNames)
@@ -262,16 +250,16 @@ render_DT <- function(DF_NAME){
 }
 render_DT_child <- function(DF_NAME){
   DT::renderDataTable(DF_NAME, callback = callback, 
-                      # rownames = FALSE, 
-                      # extensions = c('Buttons', "KeyTable"),
+                      rownames = FALSE,
+                      extensions = c('Buttons', "KeyTable"),
                       escape = -2,-colIdx-1,
-                      # selection=list(mode="single", target="cell"),
+                      selection=list(mode="single", target="cell"),
                       options = list(
-                        # iDisplayLength = 15, searchHighlight = TRUE,
-                        # keys = TRUE,
-                        # buttons = c("colvis",'copy', 'csv'),
-                        # dom = "Bfrtip",
-                        # scrollX = TRUE, autoWidth = T,
+                        iDisplayLength = 15, searchHighlight = TRUE,
+                        keys = TRUE,
+                        buttons = c("colvis",'copy', 'csv'),
+                        dom = "Bfrtip",
+                        scrollX = TRUE, autoWidth = T,
                         columnDefs = list(
                                        list(className = 'dt-center', width = '90px', targets = "_all"),
                                        list(visible = FALSE, targets = ncol(Dat)-1+colIdx),
@@ -281,7 +269,7 @@ render_DT_child <- function(DF_NAME){
 
 
 ## MAKE DATAFRAME ----
-## blood colname and DF 
+## BLOOD colname and DF 
 blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
                         "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",
                         "Tumor Grade", "Tumor Stage", "기본정보(성별)", "기본정보(나이)", "기본정보(신장)",
@@ -292,12 +280,26 @@ blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입�
                         "Single cell 분리날짜(수행자)", "Cell population(정보)", "Cell population(수행자)",
                         "Cytokine profile(정보)", "Cytokine profile(수행자)","In vitro-coculture with(정보)", 
                         "In vitro-coculture with(수행자)", "Tested drug(정보)", "Tested drug(수행자)", "환자정보",
-                        "Blood1", "Blood2", "Blood3", "Blood4", "Blood5")
+                        "New1", "New2", "New3", "New4", "New5")
 
 blood <- collection_to_DF(collection_name = "blood_collection", url = mongoUrl);names(blood) <- blood_list_colname
 blood <- blood %>% select(-WMB_NO, -Treatment_history_Treatment_History1_Responder,
                           -Treatment_history_Treatment_History1_Non_Responder,
                           -Blood1, -Blood2, -Blood3, -Blood4, -Blood5)
+
+# PDX colname and Df
+pdx_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)", "Ethnicity", 
+                      "Tissue", "Disease", "입고형태", "인수자", "입고일자", "보관위치", "Tumor Grade", "Tumor Stage",
+                      "기본정보(성별)", "기본정보(나이)", "기본정보(신장)", "기본정보(체중)", "Smoking정보(Status)", 
+                      "Smoking정보(Cigarettes/Day)", "Smoking정보(Duration)","Alcohol정보(Status)", "Alcohol정보(Drinks/Day)", 
+                      "Alcohol정보(Duration)", "Prior Treatment(Treatment History)", "Drug(Treatment History)", "Drug2",
+                      "Histological Description(Diagnosis)", "mouse종류[주차/성별](실험동물)", "구입처(실험동물)",
+                      "Chemoresistance status(Characterization)", "Mutation status(Characterization)", 
+                      "RON Genotype(Characterization)", "IGSF1 Genotype(Characterization)", "P34 Genotype(Characterization)",
+                      "New1","New2","New3","New4","New5","New6","New7", "New8"
+                      )
+pdx <- collection_to_DF(collection_name = "pdx_collection", url = mongoUrl);names(pdx) <- pdx_list_colname
+
 
 ## antibody colname and DF
 antibody_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",

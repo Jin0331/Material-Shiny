@@ -84,18 +84,18 @@ server <- function(input, output, session) {
       Dat, 
       callback = callback, rownames = rowNames, escape = -colIdx-1,
       options = list(
-        paging = FALSE,
+        paging = TRUE,
         searching = FALSE,
+        iDisplayLength = 15, 
+        dom = "Bfrtip",
+        scrollX = TRUE,
         columnDefs = list(
-          list(
-            visible = FALSE, 
-            targets = ncol(Dat)-1+colIdx
-          ),
+          list(visible = FALSE, 
+               targets = ncol(Dat)-1+colIdx),
           list(
             orderable = FALSE, 
             className = "details-control", 
-            targets = colIdx
-          ),
+            targets = colIdx),
           list(
             className = "dt-center", 
             targets = "_all"

@@ -80,17 +80,29 @@ NestedData <- function(dat, children){
         stringsAsFactors = FALSE)
 }
 
-df <- data.frame(
-  COUNTRY = c("USA","Japan","USA","France","Italy","Canada","Japan"),
-  NAME = c("Mark","Hue","Mary","Jean","Laura","John","Zhan"),
-  AGE = c(20, 21, 18, 35, 40, 33, 27),
-  DATE_OF_BIRTH = c("1980-05-01","1978-05-04","1983-11-01","1989-05-15","1985-08-08","1978-02-18","1983-09-27")
-)
+# df <- data.frame(
+#   COUNTRY = c("USA","Japan","USA","France","Italy","Canada","Japan", "Korea"),
+#   NAME = c("Mark","Hue","Mary","Jean","Laura","John","Zhan", "NA"),
+#   AGE = c(20, 21, 18, 35, 40, 33, 27, NA),
+#   DATE_OF_BIRTH = c("1980-05-01","1978-05-04","1983-11-01","1989-05-15","1985-08-08","1978-02-18","1983-09-27", NA)
+# )
+# 
+# children <- lapply(split(df, df$COUNTRY), "[", -1)
+# dat0 <- data.frame(COUNTRY = names(children))
+# 
+# Dat <- NestedData(dat = dat0, children = unname(children))
 
-children <- lapply(split(df, df$COUNTRY), "[", -1)
-dat0 <- data.frame(COUNTRY = names(children))
-
-Dat <- NestedData(dat = dat0, children = unname(children))
+sample_list <- pdx$`Sample ID`
+children_list <- list()
+for(sample in sample_list){
+  child_temp <- pdx_result %>% filter(`Sample ID` == sample)
+  if(nrow(child_temp) == 0){
+    children_list[[sample]] <- data.frame()
+  } else {
+    children_list[[sample]] <- child_temp %>% as.data.frame()
+  }
+}
+Dat <- NestedData(dat = pdx, children = unname(children_list))
 
 ## whether to show row names
 rowNames = FALSE
@@ -285,9 +297,10 @@ blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입�
 blood <- collection_to_DF(collection_name = "blood_collection", url = mongoUrl);names(blood) <- blood_list_colname
 blood <- blood %>% select(-WMB_NO, -Treatment_history_Treatment_History1_Responder,
                           -Treatment_history_Treatment_History1_Non_Responder,
-                          -Blood1, -Blood2, -Blood3, -Blood4, -Blood5)
+                          -New1:-New5)
 
 # PDX colname and Df
+## LIST
 pdx_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)", "Ethnicity", 
                       "Tissue", "Disease", "입고형태", "인수자", "입고일자", "보관위치", "Tumor Grade", "Tumor Stage",
                       "기본정보(성별)", "기본정보(나이)", "기본정보(신장)", "기본정보(체중)", "Smoking정보(Status)", 
@@ -299,6 +312,15 @@ pdx_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처
                       "New1","New2","New3","New4","New5","New6","New7", "New8"
                       )
 pdx <- collection_to_DF(collection_name = "pdx_collection", url = mongoUrl);names(pdx) <- pdx_list_colname
+pdx <- pdx %>% select(-WMB_NO, -Drug2, -New1:-New8)
+
+## RESULT
+pdx_result_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "Tissue site", "Cancer", "Tumor Grade", "Tumor Stage",
+                        "Treatment History", "Drug resistant", "이미지(실험관련)", "실험 조직(실험관련)", "Passage(실험관련)",
+                        "Media(실험관련)", "이식시점[실험 No.](실험관련)", "투여시점(실험관련)", "이식->투여기간(실험관련)",
+                        "특이사항(실험관련)", "실험내용(실험관련)", "실험결과(실험관련)", "수행자(실험관련)")
+pdx_result <- collection_to_DF(collection_name = "pdx_result_collection", url = mongoUrl);names(pdx_result) <- pdx_result_colname
+pdx_result <- pdx_result %>% select(-WMB_NO)
 
 
 ## antibody colname and DF

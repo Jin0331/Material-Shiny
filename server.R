@@ -76,7 +76,34 @@ server <- function(input, output, session) {
   
   # DT ----
   # BLOOOD DT
-  output$blood_dt <- render_DT(blood)
+  output$blood_dt <- render_DT_child(blood)
+  
+  # FF DT
+  output$ff_dt <- DT::renderDataTable(
+    datatable(
+      Dat, 
+      callback = callback, rownames = rowNames, escape = -colIdx-1,
+      options = list(
+        paging = FALSE,
+        searching = FALSE,
+        columnDefs = list(
+          list(
+            visible = FALSE, 
+            targets = ncol(Dat)-1+colIdx
+          ),
+          list(
+            orderable = FALSE, 
+            className = "details-control", 
+            targets = colIdx
+          ),
+          list(
+            className = "dt-center", 
+            targets = "_all"
+          )
+        )
+      )
+    )
+  )
   
   
   

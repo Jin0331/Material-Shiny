@@ -138,7 +138,7 @@ ui <- dashboardPage(
       tabItem(tabName = "blood",
               fluidRow(
                 column(width = 12, 
-                       box(title = tags$p("Blood List", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("Blood", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "primary",
                            solidHeader = TRUE,
@@ -148,6 +148,17 @@ ui <- dashboardPage(
                            #                selected = NULL, width = "500px", multiple = TRUE),
                            # actionButton(inputId = "filter_run", label = "selected"),
                            div(DT::dataTableOutput("blood_dt"), style = "font-size:70%")
+                       )))
+      ),
+      tabItem(tabName = "ff",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("FF", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "primary",
+                           solidHeader = TRUE,
+                           icon = icon("prescription-bottle"),
+                           div(DT::dataTableOutput("ff_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "antibody",

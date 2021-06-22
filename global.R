@@ -76,19 +76,61 @@ render_msg_divs <- function(collection) {
 ## DT TABLE FUNCTION
 ### DT CallBack
 ## the callback
-callback = JS(
-  "table.column(1).nodes().to$().css({cursor: 'pointer'});",
-  "// Format the nested table into another table",
-  "var childId = function(d){",
-  "  var tail = d.slice(2, d.length - 1);",
-  "  return 'child_' + tail.join('_').replace(/[\\s|\\.]/g, '_');",
-  "};",
-  "var format = function (d) {",
-  "  if (d != null) {",
-  "    var id = childId(d);",
+NestedData <- function(dat, children){
+  stopifnot(length(children) == nrow(dat))
+  g <- function(d){
+    if(is.data.frame(d)){
+      purrr::transpose(d)
+    }else{
+      purrr::transpose(NestedData(d[[1]], children = d$children))
+    }
+  }
+  subdats <- lapply(children, g)
+  oplus <- ifelse(lengths(subdats), "&oplus;", "") 
+  cbind(" " = oplus, dat, "_details" = I(subdats), 
+        stringsAsFactors = FALSE)
+}
+
+df <- data.frame(
+  COUNTRY = c("USA","Japan","USA","France","Italy","Canada","Japan"),
+  NAME = c("Mark","Hue","Mary","Jean","Laura","John","Zhan"),
+  AGE = c(20, 21, 18, 35, 40, 33, 27),
+  DATE_OF_BIRTH = c("1980-05-01","1978-05-04","1983-11-01","1989-05-15","1985-08-08","1978-02-18","1983-09-27")
+)
+
+children <- lapply(split(df, df$COUNTRY), "[", -1)
+dat0 <- data.frame(COUNTRY = names(children))
+
+Dat <- NestedData(dat = dat0, children = unname(children))
+
+library(DT)
+## whether to show row names
+rowNames = FALSE
+colIdx <- as.integer(rowNames)
+## the callback
+parentRows <- which(Dat[,1] != "")
+callback <- JS(
+  sprintf("var parentRows = [%s];", toString(parentRows-1)),
+  sprintf("var j0 = %d;", colIdx),
+  "var nrows = table.rows().count();",
+  "for(let i = 0; i < nrows; ++i){",
+  "  var $cell = table.cell(i,j0).nodes().to$();",
+  "  if(parentRows.indexOf(i) > -1){",
+  "    $cell.css({cursor: 'pointer'});",
+  "  }else{",
+  "    $cell.removeClass('details-control');",
+  "  }",
+  "}",
+  "",
+  "// --- make the table header of the nested table --- //",
+  "var formatHeader = function(d, childId){",
+  "  if(d !== null){",
   "    var html = ", 
-  "          '<table class=\"display compact\" id=\"' + id + '\"><thead><tr>';",
-  "    for (var key in d[d.length-1][0]) {",
+  "      '<table class=\"display compact hover\" ' + ",
+  "      'style=\"padding-left: 30px;\" id=\"' + childId + ", 
+  "      '\"><thead><tr>';",
+  "    var data = d[d.length-1] || d._details;",
+  "    for(let key in data[0]){",
   "      html += '<th>' + key + '</th>';",
   "    }",
   "    html += '</tr></thead></table>'",
@@ -97,17 +139,27 @@ callback = JS(
   "    return '';",
   "  }",
   "};",
+  "",
+  "// --- row callback to style rows of child tables --- //",
   "var rowCallback = function(row, dat, displayNum, index){",
   "  if($(row).hasClass('odd')){",
-  "    for(var j=0; j<dat.length; j++){",
-  "      $('td:eq('+j+')', row).css('background-color', 'papayawhip');",
-  "    }",
+  "    $(row).css('background-color', 'papayawhip');",
+  "    $(row).hover(function(){",
+  "      $(this).css('background-color', '#E6FF99');",
+  "    }, function(){",
+  "      $(this).css('background-color', 'papayawhip');",
+  "    });",
   "  } else {",
-  "    for(var j=0; j<dat.length; j++){",
-  "      $('td:eq('+j+')', row).css('background-color', 'lemonchiffon');",
-  "    }",
+  "    $(row).css('background-color', 'lemonchiffon');",
+  "    $(row).hover(function(){",
+  "      $(this).css('background-color', '#DDFF75');",
+  "    }, function(){",
+  "      $(this).css('background-color', 'lemonchiffon');",
+  "    });",
   "  }",
   "};",
+  "",
+  "// --- header callback to style header of child tables --- //",
   "var headerCallback = function(thead, data, start, end, display){",
   "  $('th', thead).css({",
   "    'border-top': '3px solid indigo',", 
@@ -115,94 +167,87 @@ callback = JS(
   "    'background-color': '#fadadd'",
   "  });",
   "};",
-  "var format_datatable = function (d) {",
-  "  var dataset = [];",
-  "  var n = d.length - 1;",
-  "  for (var i = 0; i < d[n].length; i++) {",
-  "    var datarow = $.map(d[n][i], function (value, index) {",
-  "      return [value];",
-  "    });",
-  "    dataset.push(datarow);",
-  "  }",
-  "  var id = 'table#' + childId(d);",
-  "  if (Object.keys(d[n][0]).indexOf('details') === -1) {",
+  "",
+  "// --- make the datatable --- //",
+  "var formatDatatable = function(d, childId){",
+  "  var data = d[d.length-1] || d._details;",
+  "  var colNames = Object.keys(data[0]);",
+  "  var columns = colNames.map(function(x){",
+  "    return {data: x.replace(/\\./g, '\\\\\\.'), title: x};",
+  "  });",
+  "  var id = 'table#' + childId;",
+  "  if(colNames.indexOf('_details') === -1){",
   "    var subtable = $(id).DataTable({",
-  "                     'data': dataset,",
-  "                     'autoWidth': true,",
-  "                     'deferRender': true,",
-  "                     'info': false,",
-  "                     'lengthChange': false,",
-  "                     'ordering': d[n].length > 1,",
-  "                     'paging': false,",
-  "                     'scrollX': false,",
-  "                     'scrollY': false,",
-  "                     'searching': false,",
-  "                     'sortClasses': false,",
-  "                     'rowCallback': rowCallback,",
-  "                     'headerCallback': headerCallback,",
-  "                     'columnDefs': [{targets: '_all', className: 'dt-center'}]",
-  "                   });",
+  "      'data': data,",
+  "      'columns': columns,",
+  "      'autoWidth': true,",
+  "      'deferRender': true,",
+  "      'info': false,",
+  "      'lengthChange': false,",
+  "      'ordering': data.length > 1,",
+  "      'order': [],",
+  "      'paging': false,",
+  "      'scrollX': false,",
+  "      'scrollY': false,",
+  "      'searching': false,",
+  "      'sortClasses': false,",
+  "      'rowCallback': rowCallback,",
+  "      'headerCallback': headerCallback,",
+  "      'columnDefs': [{targets: '_all', className: 'dt-center'}]",
+  "    });",
   "  } else {",
   "    var subtable = $(id).DataTable({",
-  "                     'data': dataset,",
-  "                     'autoWidth': true,",
-  "                     'deferRender': true,",
-  "                     'info': false,",
-  "                     'lengthChange': false,",
-  "                     'ordering': d[n].length > 1,",
-  "                     'paging': false,",
-  "                     'scrollX': false,",
-  "                     'scrollY': false,",
-  "                     'searching': false,",
-  "                     'sortClasses': false,",
-  "                     'rowCallback': rowCallback,",
-  "                     'headerCallback': headerCallback,",
-  "                     'columnDefs': [{targets: -1, visible: false}, {targets: 0, orderable: false, className: 'details-control'}, {targets: '_all', className: 'dt-center'}]",
-  "                   }).column(0).nodes().to$().css({cursor: 'pointer'});",
+  "      'data': data,",
+  "      'columns': columns,",
+  "      'autoWidth': true,",
+  "      'deferRender': true,",
+  "      'info': false,",
+  "      'lengthChange': false,",
+  "      'ordering': data.length > 1,",
+  "      'order': [],",
+  "      'paging': false,",
+  "      'scrollX': false,",
+  "      'scrollY': false,",
+  "      'searching': false,",
+  "      'sortClasses': false,",
+  "      'rowCallback': rowCallback,",
+  "      'headerCallback': headerCallback,",
+  "      'columnDefs': [", 
+  "        {targets: -1, visible: false},", 
+  "        {targets: 0, orderable: false, className: 'details-control'},", 
+  "        {targets: '_all', className: 'dt-center'}",
+  "      ]",
+  "    }).column(0).nodes().to$().css({cursor: 'pointer'});",
   "  }",
   "};",
-  "table.on('click', 'td.details-control', function () {",
-  "  var tbl = $(this).closest('table');",
-  "  var td = $(this),",
-  "      row = $(tbl).DataTable().row(td.closest('tr'));",
-  "  if (row.child.isShown()) {",
+  "",
+  "// --- display the child table on click --- //",
+  "// array to store id's of already created child tables",
+  "var children = [];", 
+  "table.on('click', 'td.details-control', function(){",
+  "  var tbl = $(this).closest('table'),",
+  "      tblId = tbl.attr('id'),",
+  "      td = $(this),",
+  "      row = $(tbl).DataTable().row(td.closest('tr')),",
+  "      rowIdx = row.index();",
+  "  if(row.child.isShown()){",
   "    row.child.hide();",
   "    td.html('&oplus;');",
   "  } else {",
-  "    row.child(format(row.data())).show();",
-  "    td.html('&CircleMinus;');",
-  "    format_datatable(row.data());",
+  "    var childId = tblId + '-child-' + rowIdx;",
+  "    if(children.indexOf(childId) === -1){", 
+  "      // this child has not been created yet",
+  "      children.push(childId);",
+  "      row.child(formatHeader(row.data(), childId)).show();",
+  "      td.html('&CircleMinus;');",
+  "      formatDatatable(row.data(), childId, rowIdx);",
+  "    }else{",
+  "      // this child has already been created",
+  "      row.child(true);",
+  "      td.html('&CircleMinus;');",
+  "    }",
   "  }",
   "});")
-
-dat <- data.frame(
-  Sr = c(1.5, 2.3),
-  Description = c("A - B", "X - Y")
-)
-## details of row 1
-subsubdat1 <- data.frame(
-  Ref = c("UVW", "PQR"),
-  Case = c(99, 999),
-  stringsAsFactors = FALSE
-)
-subdat1 <- data.frame(
-  Chromosome = "chr18", 
-  SNP = "rs2",
-  details = I(list(purrr::transpose(subsubdat1))),
-  stringsAsFactors = FALSE
-)
-subdat1 <- cbind(" " = "&oplus;", subdat1, stringsAsFactors = FALSE)
-## details of row 2
-subdat2 <- data.frame(
-  Chromosome = c("chr19","chr20"), 
-  SNP = c("rs3","rs4"), 
-  stringsAsFactors = FALSE
-)
-
-## merge the row details
-subdats <- lapply(list(subdat1, subdat2), purrr::transpose)
-## dataframe for the datatable
-Dat <- cbind(" " = "&oplus;", dat, details = I(subdats))
 
 render_DT <- function(DF_NAME){
   DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable"), escape = FALSE,
@@ -212,12 +257,31 @@ render_DT <- function(DF_NAME){
                                      buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
                                      scrollX = TRUE, autoWidth = T,
-                                     columnDefs = list(list(
-                                       className = 'dt-center',
-                                       width = '90px', targets = "_all"))))
+                                     columnDefs = list(
+                                       list(className = 'dt-center', width = '90px', targets = "_all"))))
+}
+render_DT_child <- function(DF_NAME){
+  DT::renderDataTable(DF_NAME, callback = callback, 
+                      # rownames = FALSE, 
+                      # extensions = c('Buttons', "KeyTable"),
+                      escape = -2,-colIdx-1,
+                      # selection=list(mode="single", target="cell"),
+                      options = list(
+                        # iDisplayLength = 15, searchHighlight = TRUE,
+                        # keys = TRUE,
+                        # buttons = c("colvis",'copy', 'csv'),
+                        # dom = "Bfrtip",
+                        # scrollX = TRUE, autoWidth = T,
+                        columnDefs = list(
+                                       list(className = 'dt-center', width = '90px', targets = "_all"),
+                                       list(visible = FALSE, targets = ncol(Dat)-1+colIdx),
+                                       list(orderable = FALSE, className = 'details-control', targets = 1)
+                                     )))
 }
 
-## blood colname and DF
+
+## MAKE DATAFRAME ----
+## blood colname and DF 
 blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
                         "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",
                         "Tumor Grade", "Tumor Stage", "기본정보(성별)", "기본정보(나이)", "기본정보(신장)",

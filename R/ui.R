@@ -2,28 +2,29 @@ ui <- dashboardPage(
   skin = "black-light",
   # skin = "midnight",
   scrollToTop = TRUE,
-  title = "WMBIO Material",
+  title = "WMBIO MATERIAL",
   
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
-    title = span(img(src = "WMB.png", height = 30), "WMBIO"),
-    #title = span("WMBIO"),
-    titleWidth = 250,
+    title = span(img(src = paste0(fileUrl,"WMB-2.png"), height = 30), "WMBIO"),
+    # title = span(img(src = "http://webmail.wmbio.co/user_img/logoImage.jpeg", height = 45, width = 130)),
+    # titleWidth = 250,
     tags$li(
       a(
         strong("ABOUT WMBIO"),
-        height = 40,
+        height = 70,
         href = "http://www.wmbio.co/kr/about/company.php",
         title = "",
         target = "_blank"
       ),
       class = "dropdown"
     )
+
   ),
   
   # SIDEBAR -----------------------------------------------------------------
-  dashboardSidebar(width = 250, collapsed = TRUE,
+  dashboardSidebar(width = 230, collapsed = TRUE,
     sidebarMenu(id = "side", 
       menuItem("Home", tabName = "home", icon = icon("home")),
       menuItem("Blood", tabName = "blood", icon = icon("tint")),
@@ -107,29 +108,29 @@ ui <- dashboardPage(
                       dataTableOutput("summary_table")
                   
                 )),
-                ## LIVECHAT UI
-                box(   
-                  title = tags$p("Live Chat :)", style = "font-size: 130%; font-weight: bold;"),
-                  status = "black", 
-                  icon = icon("user-friends"),
-                  solidHeader = TRUE,
-                  collapsible = TRUE,
-                  width = 6,
-                  div(textInput(
-                    "username_field", "ID", width = "200px")),
-                  uiOutput("chatbox"),
-                  div(style = "display:inline-block",
-                      textInput("message_field", "Message", width = "400px")),
-                  div(style = "display:inline-block",
-                      actionButton("send", "", icon = icon("arrow-alt-circle-up")))
-                ),
                 # NOTICE UI
                 box(
                   title = tags$p("✺Notice✺", style = "font-size: 130%; font-weight: bold;"),
                   status = "orange",
                   icon = icon("volume-down"),
                   solidHeader = TRUE,
-                  width = 6)
+                  width = 12), 
+                ## LIVECHAT UI
+                # box(   
+                #   title = tags$p("Live Chat :)", style = "font-size: 130%; font-weight: bold;"),
+                #   status = "black", 
+                #   icon = icon("user-friends"),
+                #   solidHeader = TRUE,
+                #   collapsible = TRUE,
+                #   width = 6,
+                #   div(textInput(
+                #     "username_field", "ID", width = "200px")),
+                #   uiOutput("chatbox"),
+                #   div(style = "display:inline-block",
+                #       textInput("message_field", "Message", width = "400px")),
+                #   div(style = "display:inline-block",
+                #       actionButton("send", "", icon = icon("arrow-alt-circle-up")))
+                # )
                )
               
       ),
@@ -150,15 +151,15 @@ ui <- dashboardPage(
                            div(DT::dataTableOutput("blood_dt"), style = "font-size:70%")
                        )))
       ),
-      tabItem(tabName = "ff",
+      tabItem(tabName = "pdx",
               fluidRow(
                 column(width = 12, 
-                       box(title = tags$p("FF", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("PDX", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "primary",
                            solidHeader = TRUE,
-                           icon = icon("prescription-bottle"),
-                           div(DT::dataTableOutput("ff_dt"), style = "font-size:70%")
+                           icon = icon("prescription"),
+                           div(DT::dataTableOutput("pdx_dt"), style = "font-size:70%")
                        )))
       ),
       tabItem(tabName = "antibody",

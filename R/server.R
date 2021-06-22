@@ -76,12 +76,11 @@ server <- function(input, output, session) {
   
   # DT ----
   # BLOOOD DT
-  output$blood_dt <- render_DT_child(blood)
+  output$blood_dt <- render_DT(blood)
   
   # PDX DT
-  
   pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
-  output$ff_dt <- render_DT_child(DF_NAME = pdx_Dat)
+  output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
 
   # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)
@@ -95,7 +94,7 @@ server <- function(input, output, session) {
                                                 str_remove(`Data sheet`, pattern = "_PDF"), `Data sheet`)) %>% 
     mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
                                         paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
-                                        paste0("<a href='", PDF_url, "drug/",
+                                        paste0("<a href='", fileUrl, "PDF/drug/",
                                                str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
                                                ".pdf'>", "PDF</a>")))
   output$drug_dt <- render_DT(drug)
@@ -106,7 +105,7 @@ server <- function(input, output, session) {
                                  paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
                                  ifelse(`Data sheet` == "" | `Data sheet` == "-",
                                         `Data sheet`,
-                                        paste0("<a href='", PDF_url, "protein/",
+                                        paste0("<a href='", fileUrl, "PDF/protein/",
                                                str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
                                                ".pdf'>", "PDF</a>"))
                                  ))

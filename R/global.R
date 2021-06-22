@@ -6,7 +6,7 @@ set_labels(
   language = "en","Please authenticate" = "WMBIO MATERIAL PAGE")
 
 # RELATED FUNCTION --------------------------------------------------------
-PDF_url <- "http://192.168.0.7:18080/PDF/"
+fileUrl <- "http://192.168.0.7:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
@@ -63,6 +63,7 @@ render_msg_divs <- function(collection) {
 ## DT TABLE FUNCTION
 ### DT CallBack
 ## the callback
+rowNames <<- FALSE
 child_function <- function(list_df, result_df){
   NestedData <- function(dat, children){
     stopifnot(length(children) == nrow(dat))
@@ -161,7 +162,7 @@ callback_function <- function(parentRows, colIdx){
     "  });",
     "};",
     "",
-    "// --- make the datatable --- //",
+    "// --- make the datatable --- //",  # <----- image popup
     "var formatDatatable = function(d, childId){",
     "  var data = d[d.length-1] || d._details;",
     "  var colNames = Object.keys(data[0]);",
@@ -243,17 +244,6 @@ callback_function <- function(parentRows, colIdx){
     "});")
   return(callback)
 }
-render_DT <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable"), escape = FALSE,
-                      selection=list(mode="single", target="cell"),
-                      options = list(iDisplayLength = 15, searchHighlight = TRUE,
-                                     keys = TRUE,
-                                     buttons = c("colvis",'copy', 'csv'),
-                                     dom = "Bfrtip",
-                                     scrollX = TRUE, autoWidth = T,
-                                     columnDefs = list(
-                                       list(className = 'dt-center', width = '90px', targets = "_all"))))
-}
 render_DT_child <- function(DF_NAME){
   DT::renderDataTable(
     datatable(
@@ -265,7 +255,7 @@ render_DT_child <- function(DF_NAME){
         paging = TRUE,
         searching = FALSE,
         iDisplayLength = 15, 
-        dom = "Bfrtip",
+        # dom = "Bfrtip",
         scrollX = TRUE,
         autoWidth = T,
         columnDefs = list(
@@ -282,6 +272,17 @@ render_DT_child <- function(DF_NAME){
           )))))
 }
 
+render_DT <- function(DF_NAME){
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable"), escape = FALSE,
+                      selection=list(mode="single", target="cell"),
+                      options = list(iDisplayLength = 15, searchHighlight = TRUE,
+                                     keys = TRUE,
+                                     buttons = c("colvis",'copy', 'csv'),
+                                     dom = "Bfrtip",
+                                     scrollX = TRUE, autoWidth = T,
+                                     columnDefs = list(
+                                       list(className = 'dt-center', width = '90px', targets = "_all"))))
+}
 
 ## MAKE DATAFRAME ----
 ## BLOOD colname and DF 

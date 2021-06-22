@@ -78,36 +78,11 @@ server <- function(input, output, session) {
   # BLOOOD DT
   output$blood_dt <- render_DT_child(blood)
   
-  # FF DT
+  # PDX DT
   
-  ff_Dat <- child_function(list_df = pdx, result_df = pdx_result)
-  
-  output$ff_dt <- DT::renderDataTable(
-    datatable(
-      ff_Dat[[1]], 
-      callback = callback_function(ff_Dat[[2]], ff_Dat[[3]]), rownames = rowNames, escape = -ff_Dat[[3]]-1,
-      options = list(
-        paging = TRUE,
-        searching = FALSE,
-        iDisplayLength = 15, 
-        dom = "Bfrtip",
-        scrollX = TRUE,
-        columnDefs = list(
-          list(visible = FALSE, 
-               targets = ncol(Dat)-1+colIdx),
-          list(
-            orderable = FALSE, 
-            className = "details-control", 
-            targets = colIdx),
-          list(
-            className = "dt-center", 
-            targets = "_all"
-          )
-        )
-      )
-    )
-  )
-  
+  pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
+  output$ff_dt <- render_DT_child(DF_NAME = pdx_Dat)
+
   # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)
   

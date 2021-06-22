@@ -255,22 +255,31 @@ render_DT <- function(DF_NAME){
                                        list(className = 'dt-center', width = '90px', targets = "_all"))))
 }
 render_DT_child <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, callback = callback, 
-                      rownames = FALSE,
-                      extensions = c('Buttons', "KeyTable"),
-                      escape = -2,-colIdx-1,
-                      selection=list(mode="single", target="cell"),
-                      options = list(
-                        iDisplayLength = 15, searchHighlight = TRUE,
-                        keys = TRUE,
-                        buttons = c("colvis",'copy', 'csv'),
-                        dom = "Bfrtip",
-                        scrollX = TRUE, autoWidth = T,
-                        columnDefs = list(
-                                       list(className = 'dt-center', width = '90px', targets = "_all"),
-                                       list(visible = FALSE, targets = ncol(Dat)-1+colIdx),
-                                       list(orderable = FALSE, className = 'details-control', targets = 1)
-                                     )))
+  DT::renderDataTable(
+    datatable(
+      DF_NAME[[1]], 
+      callback = callback_function(DF_NAME[[2]], DF_NAME[[3]]), 
+      rownames = rowNames, escape = -DF_NAME[[3]]-1,
+      selection=list(mode="single", target="cell"),
+      options = list(
+        paging = TRUE,
+        searching = FALSE,
+        iDisplayLength = 15, 
+        dom = "Bfrtip",
+        scrollX = TRUE,
+        autoWidth = T,
+        columnDefs = list(
+          list(visible = FALSE, 
+               targets = ncol(DF_NAME[[1]])-1+DF_NAME[[3]]),
+          list(
+            orderable = FALSE, 
+            className = "details-control", 
+            targets = DF_NAME[[3]]),
+          list(
+            className = "dt-center", 
+            width = '90px',
+            targets = "_all"
+          )))))
 }
 
 

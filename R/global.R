@@ -25,7 +25,6 @@ collection_cnt <- function(collection_name, url) {
              options = ssl_options())
   m$count() %>% return()
 }
-
 value_func <<- function(N, tab_name,row_count, icon, color){
   renderInfoBox({
     infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
@@ -49,7 +48,6 @@ render_msg_divs <- function(collection) {
         )) %>% {.$.out}
   )
 }
-
 render_msg_divs <- function(collection) {
   div(class = "ui very relaxed list",
       collection %>%
@@ -65,190 +63,186 @@ render_msg_divs <- function(collection) {
 ## DT TABLE FUNCTION
 ### DT CallBack
 ## the callback
-NestedData <- function(dat, children){
-  stopifnot(length(children) == nrow(dat))
-  g <- function(d){
-    if(is.data.frame(d)){
-      purrr::transpose(d)
-    }else{
-      purrr::transpose(NestedData(d[[1]], children = d$children))
+child_function <- function(list_df, result_df){
+  NestedData <- function(dat, children){
+    stopifnot(length(children) == nrow(dat))
+    g <- function(d){
+      if(is.data.frame(d)){
+        purrr::transpose(d)
+      }else{
+        purrr::transpose(NestedData(d[[1]], children = d$children))
+      }
+    }
+    subdats <- lapply(children, g)
+    oplus <- ifelse(lengths(subdats), "&oplus;", "") 
+    cbind(" " = oplus, dat, "_details" = I(subdats), 
+          stringsAsFactors = FALSE)
+  }
+  sample_list <- list_df$`Sample ID`
+  return_list <- list()
+  rowNames = FALSE
+  
+  children_list <- list()
+  for(sample in sample_list){
+    child_temp <- pdx_result %>% filter(`Sample ID` == sample)
+    if(nrow(child_temp) == 0){
+      children_list[[sample]] <- data.frame()
+    } else {
+      children_list[[sample]] <- child_temp %>% as.data.frame()
     }
   }
-  subdats <- lapply(children, g)
-  oplus <- ifelse(lengths(subdats), "&oplus;", "") 
-  cbind(" " = oplus, dat, "_details" = I(subdats), 
-        stringsAsFactors = FALSE)
+  Dat <- NestedData(dat = list_df, children = unname(children_list))
+  colIdx <- as.integer(rowNames)
+  parentRows <- which(Dat[,1] != "")
+  
+  return_list[[1]] <- Dat
+  return_list[[2]] <- parentRows
+  return_list[[3]] <- colIdx
+  
+  return(return_list)
 }
-
-# df <- data.frame(
-#   COUNTRY = c("USA","Japan","USA","France","Italy","Canada","Japan", "Korea"),
-#   NAME = c("Mark","Hue","Mary","Jean","Laura","John","Zhan", "NA"),
-#   AGE = c(20, 21, 18, 35, 40, 33, 27, NA),
-#   DATE_OF_BIRTH = c("1980-05-01","1978-05-04","1983-11-01","1989-05-15","1985-08-08","1978-02-18","1983-09-27", NA)
-# )
-# 
-# children <- lapply(split(df, df$COUNTRY), "[", -1)
-# dat0 <- data.frame(COUNTRY = names(children))
-# 
-# Dat <- NestedData(dat = dat0, children = unname(children))
-
-sample_list <- pdx$`Sample ID`
-children_list <- list()
-for(sample in sample_list){
-  child_temp <- pdx_result %>% filter(`Sample ID` == sample)
-  if(nrow(child_temp) == 0){
-    children_list[[sample]] <- data.frame()
-  } else {
-    children_list[[sample]] <- child_temp %>% as.data.frame()
-  }
+callback_function <- function(parentRows, colIdx){
+  callback <- JS(
+    sprintf("var parentRows = [%s];", toString(parentRows-1)),
+    sprintf("var j0 = %d;", colIdx),
+    "var nrows = table.rows().count();",
+    "for(let i = 0; i < nrows; ++i){",
+    "  var $cell = table.cell(i,j0).nodes().to$();",
+    "  if(parentRows.indexOf(i) > -1){",
+    "    $cell.css({cursor: 'pointer'});",
+    "  }else{",
+    "    $cell.removeClass('details-control');",
+    "  }",
+    "}",
+    "",
+    "// --- make the table header of the nested table --- //",
+    "var formatHeader = function(d, childId){",
+    "  if(d !== null){",
+    "    var html = ", 
+    "      '<table class=\"display compact hover\" ' + ",
+    "      'style=\"padding-left: 30px;\" id=\"' + childId + ", 
+    "      '\"><thead><tr>';",
+    "    var data = d[d.length-1] || d._details;",
+    "    for(let key in data[0]){",
+    "      html += '<th>' + key + '</th>';",
+    "    }",
+    "    html += '</tr></thead></table>'",
+    "    return html;",
+    "  } else {",
+    "    return '';",
+    "  }",
+    "};",
+    "",
+    "// --- row callback to style rows of child tables --- //",
+    "var rowCallback = function(row, dat, displayNum, index){",
+    "  if($(row).hasClass('odd')){",
+    "    $(row).css('background-color', 'papayawhip');",
+    "    $(row).hover(function(){",
+    "      $(this).css('background-color', '#E6FF99');",
+    "    }, function(){",
+    "      $(this).css('background-color', 'papayawhip');",
+    "    });",
+    "  } else {",
+    "    $(row).css('background-color', 'lemonchiffon');",
+    "    $(row).hover(function(){",
+    "      $(this).css('background-color', '#DDFF75');",
+    "    }, function(){",
+    "      $(this).css('background-color', 'lemonchiffon');",
+    "    });",
+    "  }",
+    "};",
+    "",
+    "// --- header callback to style header of child tables --- //",
+    "var headerCallback = function(thead, data, start, end, display){",
+    "  $('th', thead).css({",
+    "    'border-top': '3px solid indigo',", 
+    "    'color': 'indigo',",
+    "    'background-color': '#fadadd'",
+    "  });",
+    "};",
+    "",
+    "// --- make the datatable --- //",
+    "var formatDatatable = function(d, childId){",
+    "  var data = d[d.length-1] || d._details;",
+    "  var colNames = Object.keys(data[0]);",
+    "  var columns = colNames.map(function(x){",
+    "    return {data: x.replace(/\\./g, '\\\\\\.'), title: x};",
+    "  });",
+    "  var id = 'table#' + childId;",
+    "  if(colNames.indexOf('_details') === -1){",
+    "    var subtable = $(id).DataTable({",
+    "      'data': data,",
+    "      'columns': columns,",
+    "      'autoWidth': true,",
+    "      'deferRender': true,",
+    "      'info': false,",
+    "      'lengthChange': false,",
+    "      'ordering': data.length > 1,",
+    "      'order': [],",
+    "      'paging': false,",
+    "      'scrollX': false,",
+    "      'scrollY': false,",
+    "      'searching': false,",
+    "      'sortClasses': false,",
+    "      'rowCallback': rowCallback,",
+    "      'headerCallback': headerCallback,",
+    "      'columnDefs': [{targets: '_all', className: 'dt-center'}]",
+    "    });",
+    "  } else {",
+    "    var subtable = $(id).DataTable({",
+    "      'data': data,",
+    "      'columns': columns,",
+    "      'autoWidth': true,",
+    "      'deferRender': true,",
+    "      'info': false,",
+    "      'lengthChange': false,",
+    "      'ordering': data.length > 1,",
+    "      'order': [],",
+    "      'paging': false,",
+    "      'scrollX': false,",
+    "      'scrollY': false,",
+    "      'searching': false,",
+    "      'sortClasses': false,",
+    "      'rowCallback': rowCallback,",
+    "      'headerCallback': headerCallback,",
+    "      'columnDefs': [", 
+    "        {targets: -1, visible: false},", 
+    "        {targets: 0, orderable: false, className: 'details-control'},", 
+    "        {targets: '_all', className: 'dt-center'}",
+    "      ]",
+    "    }).column(0).nodes().to$().css({cursor: 'pointer'});",
+    "  }",
+    "};",
+    "",
+    "// --- display the child table on click --- //",
+    "// array to store id's of already created child tables",
+    "var children = [];", 
+    "table.on('click', 'td.details-control', function(){",
+    "  var tbl = $(this).closest('table'),",
+    "      tblId = tbl.attr('id'),",
+    "      td = $(this),",
+    "      row = $(tbl).DataTable().row(td.closest('tr')),",
+    "      rowIdx = row.index();",
+    "  if(row.child.isShown()){",
+    "    row.child.hide();",
+    "    td.html('&oplus;');",
+    "  } else {",
+    "    var childId = tblId + '-child-' + rowIdx;",
+    "    if(children.indexOf(childId) === -1){", 
+    "      // this child has not been created yet",
+    "      children.push(childId);",
+    "      row.child(formatHeader(row.data(), childId)).show();",
+    "      td.html('&CircleMinus;');",
+    "      formatDatatable(row.data(), childId, rowIdx);",
+    "    }else{",
+    "      // this child has already been created",
+    "      row.child(true);",
+    "      td.html('&CircleMinus;');",
+    "    }",
+    "  }",
+    "});")
+  return(callback)
 }
-Dat <- NestedData(dat = pdx, children = unname(children_list))
-
-## whether to show row names
-rowNames = FALSE
-colIdx <- as.integer(rowNames)
-## the callback
-parentRows <- which(Dat[,1] != "")
-callback <- JS(
-  sprintf("var parentRows = [%s];", toString(parentRows-1)),
-  sprintf("var j0 = %d;", colIdx),
-  "var nrows = table.rows().count();",
-  "for(let i = 0; i < nrows; ++i){",
-  "  var $cell = table.cell(i,j0).nodes().to$();",
-  "  if(parentRows.indexOf(i) > -1){",
-  "    $cell.css({cursor: 'pointer'});",
-  "  }else{",
-  "    $cell.removeClass('details-control');",
-  "  }",
-  "}",
-  "",
-  "// --- make the table header of the nested table --- //",
-  "var formatHeader = function(d, childId){",
-  "  if(d !== null){",
-  "    var html = ", 
-  "      '<table class=\"display compact hover\" ' + ",
-  "      'style=\"padding-left: 30px;\" id=\"' + childId + ", 
-  "      '\"><thead><tr>';",
-  "    var data = d[d.length-1] || d._details;",
-  "    for(let key in data[0]){",
-  "      html += '<th>' + key + '</th>';",
-  "    }",
-  "    html += '</tr></thead></table>'",
-  "    return html;",
-  "  } else {",
-  "    return '';",
-  "  }",
-  "};",
-  "",
-  "// --- row callback to style rows of child tables --- //",
-  "var rowCallback = function(row, dat, displayNum, index){",
-  "  if($(row).hasClass('odd')){",
-  "    $(row).css('background-color', 'papayawhip');",
-  "    $(row).hover(function(){",
-  "      $(this).css('background-color', '#E6FF99');",
-  "    }, function(){",
-  "      $(this).css('background-color', 'papayawhip');",
-  "    });",
-  "  } else {",
-  "    $(row).css('background-color', 'lemonchiffon');",
-  "    $(row).hover(function(){",
-  "      $(this).css('background-color', '#DDFF75');",
-  "    }, function(){",
-  "      $(this).css('background-color', 'lemonchiffon');",
-  "    });",
-  "  }",
-  "};",
-  "",
-  "// --- header callback to style header of child tables --- //",
-  "var headerCallback = function(thead, data, start, end, display){",
-  "  $('th', thead).css({",
-  "    'border-top': '3px solid indigo',", 
-  "    'color': 'indigo',",
-  "    'background-color': '#fadadd'",
-  "  });",
-  "};",
-  "",
-  "// --- make the datatable --- //",
-  "var formatDatatable = function(d, childId){",
-  "  var data = d[d.length-1] || d._details;",
-  "  var colNames = Object.keys(data[0]);",
-  "  var columns = colNames.map(function(x){",
-  "    return {data: x.replace(/\\./g, '\\\\\\.'), title: x};",
-  "  });",
-  "  var id = 'table#' + childId;",
-  "  if(colNames.indexOf('_details') === -1){",
-  "    var subtable = $(id).DataTable({",
-  "      'data': data,",
-  "      'columns': columns,",
-  "      'autoWidth': true,",
-  "      'deferRender': true,",
-  "      'info': false,",
-  "      'lengthChange': false,",
-  "      'ordering': data.length > 1,",
-  "      'order': [],",
-  "      'paging': false,",
-  "      'scrollX': false,",
-  "      'scrollY': false,",
-  "      'searching': false,",
-  "      'sortClasses': false,",
-  "      'rowCallback': rowCallback,",
-  "      'headerCallback': headerCallback,",
-  "      'columnDefs': [{targets: '_all', className: 'dt-center'}]",
-  "    });",
-  "  } else {",
-  "    var subtable = $(id).DataTable({",
-  "      'data': data,",
-  "      'columns': columns,",
-  "      'autoWidth': true,",
-  "      'deferRender': true,",
-  "      'info': false,",
-  "      'lengthChange': false,",
-  "      'ordering': data.length > 1,",
-  "      'order': [],",
-  "      'paging': false,",
-  "      'scrollX': false,",
-  "      'scrollY': false,",
-  "      'searching': false,",
-  "      'sortClasses': false,",
-  "      'rowCallback': rowCallback,",
-  "      'headerCallback': headerCallback,",
-  "      'columnDefs': [", 
-  "        {targets: -1, visible: false},", 
-  "        {targets: 0, orderable: false, className: 'details-control'},", 
-  "        {targets: '_all', className: 'dt-center'}",
-  "      ]",
-  "    }).column(0).nodes().to$().css({cursor: 'pointer'});",
-  "  }",
-  "};",
-  "",
-  "// --- display the child table on click --- //",
-  "// array to store id's of already created child tables",
-  "var children = [];", 
-  "table.on('click', 'td.details-control', function(){",
-  "  var tbl = $(this).closest('table'),",
-  "      tblId = tbl.attr('id'),",
-  "      td = $(this),",
-  "      row = $(tbl).DataTable().row(td.closest('tr')),",
-  "      rowIdx = row.index();",
-  "  if(row.child.isShown()){",
-  "    row.child.hide();",
-  "    td.html('&oplus;');",
-  "  } else {",
-  "    var childId = tblId + '-child-' + rowIdx;",
-  "    if(children.indexOf(childId) === -1){", 
-  "      // this child has not been created yet",
-  "      children.push(childId);",
-  "      row.child(formatHeader(row.data(), childId)).show();",
-  "      td.html('&CircleMinus;');",
-  "      formatDatatable(row.data(), childId, rowIdx);",
-  "    }else{",
-  "      // this child has already been created",
-  "      row.child(true);",
-  "      td.html('&CircleMinus;');",
-  "    }",
-  "  }",
-  "});")
-
 render_DT <- function(DF_NAME){
   DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable"), escape = FALSE,
                       selection=list(mode="single", target="cell"),

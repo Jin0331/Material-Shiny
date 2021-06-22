@@ -79,10 +79,13 @@ server <- function(input, output, session) {
   output$blood_dt <- render_DT_child(blood)
   
   # FF DT
+  
+  ff_Dat <- child_function(list_df = pdx, result_df = pdx_result)
+  
   output$ff_dt <- DT::renderDataTable(
     datatable(
-      Dat, 
-      callback = callback, rownames = rowNames, escape = -colIdx-1,
+      ff_Dat[[1]], 
+      callback = callback_function(ff_Dat[[2]], ff_Dat[[3]]), rownames = rowNames, escape = -ff_Dat[[3]]-1,
       options = list(
         paging = TRUE,
         searching = FALSE,
@@ -104,11 +107,6 @@ server <- function(input, output, session) {
       )
     )
   )
-  
-  
-  
-  
-  
   
   # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)

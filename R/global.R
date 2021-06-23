@@ -416,11 +416,11 @@ render_DT_child <- function(DF_NAME){
       options = list(
         fixedColumns = TRUE,
         paging = TRUE,
-        searching = FALSE,
+        searching = TRUE,
         iDisplayLength = 15, 
-        # dom = "Bfrtip",
         scrollX = TRUE,
         scrollY = TRUE,
+        dom = "Bfrtip",
         autoWidth = TRUE,
         columnDefs = list(
           list(visible = FALSE, 

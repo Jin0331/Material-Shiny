@@ -7,13 +7,15 @@ ui <- dashboardPage(
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
-    title = span(img(src = paste0(fileUrl,"WMB-2.png"), height = 30), "WMBIO"),
+    title = span(img(src = paste0(fileUrl,"WMB-2.png"), height = 30), "WMBIO", 
+                 style = "color: #606060; font-weight: bold; font-size: 25px"),
     # title = span(img(src = "http://webmail.wmbio.co/user_img/logoImage.jpeg", height = 45, width = 130)),
     # titleWidth = 250,
     tags$li(
       a(
         strong("ABOUT WMBIO"),
         height = 70,
+        style = "color: #606060;",
         href = "http://www.wmbio.co/kr/about/company.php",
         title = "",
         target = "_blank"

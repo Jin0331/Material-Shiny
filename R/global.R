@@ -420,6 +420,7 @@ render_DT_child <- function(DF_NAME){
         iDisplayLength = 15, 
         # dom = "Bfrtip",
         scrollX = TRUE,
+        scrollY = TRUE,
         autoWidth = TRUE,
         columnDefs = list(
           list(visible = FALSE, 
@@ -435,15 +436,20 @@ render_DT_child <- function(DF_NAME){
           )))))
 }
 render_DT <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "FixedHeader"), escape = FALSE,
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "FixedHeader","FixedColumns", "Scroller"), 
+                      escape = FALSE,
                       selection=list(mode="single", target="cell"),
                       options = list(iDisplayLength = 25, searchHighlight = TRUE,
                                      keys = TRUE,
-                                     fixedColumns = TRUE,
+                                     fixedColumns = list(leftColumns = 1),
                                      fixedHeader = TRUE,
                                      buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
-                                     scrollX = TRUE, autoWidth = T,
+                                     scrollX = TRUE, 
+                                     deferRender = TRUE,
+                                     scrollY = 700,
+                                     scroller = TRUE,
+                                     autoWidth = T,
                                      columnDefs = list(
                                        list(width = '250px', targets = "_all")
                                        )
@@ -452,17 +458,20 @@ render_DT <- function(DF_NAME){
 }
 
 render_DT_rowgroup <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "RowGroup", "FixedHeader"), 
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "RowGroup", "FixedHeader", "Scroller"), 
                       escape = FALSE,
                       selection=list(mode="single", target="cell"),
                       options = list(iDisplayLength = 25, searchHighlight = TRUE,
                                      keys = TRUE,
-                                     fixedColumns = TRUE,
                                      fixedHeader = TRUE,
                                      rowGroup = list(dataSrc = 0),
                                      buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
-                                     scrollX = TRUE, autoWidth = T,
+                                     scrollX = TRUE,   
+                                     deferRender = TRUE,
+                                     scrollY = 700,
+                                     scroller = TRUE,
+                                     autoWidth = T,
                                      columnDefs = list(
                                        list(width = '250px', targets = "_all")
                                      )
@@ -573,7 +582,7 @@ shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "T
                      "위치(냉동고/Box이름)", "관리자", "Data sheet", "여분1","여분2","여분3","여분4","여분5","여분6",
                      "여분7","여분8","여분9","여분10")
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
-shsirna <- shsirna %>% select(-WMB_NO)
+shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
 
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  

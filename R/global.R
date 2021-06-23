@@ -1,6 +1,6 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
-# CUSTOM THEME
+# CUSTOM THEME ----
 ### creating custom theme object
 customTheme <- shinyDashboardThemeDIY(
   
@@ -547,7 +547,7 @@ render_DT_child <- function(DF_NAME){
         iDisplayLength = 15, 
         scrollX = TRUE,
         scrollY = TRUE,
-        dom = "Bfrtip",
+        dom = "frtip",
         autoWidth = TRUE,
         columnDefs = list(
           list(visible = FALSE, 
@@ -558,7 +558,7 @@ render_DT_child <- function(DF_NAME){
             targets = DF_NAME[[3]]),
           list(
             className = "dt-center", 
-            width = '90px',
+            width = '100px',
             targets = "_all"
           )))))
 }

@@ -76,37 +76,30 @@ ui <- dashboardPage(
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 3.5em;line-height: 1.0em; 
-                     color: #606060;font-family: helvetica;"> Wellmarker Bio Material </span></center>'),
+                     color: #CC9900;font-family: helvetica;"> WMBIO Biobank </span></center>'),
                 HTML("<br>"),
                 ## TOTAL SEARCH UI
                 box(width = 12,
-                    title = tags$p("Total Search", style = "font-size: 130%; font-weight: bold;"),
+                    title = tags$p("", style = "font-size: 130%; font-weight: bold;"),
                     icon = icon("search"),
-                  box(title = tags$p("Table / Keywords", style = "font-weight: bold;"),
-                      width = 4,
-                      collapsible = TRUE,
-                      solidHeader = TRUE, 
-                      status = "info",
-                      selectizeInput(inputId = "table_select", label = NULL, 
-                                            choices = c("","Blood", "FF", "FFPE", "PDX", "Antibody",
-                                                        "Cell Line", "Commercial Drug", "Protein", "shRNA / siRNA"),
-                                            selected = "", options = list(placeholder="Table Select",
-                                                                          plugins = list('restore_on_backspace')),
-                                            width = "600px"),
-                      selectizeInput(inputId = "keyword", label = NULL, multiple = TRUE,
-                                            choices = NULL, options = list(placeholder="Keyword", create = TRUE),
-                                            width = "600px")
-                      ),
-                  box(title = tags$p("Summary Table", style = "font-weight: bold;"),
-                      width = 8,
-                      collapsible = TRUE,
-                      solidHeader = TRUE, 
-                      status = "info",
-                      dataTableOutput("summary_table")
-                  
-                )),
+                    fluidRow(
+                      column(width = 12, 
+                             tabsetPanel(
+                               tabPanel(title = tags$p("Blood", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("FF", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("FFPE", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("PDX", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("Antibody", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("Cell Line", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("Commercial Drug", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
+                               tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #CC9900"))
+                             )
+                        )
+                    )
+                ),
                 # INFOBOX UI
-                box(title = tags$p("Contents", style = "font-size: 130%; font-weight: bold;"),
+                box(title = tags$p("Material", style = "font-size: 120%; font-weight: bold; color: white"),
                     status = "maroon",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
@@ -115,8 +108,7 @@ ui <- dashboardPage(
                     # VALUEBOX 
                     infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
                     infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
-                    infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9"),
-                    infoBoxOutput("out1")
+                    infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
                 ),
                 # NOTICE UI
                 # box(
@@ -125,22 +117,6 @@ ui <- dashboardPage(
                 #   icon = icon("volume-down"),
                 #   solidHeader = TRUE,
                 #   width = 12), 
-                ## LIVECHAT UI
-                # box(   
-                #   title = tags$p("Live Chat :)", style = "font-size: 130%; font-weight: bold;"),
-                #   status = "black", 
-                #   icon = icon("user-friends"),
-                #   solidHeader = TRUE,
-                #   collapsible = TRUE,
-                #   width = 6,
-                #   div(textInput(
-                #     "username_field", "ID", width = "200px")),
-                #   uiOutput("chatbox"),
-                #   div(style = "display:inline-block",
-                #       textInput("message_field", "Message", width = "400px")),
-                #   div(style = "display:inline-block",
-                #       actionButton("send", "", icon = icon("arrow-alt-circle-up")))
-                # )
                )
               
       ),
@@ -158,7 +134,7 @@ ui <- dashboardPage(
                            #                choices = c("ALL", names(blood)),
                            #                selected = NULL, width = "500px", multiple = TRUE),
                            # actionButton(inputId = "filter_run", label = "selected"),
-                           div(DT::dataTableOutput("blood_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("blood_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "pdx",
@@ -169,7 +145,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("prescription"),
-                           div(DT::dataTableOutput("pdx_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("pdx_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "antibody",
@@ -180,7 +156,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("vial"),
-                           div(DT::dataTableOutput("antibody_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("antibody_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "celline",
@@ -191,7 +167,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("virus"),
-                           div(DT::dataTableOutput("celline_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("celline_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "drug",
@@ -202,7 +178,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("capsules"),
-                           div(DT::dataTableOutput("drug_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("drug_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "protein",
@@ -213,7 +189,7 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("share-alt"),
-                           div(DT::dataTableOutput("protein_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("protein_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "shsirna",
@@ -224,23 +200,33 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("dna"),
-                           div(DT::dataTableOutput("shsirna_dt"), style = "font-size:70%")
+                           div(DT::dataTableOutput("shsirna_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "help",
-              fluidRow(
-                column(width = 12, 
-                       box()
-                       ))
+              ## LIVECHAT UI
+              box(
+                title = tags$p("Help", style = "font-size: 130%; font-weight: bold; color: white"),
+                status = "black",
+                icon = icon("user-friends"),
+                solidHeader = TRUE,
+                collapsible = TRUE,
+                width = 12,
+                div(textInput(
+                  "username_field", "ID", width = "200px")),
+                uiOutput("chatbox"),
+                div(style = "display:inline-block; font-size: 130%;",
+                    textInput("message_field", "Message", width = "400px")),
+                div(style = "display:inline-block; font-size: 130%;",
+                    actionButton("send", "", icon = icon("arrow-alt-circle-up")))
               )
-      
-      
+              )
     ) # tabItems END
   )
 )
 
 # LOGIN UI ----
-# ui <- secure_app(ui, theme = shinythemes::shinytheme("flatly"),
+# ui <- secure_app(ui, theme = shinythemes::shinytheme("sandstone"),
 #                  tags_top = tags$img(
 #                    src = "http://www.wmbio.co/images/common/logo.png", width = 240
 #                  ),

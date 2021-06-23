@@ -222,6 +222,10 @@ ui <- dashboardPage(
               )
               )
     ) # tabItems END
+  ), # BODY end
+  footer = dashboardFooter(
+    right = "© 2021 Lee, K.M., Lee, W.J., Lee, J.W, Target ID team, Target Discovery Institute, Wellmarker Bio. All rights reserved."
+    # right = "Lee, K.M., Lee, W.J., Lee, J.W.,, 2021"
   )
 )
 

@@ -8,14 +8,14 @@ ui <- dashboardPage(
   options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
     title = span(img(src = paste0(fileUrl,"WMB-2.png"), height = 30), "WMBIO",
-                 style = "color: #606060; font-weight: bold; font-size: 25px"),
+                 style = "color: #996600; font-weight: bold; font-size: 30px"),
     # title = span(img(src = "http://www.wmbio.co/images/main/main_second_logo.png", height = 35, width = 35)),
     # titleWidth = 250,
     tags$li(
       a(
         strong("ABOUT WMBIO"),
         height = 70,
-        style = "color: #606060;",
+        style = "color: #996600;",
         href = "http://www.wmbio.co/kr/about/company.php",
         title = "",
         target = "_blank"
@@ -76,31 +76,31 @@ ui <- dashboardPage(
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 3.5em;line-height: 1.0em; 
-                     color: #CC9900;font-family: helvetica;"> WMBIO Biobank </span></center>'),
+                     color: #996600;font-family: helvetica;"> WMBIO Biobank </span></center>'),
                 HTML("<br>"),
                 ## TOTAL SEARCH UI
                 box(width = 12,
                     title = tags$p("", style = "font-size: 130%; font-weight: bold;"),
-                    icon = icon("search"),
+                    # icon = icon("search"),
                     fluidRow(
                       column(width = 12, 
                              tabsetPanel(
-                               tabPanel(title = tags$p("Blood", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("FF", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("FFPE", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("PDX", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("Antibody", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("Cell Line", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("Commercial Drug", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #CC9900")),
-                               tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #CC9900"))
+                               tabPanel(title = tags$p("Blood", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("FF", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("FFPE", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("PDX", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("Antibody", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("Cell Line", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("Commercial Drug", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #996600")),
+                               tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #996600"))
                              )
                         )
                     )
                 ),
                 # INFOBOX UI
                 box(title = tags$p("Material", style = "font-size: 120%; font-weight: bold; color: white"),
-                    status = "maroon",
+                    status = "warning",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
                     width = 12,
@@ -130,10 +130,6 @@ ui <- dashboardPage(
                            status = "primary",
                            solidHeader = TRUE,
                            icon = icon("tint"),
-                           # selectizeInput(inputId = "columns", label = "Filter", 
-                           #                choices = c("ALL", names(blood)),
-                           #                selected = NULL, width = "500px", multiple = TRUE),
-                           # actionButton(inputId = "filter_run", label = "selected"),
                            div(DT::dataTableOutput("blood_dt"), style = "font-size:105%")
                        )))
       ),

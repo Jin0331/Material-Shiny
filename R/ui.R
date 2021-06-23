@@ -2,14 +2,14 @@ ui <- dashboardPage(
   skin = "black-light",
   # skin = "midnight",
   scrollToTop = TRUE,
-  title = "WMBIO MATERIAL",
+  title = "Wellmarker Bio Material",
   
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
   dashboardHeader(
-    title = span(img(src = paste0(fileUrl,"WMB-2.png"), height = 30), "WMBIO", 
+    title = span(img(src = paste0(fileUrl,"WMB-2.png"), height = 30), "WMBIO",
                  style = "color: #606060; font-weight: bold; font-size: 25px"),
-    # title = span(img(src = "http://webmail.wmbio.co/user_img/logoImage.jpeg", height = 45, width = 130)),
+    # title = span(img(src = "http://www.wmbio.co/images/main/main_second_logo.png", height = 35, width = 35)),
     # titleWidth = 250,
     tags$li(
       a(
@@ -26,7 +26,7 @@ ui <- dashboardPage(
   ),
   
   # SIDEBAR -----------------------------------------------------------------
-  dashboardSidebar(width = 230, collapsed = TRUE,
+  dashboardSidebar(width = 230, collapsed = FALSE,
     sidebarMenu(id = "side", 
       menuItem("Home", tabName = "home", icon = icon("home")),
       menuItem("Blood", tabName = "blood", icon = icon("tint")),
@@ -37,17 +37,19 @@ ui <- dashboardPage(
       menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
       menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
       menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna"))
+      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+      menuItem("Help", tabName = "help", icon = icon("volume-down"))
     )), 
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
     useShinyjs(),
+    customTheme,
     tags$head(
       tags$link(
         rel = "stylesheet",
         type = "text/css",
-        href = "radar_style.css")
+        href = "wmbio_material.css")
     ),
     tags$style(HTML("
                     #chatbox {
@@ -70,19 +72,12 @@ ui <- dashboardPage(
       # HOME PAGE ---------------------------------------------------------------
       tabItem(tabName = "home", 
               fluidRow( 
-                # INFOBOX UI
-                box(title = tags$p("Contents", style = "font-size: 130%; font-weight: bold;"),
-                    status = "maroon",
-                    solidHeader = TRUE, 
-                    icon = icon("window-restore"),
-                    width = 12,
-                    collapsible = TRUE,
-                    # VALUEBOX 
-                    infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
-                    infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
-                    infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9"),
-                    infoBoxOutput("out1")
-                ),
+                # HTML("<br>"),
+                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
+                HTML("<br>"),
+                HTML('<center><span style= "font-weight: bold; font-size: 3.5em;line-height: 1.0em; 
+                     color: #606060;font-family: helvetica;"> Wellmarker Bio Material </span></center>'),
+                HTML("<br>"),
                 ## TOTAL SEARCH UI
                 box(width = 12,
                     title = tags$p("Total Search", style = "font-size: 130%; font-weight: bold;"),
@@ -110,13 +105,26 @@ ui <- dashboardPage(
                       dataTableOutput("summary_table")
                   
                 )),
+                # INFOBOX UI
+                box(title = tags$p("Contents", style = "font-size: 130%; font-weight: bold;"),
+                    status = "maroon",
+                    solidHeader = TRUE, 
+                    icon = icon("window-restore"),
+                    width = 12,
+                    collapsible = TRUE,
+                    # VALUEBOX 
+                    infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
+                    infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
+                    infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9"),
+                    infoBoxOutput("out1")
+                ),
                 # NOTICE UI
-                box(
-                  title = tags$p("✺Notice✺", style = "font-size: 130%; font-weight: bold;"),
-                  status = "orange",
-                  icon = icon("volume-down"),
-                  solidHeader = TRUE,
-                  width = 12), 
+                # box(
+                #   title = tags$p("✺Notice✺", style = "font-size: 130%; font-weight: bold;"),
+                #   status = "orange",
+                #   icon = icon("volume-down"),
+                #   solidHeader = TRUE,
+                #   width = 12), 
                 ## LIVECHAT UI
                 # box(   
                 #   title = tags$p("Live Chat :)", style = "font-size: 130%; font-weight: bold;"),
@@ -218,7 +226,15 @@ ui <- dashboardPage(
                            icon = icon("dna"),
                            div(DT::dataTableOutput("shsirna_dt"), style = "font-size:70%")
                        )))
-      )
+      ),
+      tabItem(tabName = "help",
+              fluidRow(
+                column(width = 12, 
+                       box()
+                       ))
+              )
+      
+      
     ) # tabItems END
   )
 )

@@ -17,6 +17,70 @@ server <- function(input, output, session) {
     }
     setTimeout(reload_page, 500000);
 ")
+  # VALUEBOX_RENDER ----
+  output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>% 
+    value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
+  
+  output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>% 
+    value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
+  
+  # # 이부분 수정해야됨, FFPE ---
+  output$valuebox3 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+    value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
+  
+  output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>% 
+    value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+  
+  output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>% 
+    value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("vial"), color = "fuchsia")
+  
+  output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>% 
+    value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon")
+  
+  output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>% 
+    value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal")
+  
+  output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>% 
+    value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive")
+  
+  output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>% 
+    value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime")
+  
+  # DT ----
+  # BLOOOD DT
+  output$blood_dt <- render_DT(blood)
+  
+  # PDX DT
+  pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
+  output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
+  
+  # ANTIBODY DT
+  output$antibody_dt <- render_DT(antibody)
+  
+  # CELLINE DT
+  output$celline_dt <- render_DT(celline)
+  
+  # DRUG DT
+  output$drug_dt <- render_DT(drug)
+  
+  # PROTEIN DT
+  output$protein_dt <- render_DT_rowgroup(protein)
+  
+  # shRNA/siRNA DT
+  output$shsirna_dt <- render_DT_rowgroup(shsirna)
+  
+  # filter 기능 보류 --- 추후 삭제 
+  # observeEvent(input$columns, {
+  #   # cols <- input$columns ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
+  #   if("ALL" %in% input$columns){
+  #     blood_temp <- blood
+  #   } else {
+  #     blood_temp <- blood %>% select(input$columns)    
+  #   }
+  #   
+  #   output$blood_list_dt <- render_DT(blood_temp)
+  #   # output$blood_list_dt <- reder_DT(blood_temp)
+  # })
   # TOTAL SEARCH ----
   observe({
     table_k <- isolate(input$table_select) # don't allow re-evaluation as users type
@@ -45,68 +109,5 @@ server <- function(input, output, session) {
     }
   })
   
-  # VALUEBOX_RENDER ----
-  output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>% 
-    value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
-  
-  output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>% 
-    value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
-  
-  # # 이부분 수정해야됨, FFPE ---
-  output$valuebox3 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-    value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
 
-  output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>% 
-    value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
-  
-  output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>% 
-    value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("vial"), color = "fuchsia")
-  
-  output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>% 
-    value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon")
-  
-  output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>% 
-    value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal")
-  
-  output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>% 
-    value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive")
-  
-  output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>% 
-    value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime")
-  
-  # DT ----
-  # BLOOOD DT
-  output$blood_dt <- render_DT(blood)
-  
-  # PDX DT
-  pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
-  output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
-
-  # ANTIBODY DT
-  output$antibody_dt <- render_DT(antibody)
-  
-  # CELLINE DT
-  output$celline_dt <- render_DT(celline)
-  
-  # DRUG DT
-  output$drug_dt <- render_DT(drug)
-  
-  # PROTEIN DT
-  output$protein_dt <- render_DT_rowgroup(protein)
-  
-  # shRNA/siRNA DT
-  output$shsirna_dt <- render_DT_rowgroup(shsirna)
-  
-  # filter 기능 보류 --- 추후 삭제 
-  # observeEvent(input$columns, {
-  #   # cols <- input$columns ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
-  #   if("ALL" %in% input$columns){
-  #     blood_temp <- blood
-  #   } else {
-  #     blood_temp <- blood %>% select(input$columns)    
-  #   }
-  #   
-  #   output$blood_list_dt <- render_DT(blood_temp)
-  #   # output$blood_list_dt <- reder_DT(blood_temp)
-  # })
 }

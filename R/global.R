@@ -59,9 +59,8 @@ render_msg_divs <- function(collection) {
   )
 }
 
-# DT COLUMN NAMES
-## DT TABLE FUNCTION
-### DT CallBack
+# DT TABLE FUNCTION ----
+### DT CallBack 
 ## the callback
 rowNames <<- FALSE
 child_function <- function(list_df, result_df){
@@ -102,7 +101,7 @@ child_function <- function(list_df, result_df){
   
   return(return_list)
 }
-callback_function <- function(parentRows, colIdx){
+callback_function_1 <- function(parentRows, colIdx){
   callback <- JS(
     sprintf("var parentRows = [%s];", toString(parentRows-1)),
     sprintf("var j0 = %d;", colIdx),
@@ -137,11 +136,11 @@ callback_function <- function(parentRows, colIdx){
     "// --- row callback to style rows of child tables --- //",
     "var rowCallback = function(row, dat, displayNum, index){",
     "  if($(row).hasClass('odd')){",
-    "    $(row).css('background-color', 'papayawhip');",
+    "    $(row).css('background-color', 'white');",
     "    $(row).hover(function(){",
     "      $(this).css('background-color', '#E6FF99');",
     "    }, function(){",
-    "      $(this).css('background-color', 'papayawhip');",
+    "      $(this).css('background-color', 'white');",
     "    });",
     "  } else {",
     "    $(row).css('background-color', 'lemonchiffon');",
@@ -187,6 +186,7 @@ callback_function <- function(parentRows, colIdx){
     "      'sortClasses': false,",
     "      'rowCallback': rowCallback,",
     "      'headerCallback': headerCallback,",
+    "      'select': {style: 'single'},",
     "      'columnDefs': [{targets: '_all', className: 'dt-center'}]",
     "    });",
     "  } else {",
@@ -206,8 +206,9 @@ callback_function <- function(parentRows, colIdx){
     "      'sortClasses': false,",
     "      'rowCallback': rowCallback,",
     "      'headerCallback': headerCallback,",
+    "      'select': {style: 'single'},",
     "      'columnDefs': [", 
-    "        {targets: -1, visible: false},", 
+    "        {targets: -1, visible: false},",
     "        {targets: 0, orderable: false, className: 'details-control'},", 
     "        {targets: '_all', className: 'dt-center'}",
     "      ]",
@@ -244,20 +245,182 @@ callback_function <- function(parentRows, colIdx){
     "});")
   return(callback)
 }
+
+## the callback_2
+registerInputHandler("x.child", function(x, ...) {
+  jsonlite::fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE, null = "null"), simplifyDataFrame = FALSE)
+}, force = TRUE)
+callback_function_2 <- function(){
+  callback = JS(
+    "var expandColumn = table.column(0).data()[0] === '&oplus;' ? 0 : 1;",
+    "table.column(expandColumn).nodes().to$().css({cursor: 'pointer'});",
+    "",
+    "// send selected columns to Shiny",
+    "var tbl = table.table().node();",
+    "var tblId = $(tbl).closest('.datatables').attr('id');",
+    "table.on('click', 'td:not(:nth-child(' + (expandColumn+1) + '))', function(){",
+    "  setTimeout(function(){",
+    "    var indexes = table.rows({selected:true}).indexes();",
+    "    var indices = Array(indexes.length);",
+    "    for(var i = 0; i < indices.length; ++i){",
+    "      indices[i] = indexes[i];",
+    "    }",
+    "    Shiny.setInputValue(tblId + '_rows_selected', indices);",
+    "  },0);",
+    "});",
+    "",
+    "// Format the nested table into another table",
+    "var format = function(d, childId){",
+    "  if (d != null) {",
+    "    var html = ", 
+    "      '<table class=\"display compact\" id=\"' + childId + '\"><thead><tr>';",
+    "    for (var key in d[d.length-1][0]) {",
+    "      html += '<th>' + key + '</th>';",
+    "    }",
+    "    html += '</tr></thead></table>'",
+    "    return html;",
+    "  } else {",
+    "    return '';",
+    "  }",
+    "};",
+    "var rowCallback = function(row, dat, displayNum, index){",
+    "  if($(row).hasClass('odd')){",
+    "    for(var j=0; j<dat.length; j++){",
+    "      $('td:eq('+j+')', row).css('background-color', 'white');",
+    "    }",
+    "  } else {",
+    "    for(var j=0; j<dat.length; j++){",
+    "      $('td:eq('+j+')', row).css('background-color', 'lemonchiffon');",
+    "    }",
+    "  }",
+    "};",
+    "var headerCallback = function(thead, data, start, end, display){",
+    "  $('th', thead).css({",
+    "    'border-top': '3px solid indigo',", 
+    "    'color': 'indigo',",
+    "    'background-color': '#cecece'",
+    "  });",
+    "};",
+    "var format_datatable = function(d, childId){",
+    "  var dataset = [];",
+    "  var n = d.length - 1;",
+    "  for (var i = 0; i < d[n].length; i++) {",
+    "    var datarow = $.map(d[n][i], function(value, index){",
+    "      return [value];",
+    "    });",
+    "    dataset.push(datarow);",
+    "  }",
+    "  var id = 'table#' + childId;",
+    "  var subtable = $(id).DataTable({",
+    "                   'data': dataset,",
+    "                   'autoWidth': true,",
+    "                   'deferRender': true,",
+    "                   'info': false,",
+    "                   'lengthChange': false,",
+    "                   'ordering': d[n].length > 1,",
+    "                   'paging': false,",
+    "                   'scrollX': false,",
+    "                   'scrollY': false,",
+    "                   'searching': false,",
+    "                   'sortClasses': false,",
+    "                   'rowCallback': rowCallback,",
+    "                   'headerCallback': headerCallback,",
+    "                   'select': true,",
+    "                   'columnDefs': [{targets: '_all', className: 'dt-center'}]",
+    "                 });",
+    "};",
+    "",
+    "var nrows = table.rows().count();",
+    "var nullinfo = Array(nrows);",
+    "for(var i = 0; i < nrows; ++i){",
+    "  nullinfo[i] = {child : 'child-'+i, selected: null};",
+    "}",
+    "Shiny.setInputValue(tblId + '_children:x.child', nullinfo);",
+    "var sendToR = function(){",
+    "  var info = [];",
+    "  setTimeout(function(){",
+    "    for(var i = 0; i < nrows; ++i){",
+    "      var childId = 'child-' + i;",
+    "      var childtbl = $('#'+childId).DataTable();",
+    "      var indexes = childtbl.rows({selected:true}).indexes();",
+    "      var indices;",
+    "      if(indexes.length > 0){",
+    "        indices = Array(indexes.length);",
+    "        for(var j = 0; j < indices.length; ++j){",
+    "          indices[j] = indexes[j];",
+    "        }",
+    "      } else {",
+    "        indices = null;",
+    "      }",
+    "      info.push({child: childId, selected: indices});",
+    "    }",
+    "    Shiny.setInputValue(tblId + '_children:x.child', info);",
+    "  }, 0);",
+    "}",
+    "$('body').on('click', '[id^=child-] td', sendToR);",
+    "",
+    "table.on('click', 'td.details-control', function () {",
+    "  var td = $(this),",
+    "      row = table.row(td.closest('tr'));",
+    "  if (row.child.isShown()) {",
+    "    row.child.hide();",
+    "    td.html('&oplus;');",
+    "    sendToR();",
+    "  } else {",
+    "    var childId = 'child-' + row.index();",
+    "    row.child(format(row.data(), childId)).show();",
+    "    row.child.show();",
+    "    td.html('&CircleMinus;');",
+    "    format_datatable(row.data(), childId);",
+    "  }",
+    "});")
+  return(callback)
+}
+
+## the callback_3
+callback_function_3 <- function(){
+  callback = JS(  "table.column(1).nodes().to$().css({cursor: 'pointer'});",
+                  "var format = function (d) {",
+                  "    var result = '<div><table style=\"background-color:#fadadd\">';", 
+                  "    for(var key in d[d.length-1]){",
+                  "      result += '<tr style=\"background-color:#fadadd\"><td><b>' + key +", 
+                  "                '</b>:</td><td>' + d[4][key] + '</td></tr>';",
+                  "    }",
+                  "    result += '</table></div>';",
+                  "    return result;",
+                  "}",
+                  "table.on('click', 'td.details-control', function(){",
+                  "  var td = $(this),",
+                  "      row = table.row(td.closest('tr'));",
+                  "  if (row.child.isShown()) {",
+                  "    row.child.hide();",
+                  "    td.html('&oplus;');",
+                  "  } else {",
+                  "    row.child(format(row.data())).show();",
+                  "    td.html('&CircleMinus;');",
+                  "  }",
+                  "});")
+  
+  return(callback)
+}
+
 render_DT_child <- function(DF_NAME){
   DT::renderDataTable(
     datatable(
       DF_NAME[[1]], 
-      callback = callback_function(DF_NAME[[2]], DF_NAME[[3]]), 
+      # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]), 
+      callback = callback_function_2(),
+      # callback = callback_function_3(),
       rownames = rowNames, escape = -DF_NAME[[3]]-1,
       selection=list(mode="single", target="cell"),
       options = list(
+        fixedColumns = TRUE,
         paging = TRUE,
         searching = FALSE,
         iDisplayLength = 15, 
         # dom = "Bfrtip",
         scrollX = TRUE,
-        autoWidth = T,
+        autoWidth = TRUE,
         columnDefs = list(
           list(visible = FALSE, 
                targets = ncol(DF_NAME[[1]])-1+DF_NAME[[3]]),
@@ -271,21 +434,45 @@ render_DT_child <- function(DF_NAME){
             targets = "_all"
           )))))
 }
-
 render_DT <- function(DF_NAME){
-  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable"), escape = FALSE,
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "FixedHeader"), escape = FALSE,
                       selection=list(mode="single", target="cell"),
-                      options = list(iDisplayLength = 15, searchHighlight = TRUE,
+                      options = list(iDisplayLength = 25, searchHighlight = TRUE,
                                      keys = TRUE,
+                                     fixedColumns = TRUE,
+                                     fixedHeader = TRUE,
                                      buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
                                      scrollX = TRUE, autoWidth = T,
                                      columnDefs = list(
-                                       list(className = 'dt-center', width = '90px', targets = "_all"))))
+                                       list(width = '250px', targets = "_all")
+                                       )
+                                     )
+                      )
 }
 
-## MAKE DATAFRAME ----
-## BLOOD colname and DF 
+render_DT_rowgroup <- function(DF_NAME){
+  DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "RowGroup", "FixedHeader"), 
+                      escape = FALSE,
+                      selection=list(mode="single", target="cell"),
+                      options = list(iDisplayLength = 25, searchHighlight = TRUE,
+                                     keys = TRUE,
+                                     fixedColumns = TRUE,
+                                     fixedHeader = TRUE,
+                                     rowGroup = list(dataSrc = 0),
+                                     buttons = c("colvis",'copy', 'csv'),
+                                     dom = "Bfrtip",
+                                     scrollX = TRUE, autoWidth = T,
+                                     columnDefs = list(
+                                       list(width = '250px', targets = "_all")
+                                     )
+                      )
+  )
+}
+
+
+# MAIN DATAFRAME ----
+# BLOOD colname and DF 
 blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
                         "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",
                         "Tumor Grade", "Tumor Stage", "기본정보(성별)", "기본정보(나이)", "기본정보(신장)",
@@ -324,7 +511,12 @@ pdx_result_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "Tissue 
                         "Media(실험관련)", "이식시점[실험 No.](실험관련)", "투여시점(실험관련)", "이식->투여기간(실험관련)",
                         "특이사항(실험관련)", "실험내용(실험관련)", "실험결과(실험관련)", "수행자(실험관련)")
 pdx_result <- collection_to_DF(collection_name = "pdx_result_collection", url = mongoUrl);names(pdx_result) <- pdx_result_colname
-pdx_result <- pdx_result %>% select(-WMB_NO)
+pdx_result <- pdx_result %>% 
+  select(-WMB_NO) %>% 
+  mutate(`이미지(실험관련)`  = ifelse(`이미지(실험관련)`  == "" | `이미지(실험관련)`  == "-", 
+                               `이미지(실험관련)` ,
+                               paste0("<a href='", fileUrl, "IMG/pdx/", 
+                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".JPG'>", "JPG</a>")))
 
 
 ## antibody colname and DF
@@ -347,13 +539,33 @@ celline <- celline %>% select(-WMB_NO, -New1:-New10)
 drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
                   "보관위치", "관리자", "비고", "Data sheet", "New1","New2", "New3", "New4", "New5", "New6")
 drug <- collection_to_DF(collection_name = "drug_collection", url = mongoUrl);names(drug) <- drug_colname
-drug <- drug %>% select(-WMB_NO, -New1:-New6)
+drug <- drug %>% 
+  select(-WMB_NO, -New1:-New6) %>% 
+  mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, "_PDF"), 
+                               str_remove(`Data sheet`, pattern = "_PDF"), `Data sheet`)) %>% 
+  mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
+                               paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
+                               paste0("<a href='", fileUrl, "PDF/drug/",
+                                      str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
+                                      ".pdf'>", "PDF</a>")))
+                               # paste0('<a href="#" onclick="window.open("', fileUrl, "PDF/drug/",
+                               #        str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"), ".pdf'" , "'_blank'",
+                               #        "'fullscreen=yes');", ' return false;"', "PDF</a")))
 
 ## protein colname and DF
 protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "Lot no", "남은량", "위치", "Data sheet",
                      "New1","New2", "New3", "New4", "New5", "New6", "New7","New8", "New9", "New10")
 protein <- collection_to_DF(collection_name = "protein_collection", url = mongoUrl);names(protein) <- protein_colname
-protein <- protein %>% select(-WMB_NO, -New1:-New10)
+protein <- protein %>% 
+  select(-WMB_NO, -New1:-New10) %>% 
+  mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
+                               paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
+                               ifelse(`Data sheet` == "" | `Data sheet` == "-",
+                                      `Data sheet`,
+                                      paste0("<a href='", fileUrl, "PDF/protein/",
+                                             str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
+                                             ".pdf'>", "PDF</a>"))
+  ))
 
 ## si/shRNA colname and DF
 shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "Type", "농도", "Sequence", "제조사",
@@ -370,5 +582,4 @@ source("./server.R", local = TRUE)
 options(shiny.port = 8888)
 options(shiny.host = "192.168.0.7")
 shinyApp(ui, server)
-
 

@@ -89,30 +89,13 @@ server <- function(input, output, session) {
   output$celline_dt <- render_DT(celline)
   
   # DRUG DT
-  drug <- drug %>% 
-    mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, "_PDF"), 
-                                                str_remove(`Data sheet`, pattern = "_PDF"), `Data sheet`)) %>% 
-    mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
-                                        paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
-                                        paste0("<a href='", fileUrl, "PDF/drug/",
-                                               str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                               ".pdf'>", "PDF</a>")))
   output$drug_dt <- render_DT(drug)
   
   # PROTEIN DT
-  protein <- protein %>% 
-    mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
-                                 paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
-                                 ifelse(`Data sheet` == "" | `Data sheet` == "-",
-                                        `Data sheet`,
-                                        paste0("<a href='", fileUrl, "PDF/protein/",
-                                               str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                               ".pdf'>", "PDF</a>"))
-                                 ))
-  output$protein_dt <- render_DT(protein)
+  output$protein_dt <- render_DT_rowgroup(protein)
   
   # shRNA/siRNA DT
-  output$shsirna_dt <- render_DT(shsirna)
+  output$shsirna_dt <- render_DT_rowgroup(shsirna)
   
   # filter 기능 보류 --- 추후 삭제 
   # observeEvent(input$columns, {

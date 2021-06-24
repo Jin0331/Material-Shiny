@@ -136,7 +136,7 @@ set_labels(
 fileUrl <- "http://192.168.0.7:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 
-## SEARCH FUNCTION ----
+## SEARCH FUNCTION
 select_ui <<- function(inputid, choices){
   selectInput(inputId = inputid, 
             label = "", 
@@ -600,7 +600,7 @@ render_DT <- function(DF_NAME){
                                      scroller = TRUE,
                                      autoWidth = T,
                                      columnDefs = list(
-                                       list(width = '250px', targets = "_all")
+                                       list(className = "dt-center", width = '250px', targets = "_all")
                                        )
                                      )
                       )
@@ -621,7 +621,7 @@ render_DT_rowgroup <- function(DF_NAME){
                                      scroller = TRUE,
                                      autoWidth = T,
                                      columnDefs = list(
-                                       list(width = '250px', targets = "_all")
+                                       list(className = "dt-center",width = '250px', targets = "_all")
                                      )
                       )
   )
@@ -714,7 +714,7 @@ drug <- drug %>%
   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, "_PDF"), 
                                str_remove(`Data sheet`, pattern = "_PDF"), `Data sheet`)) %>% 
   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
-                               paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
+                               paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
                                paste0("<a href='", fileUrl, "PDF/drug/",
                                       str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
                                       ".pdf'>", "PDF</a>")))
@@ -729,12 +729,12 @@ protein <- collection_to_DF(collection_name = "protein_collection", url = mongoU
 protein <- protein %>% 
   select(-WMB_NO, -New1:-New10) %>% 
   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
-                               paste0("<a href='",`Data sheet`,"'>", "LINK</a>"), 
+                               paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
                                ifelse(`Data sheet` == "" | `Data sheet` == "-",
                                       `Data sheet`,
                                       paste0("<a href='", fileUrl, "PDF/protein/",
                                              str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                             ".pdf'>", "PDF</a>"))
+                                             ".pdf'>", "View</a>"))
   ))
 
 ## si/shRNA colname and DF

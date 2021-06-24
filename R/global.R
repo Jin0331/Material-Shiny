@@ -142,7 +142,8 @@ select_ui <<- function(inputid, choices){
             label = "", 
             choices = choices, 
             selectize = TRUE,
-            width = 970) %>% 
+            width = 970
+            ) %>% 
     return()
 }
 # sample id 제거 

@@ -160,6 +160,17 @@ ui <- dashboardPage(
                            div(DT::dataTableOutput("pdx_dt"), style = "font-size:105%")
                        )))
       ),
+      tabItem(tabName = "ff",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("FF", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "warning",
+                           solidHeader = TRUE,
+                           icon = icon("prescription-bottle"),
+                           div(DT::dataTableOutput("ff_dt"), style = "font-size:105%")
+                       )))
+      ),
       tabItem(tabName = "antibody",
               fluidRow(
                 column(width = 12, 

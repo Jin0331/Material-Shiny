@@ -52,6 +52,10 @@ server <- function(input, output, session) {
   blood_Dat <- child_function(list_df = blood, result_df = blood_result)
   output$blood_dt <- render_DT_child(DF_NAME = blood_Dat)
   
+  # FF DT
+  ff_Dat <- child_function_FF(list_df = ff, result_df = ff_result)
+  output$ff_dt <- render_DT_child(DF_NAME = ff_Dat)
+  
   # PDX DT
   pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)

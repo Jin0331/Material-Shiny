@@ -254,6 +254,45 @@ child_function <- function(list_df, result_df){
   
   return(return_list)
 }
+child_function_FF <- function(list_df, result_df){
+  NestedData <- function(dat, children){
+    # stopifnot(length(children) == nrow(dat))
+    g <- function(d){
+      if(is.data.frame(d)){
+        purrr::transpose(d)
+      }else{
+        purrr::transpose(NestedData(d[[1]], children = d$children))
+      }
+    }
+    
+    subdats <- lapply(children, g)
+    oplus <- ifelse(lengths(subdats), "&oplus;", "") 
+    cbind(" " = oplus, dat, "_details" = I(subdats), 
+          stringsAsFactors = FALSE)
+  }
+  sample_list <- list_df$`FF ID`
+  return_list <- list()
+  rowNames = FALSE
+  
+  children_list <- list()
+  for(sample in 1:length(sample_list)){
+    child_temp <- result_df %>% filter(`FF ID` == sample_list[sample])
+    if(nrow(child_temp) == 0){
+      children_list[[sample]] <- data.frame()
+    } else {
+      children_list[[sample]] <- child_temp %>% as.data.frame()
+    }
+  }
+  Dat <- NestedData(dat = list_df, children = unname(children_list))
+  colIdx <- as.integer(rowNames)
+  parentRows <- which(Dat[,1] != "")
+  
+  return_list[[1]] <- Dat
+  return_list[[2]] <- parentRows
+  return_list[[3]] <- colIdx
+  
+  return(return_list)
+}
 callback_function_1 <- function(parentRows, colIdx){
   callback <- JS(
     sprintf("var parentRows = [%s];", toString(parentRows-1)),
@@ -634,9 +673,9 @@ render_DT_rowgroup <- function(DF_NAME){
 blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
                         "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",
                         "Tumor Grade", "Tumor Stage", "기본정보(성별)", "기본정보(나이)", "기본정보(신장)",
-                        "기본정보(체중)", "Smoking정보(Status)", "Smoking정보(Cigarettes/Day)", "Smoking정보(Duration)",
-                        "Alcohol정보(Status)", "Alcohol정보(Drinks/Day)", "Alcohol정보(Duration)", "Prior Treatment",
-                        "Erbitux(Responder)", "Erbitux(Non-Responder)", "Treatment_history_Treatment_History1_Responder",
+                        "체중(기본정보)", "Status(Smoking정보)", "Cigarettes/Day(Smoking정보)", "Duration(Smoking정보)",
+                        "Status(Alcohol정보)", "Drinks/Day(Alcohol정보)", "Duration(Alcohol정보)", "Prior Treatment(Treatment History)",
+                        "Responder(Erbitux)", "Non-Responder(Erbitux)", "Treatment_history_Treatment_History1_Responder",
                         "Treatment_history_Treatment_History1_Non_Responder", "Single cell 분리날짜(날짜)", 
                         "Single cell 분리날짜(수행자)", "Cell population(정보)", "Cell population(수행자)",
                         "Cytokine profile(정보)", "Cytokine profile(수행자)","In vitro-coculture with(정보)", 
@@ -659,14 +698,42 @@ blood_result <- blood_result %>%
                                paste0("<a href='", fileUrl, "IMG/blood/", 
                                       str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
 
+# FF colname and DF
+## LIST
+ff_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "구입처(국내)", "구입처(해외)", "Ethnicity", "Tissue Site", "Matrix(Tissue type)",
+                    "인수자", "입고일자", "Tumor Grade", "Tumor Stage", "Tumor contents(%)", "Tumor size(Cm)", "Tumor Weight(g)", 
+                    "소분일자(조직소분)", "소분총개수(조직소분)", "보관위치", "성별(기본정보)", "나이(기본정보)", "신장(기본정보)", 
+                    "체중(기본정보)", "Status(Smoking정보)", "Cigarettes/Day(Smoking정보)", "Duration(Smoking정보)","Status(Alcohol정보)", 
+                    "Drinks/Day(Alcohol정보)", "Duration(Alcohol정보)", "Date of surgery(수술이력)", "Metastases(수술이력)", 
+                    "Prior Treatment(Treatment History)", "Drug Response(Treatment History)",
+                    "Histological Description(Diagnosis)", "TNM Staging", "Microsatellite instability(MSI)", "RON(RT-PCR유무)",
+                    "KRAS(RT-PCR유무)", "BRAF(RT-PCR유무)", "EGFR(RT-PCR유무)", "IGSF1(RT-PCR유무)", "RT_PCR1", "RT_PCR2", "RT_PCR3",
+                    "RT_PCR4", "RT_PCR5", "RT_PCR6", "WB_Experimental1","WB_Experimental2","WB_Experimental3", "WB_Experimental4",
+                    "WB_Experimental5", "WB_Experimental6", "New1", "New2","New3","New4","New5","New6","New7")
+
+ff <- collection_to_DF(collection_name = "ff_collection", url = mongoUrl);names(ff) <- ff_list_colname
+ff <- ff %>% select(-WMB_NO, -RT_PCR1:-RT_PCR6, -WB_Experimental1:-WB_Experimental6, -New1:-New7)
+
+## RESULT
+ff_result_colname <- c("WMB_NO", "Sample ID", "FF ID", "Tissue Site", "Tumor Grade","Tumor Stage", 
+                       "Prior Treatment(Treatment History)", "Drug Response(Treatment History)", "RON(RT-PCR결과)", 
+                       "KRAS(RT-PCR결과)","BRAF(RT-PCR결과)","EGFR(RT-PCR결과)", "IGSF1(RT-PCR결과)","RT-PCR1(RT-PCR결과)",
+                       "RT-PCR2(RT-PCR결과)","RT-PCR3(RT-PCR결과)","RT-PCR4(RT-PCR결과)","RT-PCR5(RT-PCR결과)",
+                       "RT-PCR6(RT-PCR결과)","RT-PCR7(RT-PCR결과)","RT-PCR8(RT-PCR결과)","RON(WM실험결과)", "BRAF(WM실험결과)",
+                       "EGFR(WM실험결과)", "RT-PCR1(WM실험결과)","RT-PCR2(WM실험결과)", "RT-PCR3(WM실험결과)",
+                       "RT-PCR4(WM실험결과)","RT-PCR5(WM실험결과)","RT-PCR6(WM실험결과)","RT-PCR7(WM실험결과)","RT-PCR8(WM실험결과)", 
+                       "RT-PCR9(WM실험결과)")
+ff_result <- collection_to_DF(collection_name = "ff_result_collection", url = mongoUrl);names(ff_result) <- ff_result_colname
+ff_result <- ff_result %>% select(-WMB_NO, -`RT-PCR1(RT-PCR결과)`:-`RT-PCR8(RT-PCR결과)`, -`RT-PCR1(WM실험결과)`:-`RT-PCR9(WM실험결과)`)
+
 
 # PDX colname and Df
 ## LIST
 pdx_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)", "Ethnicity", 
                       "Tissue", "Disease", "입고형태", "인수자", "입고일자", "보관위치", "Tumor Grade", "Tumor Stage",
-                      "기본정보(성별)", "기본정보(나이)", "기본정보(신장)", "기본정보(체중)", "Smoking정보(Status)", 
-                      "Smoking정보(Cigarettes/Day)", "Smoking정보(Duration)","Alcohol정보(Status)", "Alcohol정보(Drinks/Day)", 
-                      "Alcohol정보(Duration)", "Prior Treatment(Treatment History)", "Drug(Treatment History)", "Drug2",
+                      "성별(기본정보)", "나이(기본정보)", "신장(기본정보)", "체중(기본정보)", "Status(Smoking정보)", 
+                      "Cigarettes/Day(Smoking정보)", "Duration(Smoking정보)","Status(Alcohol정보)", "Drinks/Day(Alcohol정보)", 
+                      "Duration(Alcohol정보)", "Prior Treatment(Treatment History)", "Drug(Treatment History)", "Drug2",
                       "Histological Description(Diagnosis)", "mouse종류[주차/성별](실험동물)", "구입처(실험동물)",
                       "Chemoresistance status(Characterization)", "Mutation status(Characterization)", 
                       "RON Genotype(Characterization)", "IGSF1 Genotype(Characterization)", "P34 Genotype(Characterization)",

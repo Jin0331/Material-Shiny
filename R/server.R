@@ -82,15 +82,10 @@ server <- function(input, output, session) {
   #   # output$blood_list_dt <- reder_DT(blood_temp)
   # })
   # TOTAL SEARCH ----
-  output$blood_select <- renderUI({
-    selectInput(
-      width = 970,
-      inputId = "ind_groupe_select",
-      label = "",
-      choices = c("temp1","temp2"),
-      multiple = FALSE
-    )
-  })
+  output$blood_search_test <- renderPrint(input$blood_select)
+  output$antibody_search_test <- renderPrint(input$antibody_select)
+  output$celline_search_test <- renderPrint(input$celline_select)
+  output$drug_search_test <- renderPrint(input$drug_select)
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)
   updateTextInput(session, "username_field",

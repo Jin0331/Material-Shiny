@@ -136,7 +136,8 @@ set_labels(
 fileUrl <- "http://192.168.0.7:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 
-select_ui <- function(inputid, choices){
+## SEARCH FUNCTION ----
+select_ui <<- function(inputid, choices){
   selectInput(inputId = inputid, 
             label = "", 
             choices = choices, 
@@ -144,7 +145,23 @@ select_ui <- function(inputid, choices){
             width = 970) %>% 
     return()
 }
+# sample id 제거 
+search_keyword <- function(DF, N_vec = NULL){ 
+  if(is.null(N_vec)){
+    DF %>% transpose() %>% 
+      unlist() %>% unname() %>% c("", .) %>% unique() %>% 
+      sort() %>% 
+      return()  
+  } else {
+    DF %>% select_at(N_vec) %>% transpose() %>% 
+      unlist() %>% unname() %>% c("", .) %>% unique() %>% 
+      sort() %>% 
+      return()
+  }
+}
 
+
+## INFOBOX FUCNTION ----
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
              db = "material", 

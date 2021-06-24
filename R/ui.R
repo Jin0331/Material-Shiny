@@ -107,11 +107,11 @@ ui <- dashboardPage(
                                 verbatimTextOutput("drug_search_test")),
                        tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #996600"),
                                 select_ui(inputid = "protein_select", 
-                                          choices = search_keyword(protein)),
+                                          choices = search_keyword(protein, N_vec = c(1,2,3,4,5,7))),
                                 verbatimTextOutput("protein_search_test")),
                        tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #996600"),
                                 select_ui(inputid = "rna_select", 
-                                          choices = search_keyword(shsirna)),
+                                          choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))),
                                 verbatimTextOutput("rna_search_test"))
                 ),
                 # INFOBOX UI

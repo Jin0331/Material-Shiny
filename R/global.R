@@ -150,18 +150,18 @@ search_keyword <- function(DF, N_vec = NULL){
   if(is.null(N_vec)){
     DF %>% transpose() %>% 
       unlist() %>% unname() %>% c("", .) %>% unique() %>% 
-      sort() %>% 
+      sort(decreasing = T) %>% 
       return()  
   } else {
     DF %>% select_at(N_vec) %>% transpose() %>% 
       unlist() %>% unname() %>% c("", .) %>% unique() %>% 
-      sort() %>% 
+      sort(decreasing = T) %>% 
       return()
   }
 }
 
 
-## INFOBOX FUCNTION ----
+## INFOBOX FUCNTION
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
              db = "material", 
@@ -213,12 +213,11 @@ render_msg_divs <- function(collection) {
 }
 
 # DT TABLE FUNCTION ----
-### DT CallBack 
-## the callback
+## DT CallBack 
 rowNames <<- FALSE
 child_function <- function(list_df, result_df){
   NestedData <- function(dat, children){
-    stopifnot(length(children) == nrow(dat))
+    # stopifnot(length(children) == nrow(dat))
     g <- function(d){
       if(is.data.frame(d)){
         purrr::transpose(d)
@@ -226,6 +225,7 @@ child_function <- function(list_df, result_df){
         purrr::transpose(NestedData(d[[1]], children = d$children))
       }
     }
+    
     subdats <- lapply(children, g)
     oplus <- ifelse(lengths(subdats), "&oplus;", "") 
     cbind(" " = oplus, dat, "_details" = I(subdats), 
@@ -236,8 +236,8 @@ child_function <- function(list_df, result_df){
   rowNames = FALSE
   
   children_list <- list()
-  for(sample in sample_list){
-    child_temp <- pdx_result %>% filter(`Sample ID` == sample)
+  for(sample in 1:length(sample_list)){
+    child_temp <- result_df %>% filter(`Sample ID` == sample_list[sample])
     if(nrow(child_temp) == 0){
       children_list[[sample]] <- data.frame()
     } else {
@@ -398,8 +398,6 @@ callback_function_1 <- function(parentRows, colIdx){
     "});")
   return(callback)
 }
-
-## the callback_2
 registerInputHandler("x.child", function(x, ...) {
   jsonlite::fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE, null = "null"), simplifyDataFrame = FALSE)
 }, force = TRUE)
@@ -529,8 +527,6 @@ callback_function_2 <- function(){
     "});")
   return(callback)
 }
-
-## the callback_3
 callback_function_3 <- function(){
   callback = JS(  "table.column(1).nodes().to$().css({cursor: 'pointer'});",
                   "var format = function (d) {",
@@ -556,7 +552,7 @@ callback_function_3 <- function(){
   
   return(callback)
 }
-
+# DT RENDER
 render_DT_child <- function(DF_NAME){
   DT::renderDataTable(
     datatable(
@@ -609,7 +605,6 @@ render_DT <- function(DF_NAME){
                                      )
                       )
 }
-
 render_DT_rowgroup <- function(DF_NAME){
   DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "RowGroup", "FixedHeader", "Scroller"), 
                       escape = FALSE,
@@ -635,6 +630,7 @@ render_DT_rowgroup <- function(DF_NAME){
 
 # MAIN DATAFRAME ----
 # BLOOD colname and DF 
+## LIST
 blood_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처(국내)", "구입처(해외)",
                         "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치", "Cancer",
                         "Tumor Grade", "Tumor Stage", "기본정보(성별)", "기본정보(나이)", "기본정보(신장)",
@@ -651,6 +647,18 @@ blood <- collection_to_DF(collection_name = "blood_collection", url = mongoUrl);
 blood <- blood %>% select(-WMB_NO, -Treatment_history_Treatment_History1_Responder,
                           -Treatment_history_Treatment_History1_Non_Responder,
                           -New1:-New5)
+
+## RESULT
+blood_result_colname <- c("WMB_NO", "Sample ID", "검체번호", "실험방법(cell death_assay, Immune cell_analysis, cytokine_analysis, protein_analsys )",
+                          "이미지(실험관련)", "Material", "Method", "condition", "실험 내용", "Result", "수행자", "실험 날짜")
+blood_result <- collection_to_DF(collection_name = "blood_result_collection", url = mongoUrl);names(blood_result) <- blood_result_colname
+blood_result <- blood_result %>% 
+  select(-WMB_NO) %>% 
+  mutate(`이미지(실험관련)`  = ifelse(`이미지(실험관련)`  == "" | `이미지(실험관련)`  == "-", 
+                               `이미지(실험관련)` ,
+                               paste0("<a href='", fileUrl, "IMG/blood/", 
+                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
+
 
 # PDX colname and Df
 ## LIST
@@ -678,7 +686,7 @@ pdx_result <- pdx_result %>%
   mutate(`이미지(실험관련)`  = ifelse(`이미지(실험관련)`  == "" | `이미지(실험관련)`  == "-", 
                                `이미지(실험관련)` ,
                                paste0("<a href='", fileUrl, "IMG/pdx/", 
-                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".JPG'>", "View</a>")))
+                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
 
 
 ## antibody colname and DF

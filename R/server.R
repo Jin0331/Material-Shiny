@@ -47,12 +47,15 @@ server <- function(input, output, session) {
     value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime")
   
   # DT ----
-  # BLOOOD DT
-  output$blood_dt <- render_DT(blood)
+  
+  # BLOOD DT
+  blood_Dat <- child_function(list_df = blood, result_df = blood_result)
+  output$blood_dt <- render_DT_child(DF_NAME = blood_Dat)
   
   # PDX DT
   pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
+
   
   # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)
@@ -86,6 +89,8 @@ server <- function(input, output, session) {
   output$antibody_search_test <- renderPrint(input$antibody_select)
   output$celline_search_test <- renderPrint(input$celline_select)
   output$drug_search_test <- renderPrint(input$drug_select)
+  output$protein_search_test <- renderPrint(input$protein_select)
+  output$rna_search_test <- renderPrint(input$rna_select)
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)
   updateTextInput(session, "username_field",

@@ -86,3 +86,25 @@
 2021-06-17T15:27:14.742222000 174630.710232s notice: All client connections closed.
 2021-06-17T15:27:14.742229000 174630.710239s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
 2021-06-17T15:27:14.790033000 174630.758045s notice: Storage engine shut down.
+2021-06-24T12:48:47.316873000 0.035909s notice: Running rethinkdb 2.4.1 (CLANG 11.0.3 (clang-1103.0.32.62))...
+2021-06-24T12:48:47.339777000 0.058810s notice: Running on Darwin 20.5.0 x86_64
+2021-06-24T12:48:47.339826000 0.058857s notice: Loading data from directory /Users/wmbio/Desktop/gitworking/Material-Shiny/rethinkdb_data
+2021-06-24T12:48:47.405946000 0.124977s info: Automatically using cache size of 100 MB
+2021-06-24T12:48:47.405950000 0.124980s warn: Cache size does not leave much memory for server and query overhead (available memory: 361 MB).
+2021-06-24T12:48:47.405955000 0.124985s warn: Cache size is very low and may impact performance.
+2021-06-24T12:48:47.407522000 0.126553s notice: Listening for intracluster connections on port 29015
+2021-06-24T12:48:47.452670000 0.171700s notice: Listening for client driver connections on port 28015
+2021-06-24T12:48:47.452704000 0.171734s notice: Listening for administrative HTTP connections on port 8080
+2021-06-24T12:48:47.452705000 0.171735s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2021-06-24T12:48:47.452705001 0.171735s notice: Listening on driver addresses: 127.0.0.1, ::1
+2021-06-24T12:48:47.452713000 0.171743s notice: Listening on http addresses: 127.0.0.1, ::1
+2021-06-24T12:48:47.452713001 0.171743s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2021-06-24T12:48:47.452716000 0.171745s notice: Server ready, "macmini_local_ndo" b10cd298-c396-47ed-a37a-b8784b77a4f3
+2021-06-24T12:48:48.609431000 1.328440s info: Table 1f1e7e0a-72de-4981-b598-af3a85a45127: Starting a new Raft election for term 4.
+2021-06-24T12:48:48.647474000 1.366482s info: Table 1f1e7e0a-72de-4981-b598-af3a85a45127: This server is Raft leader for term 4. Latest log index is 10.
+2021-06-24T12:48:48.762744000 1.481751s info: Table 1b1a125b-a6a0-4bf0-8b34-ecb36bfde6e4: Starting a new Raft election for term 4.
+2021-06-24T12:48:48.792597000 1.511602s info: Table 0a997d62-3c3f-4f1c-ab71-424573994be2: Starting a new Raft election for term 4.
+2021-06-24T12:48:48.813845000 1.532850s info: Table 1b1a125b-a6a0-4bf0-8b34-ecb36bfde6e4: This server is Raft leader for term 4. Latest log index is 11.
+2021-06-24T12:48:48.853936000 1.572940s info: Table 0a997d62-3c3f-4f1c-ab71-424573994be2: This server is Raft leader for term 4. Latest log index is 11.
+2021-06-24T12:48:48.992612000 1.711613s info: Table 2fbd0b9e-ebc4-476d-8f8c-c9b2d1fb297a: Starting a new Raft election for term 4.
+2021-06-24T12:48:49.104594000 1.823594s info: Table 2fbd0b9e-ebc4-476d-8f8c-c9b2d1fb297a: This server is Raft leader for term 4. Latest log index is 11.

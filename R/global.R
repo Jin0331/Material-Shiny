@@ -812,8 +812,6 @@ shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "T
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
 shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
 
-
-
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  
 source("./server.R", local = TRUE)  

@@ -135,6 +135,16 @@ set_labels(
 # RELATED FUNCTION --------------------------------------------------------
 fileUrl <- "http://192.168.0.7:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
+
+select_ui <- function(inputid, choices){
+  selectInput(inputId = inputid, 
+            label = "", 
+            choices = choices, 
+            selectize = TRUE,
+            width = 970) %>% 
+    return()
+}
+
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
              db = "material", 
@@ -143,7 +153,6 @@ collection_to_DF <- function(collection_name, url) {
              options = ssl_options())
   m$find() %>% as_tibble() %>% unnest(names_sep = "_") %>% return()
 }
-
 collection_cnt <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
              db = "material", 
@@ -710,6 +719,8 @@ shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "T
                      "여분7","여분8","여분9","여분10")
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
 shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
+
+
 
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  

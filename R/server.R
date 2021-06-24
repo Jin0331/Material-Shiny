@@ -82,10 +82,14 @@ server <- function(input, output, session) {
   #   # output$blood_list_dt <- reder_DT(blood_temp)
   # })
   # TOTAL SEARCH ----
-  observe({
-    table_k <- isolate(input$table_select) # don't allow re-evaluation as users type
-    keyword_k <- input$keyword
-    updateSelectizeInput(session,"keyword",choices=keyword_k,selected=keyword_k)
+  output$blood_select <- renderUI({
+    selectInput(
+      width = 970,
+      inputId = "ind_groupe_select",
+      label = "",
+      choices = c("temp1","temp2"),
+      multiple = FALSE
+    )
   })
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)

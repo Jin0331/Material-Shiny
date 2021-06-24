@@ -43,9 +43,10 @@ ui <- dashboardPage(
   dashboardBody(
     useShinyjs(),
     customTheme,
-    tags$head(
-      tags$link(rel = "shortcut icon", href = "http://www.wmbio.co/images/main/main_second_logo.png")
-      ),
+    tags$head( # favicon
+      tags$link(rel = "shortcut icon", 
+                href = "http://www.wmbio.co/images/main/main_second_logo.png")
+    ), # chatbox
     tags$style(HTML("
                     #chatbox {
                       padding: .5em;
@@ -72,26 +73,28 @@ ui <- dashboardPage(
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 3.5em;line-height: 1.0em; 
                      color: #996600;font-family: helvetica;"> WMBIO Biobank </span></center>'),
-                HTML("<br>"),
+                HTML("<br><br>"),
                 ## TOTAL SEARCH UI
-                box(width = 12,
-                    title = tags$p("", style = "font-size: 130%; font-weight: bold;"),
-                    # icon = icon("search"),
-                    fluidRow(
-                      column(width = 12, 
-                             tabsetPanel(
-                               tabPanel(title = tags$p("Blood", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("FF", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("FFPE", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("PDX", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("Antibody", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("Cell Line", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("Commercial Drug", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #996600")),
-                               tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #996600"))
-                             )
-                        ),
-                    )
+                tabBox(width = 12,
+                       height = 300,
+                       tabPanel(title = tags$p("Blood", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("FF", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("FFPE", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("PDX", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("Antibody", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("Cell Line", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("Commercial Drug", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = "")),
+                       tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #996600"),
+                                select_ui(inputid = "blood_select", choices = ""))
                 ),
                 # INFOBOX UI
                 box(title = tags$p("Material", style = "font-size: 120%; font-weight: bold; color: white"),

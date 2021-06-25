@@ -45,15 +45,28 @@ ui <- dashboardPage(
     customTheme,
     tags$head( # favicon
       tags$link(rel = "shortcut icon", 
-                href = "http://www.wmbio.co/images/main/main_second_logo.png")
-    ), # chatbox
-    tags$style(HTML("
+                href = "http://www.wmbio.co/images/main/main_second_logo.png"),
+      tags$style(HTML("
                     #chatbox {
                       padding: .5em;
                       border: 1px solid #777;
                       height: 300px;
                       overflow-y: scroll;
-                    }")),
+                    }
+                    .selectize-input { 
+                      font-weight: bold; 
+                      font-size: 25px; 
+                      line-height: 100px;
+                      width: 700px;
+                      height: 25%;
+                    }
+                    .selectize-dropdown { 
+                      font-size: 20px; 
+                      line-height: 30px;
+                    }
+                    "
+      ))
+    ), # chatbox
     tags$script(HTML("
         var openTab = function(tabName){
           $('a', $('.sidebar')).each(function() {
@@ -67,55 +80,41 @@ ui <- dashboardPage(
     tabItems(
       # HOME PAGE ---------------------------------------------------------------
       tabItem(tabName = "home", 
-              fluidRow( 
-                # HTML("<br>"),
+              fluidRow(
+                align = "center", 
+                width = 12,
+                HTML("<br><br>"),
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 3.5em;line-height: 1.0em; 
                      color: #996600;font-family: helvetica;"> WMBIO Biobank </span></center>'),
-                HTML("<br><br>"),
-                ## TOTAL SEARCH UI
-                tabBox(width = 12,
-                       height = 300,
-                       tabPanel(title = tags$p("Blood", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                               select_ui(inputid = "blood_select", 
-                                         choices = search_keyword(DF = blood, N_vec = c(3,4,6,7))),
-                                verbatimTextOutput("blood_search_test")),
-                       tabPanel(title = tags$p("FF", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "ff_select", 
-                                          choices = search_keyword(DF = blood, N_vec = c(3,4,6,7))),
-                                verbatimTextOutput("ff_search_test")),
-                       tabPanel(title = tags$p("FFPE", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "ffpe_select", 
-                                          choices = search_keyword(DF = blood, N_vec = c(3,4,6,7))),
-                                verbatimTextOutput("ffpe_search_test")),
-                       tabPanel(title = tags$p("PDX", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "pdx_select",
-                                          choices = search_keyword(DF = pdx, N_vec = c(3,4,7,9,10,11))),
-                                verbatimTextOutput("pdx_search_test")),
-                       tabPanel(title = tags$p("Antibody", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "antibody_select", 
-                                          choices = search_keyword(antibody, N_vec = c(1,2,5,6,7,9,12,13))),
-                                verbatimTextOutput("antibody_search_test")),
-                       tabPanel(title = tags$p("Cell Line", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "celline_select", 
-                                          choices = search_keyword(celline, N_vec = c(1,2,3,4, 6,7,8,9,10,11,12,13,14))),
-                                verbatimTextOutput("celline_search_test")),
-                       tabPanel(title = tags$p("Commercial Drug", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "drug_select", 
-                                          choices = search_keyword(drug, N_vec = c(1,2,4,7,8))),
-                                verbatimTextOutput("drug_search_test")),
-                       tabPanel(title = tags$p("Protein", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "protein_select", 
-                                          choices = search_keyword(protein, N_vec = c(1,2,3,4,5,7))),
-                                verbatimTextOutput("protein_search_test")),
-                       tabPanel(title = tags$p("shRNA / siRNA", style = "font-weight: bold; font-size: 130%; color: #996600"),
-                                select_ui(inputid = "rna_select", 
-                                          choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))),
-                                verbatimTextOutput("rna_search_test"))
+                HTML("<br><br><br><br>")
                 ),
+              box(width = 12,
+              fluidRow(
+                align = "center",
+                ## TOTAL SEARCH UI
+                column(12, 
+                       offset = 0,
+                       style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
+                       pickerInput(inputId = "picker", label = "", choices = NULL, width = "200", inline = T)
+                       ),
+                column(12, 
+                       offset = 0, 
+                       style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
+                       searchInput(
+                         inputId = "search", label = "",
+                         placeholder = "",
+                         btnSearch = icon("search"),
+                         btnReset = icon("remove"),
+                         width = "900px"
+                         )
+                       )
+                ) # flouidRow end
+              ),
+              HTML("<br><br>"),
                 # INFOBOX UI
-                box(title = tags$p("Material", style = "font-size: 120%; font-weight: bold; color: white"),
+              box(title = tags$p("Material", style = "font-size: 120%; font-weight: bold; color: white"),
                     status = "warning",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),
@@ -125,16 +124,7 @@ ui <- dashboardPage(
                     infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
                     infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
                     infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
-                ),
-                # NOTICE UI
-                # box(
-                #   title = tags$p("✺Notice✺", style = "font-size: 130%; font-weight: bold;"),
-                #   status = "orange",
-                #   icon = icon("volume-down"),
-                #   solidHeader = TRUE,
-                #   width = 12), 
-               )
-              
+                )
       ),
       # TABLE PAGE ----
       # BLOOD UI

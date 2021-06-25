@@ -94,27 +94,106 @@ server <- function(input, output, session) {
   # TOTAL SEARCH ----
   observe({
     table_select <- input$table_picker
+    
+    switch(table_select,
+           `Blood` = {
+             choices <- search_keyword(DF = blood, N_vec = c(3,4,6,7))
+             updateSelectInput(
+               inputId = "search",
+               choices = choices
+             )
+           },
+           `FF` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))
+             )
+           },
+           `FFPE` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))
+             )
+           },
+           `PDX` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(DF = pdx, N_vec = c(3,4,6,7))
+             )
+           },
+           `Antibody` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(antibody, N_vec = c(1,2,5,6,7,9,12,13))
+             )
+           },
+           `Cell Line` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(celline, N_vec = c(1,2,3,4, 6,7,8,9,10,11,12,13,14))
+             )
+           },
+           `Commercial Drug` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(drug, N_vec = c(1,2,4,7,8))
+             )
+           },
+           `Protein` = {
+             updateSelectInput(
+               inputId = "search",
+               choices =search_keyword(protein, N_vec = c(1,2,3,4,5,7))
+             )
+           },
+           `siRNA/shRNA` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))
+             )
+           },
+    )
+  }) # oberve
+  observeEvent(input$ac_btn, {
+    table_select <- input$table_picker
 
     switch(table_select,
       `Blood` = {
-        choices <- search_keyword(DF = blood, N_vec = c(3,4,6,7))
-        updateSelectInput(
-          inputId = "search",
-          choices = choices
-          )
+        blood_search <- child_function(list_df = blood, result_df = blood_result)
+        output$search_dt <- render_DT_search(blood_search, child = T)
+        
         },
       `FF` = {
+        ff_search <- child_function(list_df = ff, result_df = ff_result)
+        output$search_dt <- render_DT_search(ff_search, child = T)
+      },
+      `FFPE` = {
         updateSelectInput(
           inputId = "search",
-          choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))  
+          choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))
         )
-        
-      }
-      
+      },
+      `PDX` = {
+        pdx_search <- child_function(list_df = pdx, result_df = pdx_result)
+        output$search_dt <- render_DT_search(pdx_search, child = T)
+      },
+      `Antibody` = {
+
+      },
+      `Cell Line` = {
+
+      },
+      `Commercial Drug` = {
+
+      },
+      `Protein` = {
+
+      },
+      `siRNA/shRNA` = {
+
+      },
     )
-  })
-  
-  
+  }) # oberveEvent
+
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)
   updateTextInput(session, "username_field",

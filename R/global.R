@@ -1,5 +1,7 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
+fileUrl <- "http://192.168.0.7:18080/"
+mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 # CUSTOM THEME ----
 ### creating custom theme object
 customTheme <- shinyDashboardThemeDIY(
@@ -132,11 +134,7 @@ customTheme <- shinyDashboardThemeDIY(
 set_labels(
   language = "en","Please authenticate" = "WMBIO MATERIAL PAGE")
 
-# RELATED FUNCTION --------------------------------------------------------
-fileUrl <- "http://192.168.0.7:18080/"
-mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
-
-## SEARCH FUNCTION
+# SEARCH FUNCTION ----
 select_ui <- function(inputid, choices){
   selectizeInput(inputId = inputid, 
             label = "", 
@@ -151,18 +149,18 @@ search_keyword <- function(DF, N_vec = NULL){
   if(is.null(N_vec)){
     DF %>% transpose() %>% 
       unlist() %>% unname() %>% c("", .) %>% unique() %>% 
-      sort(decreasing = T) %>% 
+      sort(decreasing = F) %>% 
       return()  
   } else {
     DF %>% select_at(N_vec) %>% transpose() %>% 
       unlist() %>% unname() %>% c("", .) %>% unique() %>% 
-      sort(decreasing = T) %>% 
+      sort(decreasing = F) %>% 
       return()
   }
 }
 
 
-## INFOBOX FUCNTION
+## INFOBOX FUCNTION ----
 collection_to_DF <- function(collection_name, url) {
   m <- mongo(collection = collection_name, 
              db = "material", 
@@ -187,7 +185,7 @@ value_func <<- function(N, tab_name,row_count, icon, color){
   })
 }
 
-# chat db & function 
+## chat db & function ----
 connection <- shiny.collections::connect()
 get_random_username <- function() {
   paste0("User", round(runif(1, 10000, 99999)))
@@ -666,8 +664,56 @@ render_DT_rowgroup <- function(DF_NAME){
                       )
   )
 }
+render_DT_search <- function(DF_NAME, child = F){
+  if(child == T) {
+    DT::renderDataTable(
+      datatable(
+        DF_NAME[[1]], 
+        # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]), 
+        callback = callback_function_2(),
+        # callback = callback_function_3(),
+        rownames = rowNames, escape = -DF_NAME[[3]]-1,
+        selection=list(mode="single", target="cell"),
+        options = list(
+          fixedColumns = TRUE,
+          paging = TRUE,
+          searching = TRUE,
+          iDisplayLength = 5, 
+          scrollX = TRUE,
+          scrollY = TRUE,
+          dom = "t",
+          autoWidth = TRUE,
+          columnDefs = list(
+            list(visible = FALSE, 
+                 targets = ncol(DF_NAME[[1]])-1+DF_NAME[[3]]),
+            list(
+              orderable = FALSE, 
+              className = "details-control", 
+              targets = DF_NAME[[3]]),
+            list(
+              className = "dt-center", 
+              width = '100px',
+              targets = "_all"
+            )))))
+    
+  } else {
+    DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c("KeyTable", "Scroller"), 
+                        escape = FALSE,
+                        selection=list(mode="single", target="cell"),
+                        options = list(iDisplayLength = 5, searchHighlight = TRUE,
+                                       keys = TRUE,
+                                       dom = "t",
+                                       scrollX = TRUE, 
+                                       deferRender = TRUE,
+                                       autoWidth = T,
+                                       columnDefs = list(
+                                         list(className = "dt-center", width = '150px', targets = "_all")
+                                       )
+                        )
+    )
+  }
 
-
+}
 # MAIN DATAFRAME ----
 # BLOOD colname and DF 
 ## LIST

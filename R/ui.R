@@ -2,7 +2,7 @@ ui <- dashboardPage(
   skin = "black-light",
   # skin = "midnight",
   scrollToTop = TRUE,
-  title = "WMBIO Biobank",
+  title = "WMB Biobank",
   
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
@@ -88,7 +88,7 @@ ui <- dashboardPage(
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="160"></center>'),
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
-                     color: #996600;font-family: helvetica;"> WMBIO Biobank </span></center>'),
+                     color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
                 HTML("<br><br><br><br>")
                 ),
               box(width = 12,
@@ -97,32 +97,33 @@ ui <- dashboardPage(
                   solidHeader = TRUE,
                   icon = icon("search"),
                   
-              fluidRow(
-                align = "center",
-                ## TOTAL SEARCH UI
-                column(12, 
-                       offset = 0,
-                       style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
-                       pickerInput(inputId = "table_picker", 
-                                   label = "", 
-                                   choices = c("Blood", "FF", "FFPE", "PDX", "Antibody", "Cell Line", 
-                                               "Commercial Drug", "Protein", "siRNA/shRNA"), 
-                                   width = "200", 
-                                   inline = T,
-                                   options = list( `live-search` = TRUE),
-                                   )
-                       ),
-                column(12, 
-                       offset = 0, 
-                       style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
-                       selectizeInput(
-                         inputId = "search", 
-                         choices = NULL,
-                         label = "",
+                fluidRow(
+                  align = "center",
+                  ## TOTAL SEARCH UI
+                  column(12, 
+                         offset = 0,
+                         style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
+                         pickerInput(inputId = "table_picker", 
+                                     label = "", 
+                                     choices = c("Blood", "FF", "FFPE", "PDX", "Antibody", "Cell Line", 
+                                                 "Commercial Drug", "Protein", "siRNA/shRNA"), 
+                                     width = "200", 
+                                     inline = T,
+                                     options = list( `live-search` = TRUE),
+                                     )
                          ),
-                       div(DT::dataTableOutput("search_dt"), style = "font-size:105%")
-                       )
-                ) # flouidRow end
+                  column(12, 
+                         offset = 0, 
+                         style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
+                         selectizeInput(
+                           inputId = "search", 
+                           choices = NULL,
+                           label = "",
+                           ),
+                         actionButton(inputId = "ac_btn", label = "search")
+                         ),
+                ), # flouidRow end,
+                div(DT::dataTableOutput("search_dt"), style = "font-size:100%")
               ),
               HTML("<br><br>"),
                 # INFOBOX UI

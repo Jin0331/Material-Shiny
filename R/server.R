@@ -92,9 +92,8 @@ server <- function(input, output, session) {
   #   # output$blood_list_dt <- reder_DT(blood_temp)
   # })
   # TOTAL SEARCH ----
-  observe({
+  observeEvent(input$table_picker, {
     table_select <- input$table_picker
-    
     switch(table_select,
            `Blood` = {
              choices <- search_keyword(DF = blood, N_vec = c(3,4,6,7))
@@ -150,50 +149,69 @@ server <- function(input, output, session) {
                inputId = "search",
                choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))
              )
-           },
+           }
     )
   }) # oberve
   observeEvent(input$ac_btn, {
     table_select <- input$table_picker
+    search_keyword <- input$search
 
     switch(table_select,
       `Blood` = {
-        blood_search <- child_function(list_df = blood, result_df = blood_result)
+        blood_search <- blood %>% 
+          filter_all(., any_vars(. == search_keyword)) %>% 
+          child_function(list_df = ., result_df = blood_result)
         output$search_dt <- render_DT_search(blood_search, child = T)
         
         },
       `FF` = {
-        ff_search <- child_function(list_df = ff, result_df = ff_result)
+        ff_search <- ff %>% 
+          filter_all(., any_vars(. == search_keyword)) %>% 
+          child_function(list_df = ., result_df = ff_result)
         output$search_dt <- render_DT_search(ff_search, child = T)
       },
-      `FFPE` = {
-        updateSelectInput(
-          inputId = "search",
-          choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))
-        )
+      `FFPE` = { ## 추가되면 수정
+        ffpe_search <- ff %>% 
+          filter_all(., any_vars(. == search_keyword)) %>% 
+          child_function(list_df = ., result_df = ff_result)
+        output$search_dt <- render_DT_search(ffpe_search, child = T)
       },
       `PDX` = {
-        pdx_search <- child_function(list_df = pdx, result_df = pdx_result)
+        pdx_search <- pdx %>% 
+          filter_all(., any_vars(. == search_keyword)) %>% 
+          child_function(list_df = ., result_df = pdx_result)
         output$search_dt <- render_DT_search(pdx_search, child = T)
       },
       `Antibody` = {
-
+        antibody_search <- antibody %>% 
+          filter_all(., any_vars(. == search_keyword)) 
+        output$search_dt <- render_DT_search(antibody_search)
       },
       `Cell Line` = {
-
+        celline_search <- celline %>% 
+          filter_all(., any_vars(. == search_keyword)) 
+        output$search_dt <- render_DT_search(celline_search)
       },
       `Commercial Drug` = {
-
+        drug_search <- drug %>% 
+          filter_all(., any_vars(. == search_keyword)) 
+        output$search_dt <- render_DT_search(drug_search)
       },
       `Protein` = {
-
+        protein_search <- protein %>% 
+          filter_all(., any_vars(. == search_keyword))  
+        output$search_dt <- render_DT_search(protein_search)
       },
       `siRNA/shRNA` = {
-
-      },
+        shsirna_search <- shsirna %>% 
+          filter_all(., any_vars(. == search_keyword))
+        output$search_dt <- render_DT_search(shsirna_search)
+      }
     )
   }) # oberveEvent
-
+  observeEvent(input$re_btn, {
+    output$search_dt <- NULL
+  })
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)
   updateTextInput(session, "username_field",

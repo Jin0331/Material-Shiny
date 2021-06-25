@@ -158,6 +158,60 @@ search_keyword <- function(DF, N_vec = NULL){
       return()
   }
 }
+render_DT_search <- function(DF_NAME, child = F){
+  if(child == T) {
+    DT::renderDataTable(
+      datatable(
+        DF_NAME[[1]], 
+        # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]), 
+        callback = callback_function_2(),
+        # callback = callback_function_3(),
+        rownames = rowNames, escape = -DF_NAME[[3]]-1,
+        selection=list(mode="single", target="cell"),
+        options = list(
+          fixedColumns = TRUE,
+          paging = TRUE,
+          searching = TRUE,
+          iDisplayLength = 5, 
+          scrollX = TRUE,
+          scrollY = TRUE,
+          dom = "tp",
+          autoWidth = TRUE,
+          paging = TRUE,
+          columnDefs = list(
+            list(visible = FALSE, 
+                 targets = ncol(DF_NAME[[1]])-1+DF_NAME[[3]]),
+            list(
+              orderable = FALSE, 
+              className = "details-control", 
+              targets = DF_NAME[[3]]),
+            list(
+              className = "dt-center", 
+              width = '100px',
+              targets = "_all"
+            )))))
+    
+  } else {
+    DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c("KeyTable", "Scroller"), 
+                        escape = FALSE,
+                        selection=list(mode="single", target="cell"),
+                        options = 
+                          list(iDisplayLength = 5, 
+                               searchHighlight = TRUE,
+                               keys = TRUE,
+                               dom = "tp",
+                               scrollX = TRUE, 
+                               deferRender = TRUE,
+                               autoWidth = T,
+                               paging = TRUE,
+                               columnDefs = list(
+                                 list(className = "dt-center", width = '150px', targets = "_all")
+                                 )
+                        )
+    )
+  }
+  
+}
 
 
 ## INFOBOX FUCNTION ----
@@ -663,56 +717,6 @@ render_DT_rowgroup <- function(DF_NAME){
                                      )
                       )
   )
-}
-render_DT_search <- function(DF_NAME, child = F){
-  if(child == T) {
-    DT::renderDataTable(
-      datatable(
-        DF_NAME[[1]], 
-        # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]), 
-        callback = callback_function_2(),
-        # callback = callback_function_3(),
-        rownames = rowNames, escape = -DF_NAME[[3]]-1,
-        selection=list(mode="single", target="cell"),
-        options = list(
-          fixedColumns = TRUE,
-          paging = TRUE,
-          searching = TRUE,
-          iDisplayLength = 5, 
-          scrollX = TRUE,
-          scrollY = TRUE,
-          dom = "t",
-          autoWidth = TRUE,
-          columnDefs = list(
-            list(visible = FALSE, 
-                 targets = ncol(DF_NAME[[1]])-1+DF_NAME[[3]]),
-            list(
-              orderable = FALSE, 
-              className = "details-control", 
-              targets = DF_NAME[[3]]),
-            list(
-              className = "dt-center", 
-              width = '100px',
-              targets = "_all"
-            )))))
-    
-  } else {
-    DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c("KeyTable", "Scroller"), 
-                        escape = FALSE,
-                        selection=list(mode="single", target="cell"),
-                        options = list(iDisplayLength = 5, searchHighlight = TRUE,
-                                       keys = TRUE,
-                                       dom = "t",
-                                       scrollX = TRUE, 
-                                       deferRender = TRUE,
-                                       autoWidth = T,
-                                       columnDefs = list(
-                                         list(className = "dt-center", width = '150px', targets = "_all")
-                                       )
-                        )
-    )
-  }
-
 }
 # MAIN DATAFRAME ----
 # BLOOD colname and DF 

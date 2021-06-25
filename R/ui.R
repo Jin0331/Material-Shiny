@@ -120,10 +120,12 @@ ui <- dashboardPage(
                            choices = NULL,
                            label = "",
                            ),
-                         actionButton(inputId = "ac_btn", label = "search")
+                         actionButton(inputId = "ac_btn", label = "search"),
+                         actionButton(inputId = "re_btn", label = "reset")
                          ),
                 ), # flouidRow end,
-                div(DT::dataTableOutput("search_dt"), style = "font-size:100%")
+                div(shinycssloaders::withSpinner(DT::dataTableOutput("search_dt")), style = "font-size:100%")
+                  
               ),
               HTML("<br><br>"),
                 # INFOBOX UI
@@ -255,8 +257,7 @@ ui <- dashboardPage(
 )
 
 # LOGIN UI ----
-# ui <- secure_app(ui, theme = shinythemes::shinytheme("sandstone"),
-#                  tags_top = tags$img(
-#                    src = "http://www.wmbio.co/images/common/logo.png", width = 240
-#                  ),
-#                  enable_admin = TRUE)
+ui <- secure_app(ui, theme = shinythemes::shinytheme("sandstone"),
+                 tags_top = tags$img(
+                   src = "http://www.wmbio.co/images/common/logo.png", width = 240
+                 ), enable_admin = TRUE)

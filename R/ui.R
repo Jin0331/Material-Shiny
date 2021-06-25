@@ -92,6 +92,8 @@ ui <- dashboardPage(
                 HTML("<br><br><br><br>")
                 ),
               box(width = 12,
+                  collapsed = TRUE,
+                  collapsible = TRUE,
                   title = tags$p("Search", style = "font-size: 150%; font-weight: bold; color: white"),
                   status = "warning",
                   solidHeader = TRUE,
@@ -257,7 +259,7 @@ ui <- dashboardPage(
 )
 
 # LOGIN UI ----
-ui <- secure_app(ui, theme = shinythemes::shinytheme("sandstone"),
-                 tags_top = tags$img(
-                   src = "http://www.wmbio.co/images/common/logo.png", width = 240
-                 ), enable_admin = TRUE)
+# ui <- secure_app(ui, theme = shinythemes::shinytheme("journal"),
+#                  tags_top = tags$img(
+#                    src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
+#                  ), enable_admin = TRUE)

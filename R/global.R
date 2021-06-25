@@ -132,7 +132,7 @@ customTheme <- shinyDashboardThemeDIY(
 )
 # SHINYMANAGER ----
 set_labels(
-  language = "en","Please authenticate" = "WMBIO MATERIAL PAGE")
+  language = "en","Please authenticate" = "")
 
 # SEARCH FUNCTION ----
 select_ui <- function(inputid, choices){

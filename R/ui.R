@@ -91,6 +91,19 @@ ui <- dashboardPage(
                      color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
                 HTML("<br><br><br><br>")
                 ),
+              # INFOBOX UI
+              box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
+                  status = "warning",
+                  solidHeader = TRUE, 
+                  icon = icon("window-restore"),
+                  width = 12,
+                  collapsible = TRUE,
+                  collapsed = FALSE,
+                  # VALUEBOX 
+                  infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
+                  infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
+                  infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
+              ),
               box(width = 12,
                   collapsed = TRUE,
                   collapsible = TRUE,
@@ -129,20 +142,9 @@ ui <- dashboardPage(
                 div(shinycssloaders::withSpinner(DT::dataTableOutput("search_dt")), style = "font-size:100%")
                   
               ),
-              HTML("<br><br>"),
-                # INFOBOX UI
-              box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
-                    status = "warning",
-                    solidHeader = TRUE, 
-                    icon = icon("window-restore"),
-                    width = 12,
-                    collapsible = TRUE,
-                    collapsed = TRUE,
-                    # VALUEBOX 
-                    infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
-                    infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
-                    infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
-                )
+              HTML("<br><br>")
+
+        
       ),
       # TABLE PAGE ----
       # BLOOD UI

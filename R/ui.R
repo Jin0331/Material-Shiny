@@ -84,12 +84,12 @@ ui <- dashboardPage(
               fluidRow(
                 align = "center", 
                 width = 12,
-                HTML("<br><br>"),
+                # HTML("<br>"),
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="160"></center>'),
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
                      color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
-                HTML("<br><br><br><br>")
+                HTML("<br><br><br>")
                 ),
               # INFOBOX UI
               box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),

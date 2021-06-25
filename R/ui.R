@@ -137,6 +137,7 @@ ui <- dashboardPage(
                     icon = icon("window-restore"),
                     width = 12,
                     collapsible = TRUE,
+                    collapsed = TRUE,
                     # VALUEBOX 
                     infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
                     infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),

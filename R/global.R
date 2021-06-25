@@ -756,7 +756,6 @@ pdx_result <- pdx_result %>%
                                paste0("<a href='", fileUrl, "IMG/pdx/", 
                                       str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
 
-
 ## antibody colname and DF
 antibody_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
                       "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",

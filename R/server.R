@@ -48,18 +48,21 @@ server <- function(input, output, session) {
   
   # DT ----
   
-  # BLOOD DT
+  # parent / child
   blood_Dat <- child_function(list_df = blood, result_df = blood_result)
+  ff_Dat <- child_function_FF(list_df = ff, result_df = ff_result)
+  pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
+  
+  # BLOOD DT
   output$blood_dt <- render_DT_child(DF_NAME = blood_Dat)
   
   # FF DT
-  ff_Dat <- child_function_FF(list_df = ff, result_df = ff_result)
   output$ff_dt <- render_DT_child(DF_NAME = ff_Dat)
   
   # PDX DT
-  pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
 
+    
   
   # ANTIBODY DT
   output$antibody_dt <- render_DT(antibody)
@@ -89,12 +92,29 @@ server <- function(input, output, session) {
   #   # output$blood_list_dt <- reder_DT(blood_temp)
   # })
   # TOTAL SEARCH ----
-  output$blood_search_test <- renderPrint(input$blood_select)
-  output$antibody_search_test <- renderPrint(input$antibody_select)
-  output$celline_search_test <- renderPrint(input$celline_select)
-  output$drug_search_test <- renderPrint(input$drug_select)
-  output$protein_search_test <- renderPrint(input$protein_select)
-  output$rna_search_test <- renderPrint(input$rna_select)
+  observe({
+    table_select <- input$table_picker
+
+    switch(table_select,
+      `Blood` = {
+        choices <- search_keyword(DF = blood, N_vec = c(3,4,6,7))
+        updateSelectInput(
+          inputId = "search",
+          choices = choices
+          )
+        },
+      `FF` = {
+        updateSelectInput(
+          inputId = "search",
+          choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))  
+        )
+        
+      }
+      
+    )
+  })
+  
+  
   # LiveCHAT ----
   chat <- shiny.collections::collection("chat", connection)
   updateTextInput(session, "username_field",

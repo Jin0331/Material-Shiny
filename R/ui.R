@@ -47,22 +47,23 @@ ui <- dashboardPage(
       tags$link(rel = "shortcut icon", 
                 href = "http://www.wmbio.co/images/main/main_second_logo.png"),
       tags$style(HTML("
+                    .selectize-input { 
+                      height: 100px;
+                      width: 800px;
+                      font-size: 15pt;
+                      font-weight: bold;
+                      
+                    }
+                    .selectize-dropdown { 
+                      font-size: 20px; 
+                      height: 1100px;
+                      line-height: 20px;
+                    }
                     #chatbox {
                       padding: .5em;
                       border: 1px solid #777;
                       height: 300px;
                       overflow-y: scroll;
-                    }
-                    .selectize-input { 
-                      font-weight: bold; 
-                      font-size: 25px; 
-                      line-height: 100px;
-                      width: 700px;
-                      height: 25%;
-                    }
-                    .selectize-dropdown { 
-                      font-size: 20px; 
-                      line-height: 30px;
                     }
                     "
       ))
@@ -84,37 +85,48 @@ ui <- dashboardPage(
                 align = "center", 
                 width = 12,
                 HTML("<br><br>"),
-                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
+                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="160"></center>'),
                 HTML("<br>"),
-                HTML('<center><span style= "font-weight: bold; font-size: 3.5em;line-height: 1.0em; 
+                HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
                      color: #996600;font-family: helvetica;"> WMBIO Biobank </span></center>'),
                 HTML("<br><br><br><br>")
                 ),
               box(width = 12,
+                  title = tags$p("Search", style = "font-size: 150%; font-weight: bold; color: white"),
+                  status = "warning",
+                  solidHeader = TRUE,
+                  icon = icon("search"),
+                  
               fluidRow(
                 align = "center",
                 ## TOTAL SEARCH UI
                 column(12, 
                        offset = 0,
                        style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
-                       pickerInput(inputId = "picker", label = "", choices = NULL, width = "200", inline = T)
+                       pickerInput(inputId = "table_picker", 
+                                   label = "", 
+                                   choices = c("Blood", "FF", "FFPE", "PDX", "Antibody", "Cell Line", 
+                                               "Commercial Drug", "Protein", "siRNA/shRNA"), 
+                                   width = "200", 
+                                   inline = T,
+                                   options = list( `live-search` = TRUE),
+                                   )
                        ),
                 column(12, 
                        offset = 0, 
                        style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
-                       searchInput(
-                         inputId = "search", label = "",
-                         placeholder = "",
-                         btnSearch = icon("search"),
-                         btnReset = icon("remove"),
-                         width = "900px"
-                         )
+                       selectizeInput(
+                         inputId = "search", 
+                         choices = NULL,
+                         label = "",
+                         ),
+                       div(DT::dataTableOutput("search_dt"), style = "font-size:105%")
                        )
                 ) # flouidRow end
               ),
               HTML("<br><br>"),
                 # INFOBOX UI
-              box(title = tags$p("Material", style = "font-size: 120%; font-weight: bold; color: white"),
+              box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
                     status = "warning",
                     solidHeader = TRUE, 
                     icon = icon("window-restore"),

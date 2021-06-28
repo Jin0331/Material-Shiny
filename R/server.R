@@ -169,15 +169,15 @@ server <- function(input, output, session) {
         
         },
       `FF` = {
-        ff_search <- ffpe %>% 
-          filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function(list_df = ., result_df = ffpe_result)
-        output$search_dt <- render_DT_search(ffpe_search, child = T)
-      },
-      `FFPE` = { ## 추가되면 수정
-        ffpe_search <- ff %>% 
+        ff_search <- ff %>% 
           filter_all(., any_vars(. == search_keyword)) %>% 
           child_function(list_df = ., result_df = ff_result)
+        output$search_dt <- render_DT_search(ff_search, child = T)
+      },
+      `FFPE` = { 
+        ffpe_search <- ffpe %>% 
+          filter_all(., any_vars(. == search_keyword)) %>% 
+          child_function(list_df = ., result_df = ffpe_result)
         output$search_dt <- render_DT_search(ffpe_search, child = T)
       },
       `PDX` = {

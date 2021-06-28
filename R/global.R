@@ -2,6 +2,7 @@
 source('dependencies.R')
 fileUrl <- "http://192.168.0.7:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
+sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/user_db.sqlite"
 # CUSTOM THEME ----
 ### creating custom theme object
 customTheme <- shinyDashboardThemeDIY(

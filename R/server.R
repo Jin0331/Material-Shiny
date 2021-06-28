@@ -3,7 +3,7 @@ server <- function(input, output, session) {
   # check_credentials directly on sqlite db
   res_auth <- secure_server(
     check_credentials = check_credentials(
-      "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/user_db.sqlite",
+      sqlite_path,
       #passphrase = key_get("R-shinymanager-key", "sempre813!")
       passphrase = "passphrase_wihtout_keyring"
     )

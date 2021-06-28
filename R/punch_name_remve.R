@@ -14,4 +14,4 @@ file_rename <- function(path){
 }
 
 
-file_rename(path = "~/Desktop/gitworking/Material-Shiny/www/IMG/blood/")
+file_rename(path = "~/Desktop/gitworking/Material-Shiny/www/IMG/ffpe//")

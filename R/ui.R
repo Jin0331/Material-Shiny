@@ -181,6 +181,17 @@ ui <- dashboardPage(
                            div(DT::dataTableOutput("ff_dt"), style = "font-size:105%")
                        )))
       ),
+      tabItem(tabName = "ffpe",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("FFPE", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "warning",
+                           solidHeader = TRUE,
+                           icon = icon("flask"),
+                           div(DT::dataTableOutput("ffpe_dt"), style = "font-size:105%")
+                       )))
+      ),
       tabItem(tabName = "antibody",
               fluidRow(
                 column(width = 12, 

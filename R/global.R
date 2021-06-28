@@ -254,16 +254,6 @@ render_msg_divs <- function(collection) {
         )) %>% {.$.out}
   )
 }
-render_msg_divs <- function(collection) {
-  div(class = "ui very relaxed list",
-      collection %>%
-        arrange(time) %>%
-        by_row(~ div(class = "item",
-                     a(class = "header", .$user),
-                     div(class = "description", .$text)
-        )) %>% {.$.out}
-  )
-}
 
 # DT TABLE FUNCTION ----
 ## DT CallBack 
@@ -777,6 +767,26 @@ ff_result_colname <- c("WMB_NO", "Sample ID", "FF ID", "Tissue Site", "Tumor Gra
 ff_result <- collection_to_DF(collection_name = "ff_result_collection", url = mongoUrl);names(ff_result) <- ff_result_colname
 ff_result <- ff_result %>% select(-WMB_NO, -`RT-PCR1(RT-PCR결과)`:-`RT-PCR8(RT-PCR결과)`, -`RT-PCR1(WM실험결과)`:-`RT-PCR9(WM실험결과)`)
 
+## FFPE colname and DF
+## LIST
+ffpe_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "구입처(국내)", "구입처(해외)", "Ethnicity", "암종", "입고형태", "인수자", "입고일자", "보관위치",
+                       "Cancer", "Tumor Grade", "Tumor Stage", "성별(기본정보)", "나이(기본정보)", "신장(기본정보)", 
+                       "체중(기본정보)", "Status(Smoking정보)", "Cigarettes/Day(Smoking정보)", "Duration(Smoking정보)","Status(Alcohol정보)", 
+                       "Drinks/Day(Alcohol정보)", "Duration(Alcohol정보)","p53(IHC결과)", "p34(IHC결과)","MDM2(IHC결과)", "pRON(IHC결과)", 
+                       "RON(IHC결과)", "MSP(IHC결과)","c-myc(IHC결과)", "PD-L1(IHC결과)", "IGSF1(IHC결과)", "New1","New2","New3","New4","New5","New6",
+                       "New7", "New8","New9","New10","New11","New12","New13","New14","New15", "New16", "New17","New18","New19","New20","New21")
+ffpe <- collection_to_DF(collection_name = "ffpe_collection", url = mongoUrl);names(ffpe) <- ffpe_list_colname
+ffpe <- ffpe %>% select(-WMB_NO, -New1:-New21)
+
+## RESULT
+ffpe_result_colname <- c("WMB_NO", "Sample ID", "FF ID", "Tissue site", "Cancer","Tumor Grade", "Tumor Stage", "이미지(실험관련)", "Target(실험관련)",
+                         "Antibody 농도(실험관련)", "Score(실험관련)", "실험 내용(실험관련)", "실험 결과(실험관련)", "수행자(실험관련")
+ffpe_result <- collection_to_DF(collection_name = "ffpe_result_collection", url = mongoUrl);names(ffpe_result) <- ffpe_result_colname
+ffpe_result <- ffpe_result %>% select(-WMB_NO) %>% 
+  mutate(`이미지(실험관련)`  = ifelse(`이미지(실험관련)`  == "" | `이미지(실험관련)`  == "-", 
+                               `이미지(실험관련)` ,
+                               paste0("<a href='", fileUrl, "IMG/ffpe/", 
+                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
 
 # PDX colname and Df
 ## LIST

@@ -25,7 +25,7 @@ server <- function(input, output, session) {
     value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
   
   # # 이부분 수정해야됨, FFPE ---
-  output$valuebox3 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+  output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
     value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
   
   output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>% 
@@ -51,6 +51,7 @@ server <- function(input, output, session) {
   # parent / child
   blood_Dat <- child_function(list_df = blood, result_df = blood_result)
   ff_Dat <- child_function_FF(list_df = ff, result_df = ff_result)
+  ffpe_Dat <- child_function_FF(list_df = ffpe, result_df = ffpe_result)
   pdx_Dat <- child_function(list_df = pdx, result_df = pdx_result)
   
   # BLOOD DT
@@ -58,6 +59,9 @@ server <- function(input, output, session) {
   
   # FF DT
   output$ff_dt <- render_DT_child(DF_NAME = ff_Dat)
+  
+  # FFPE DT
+  output$ffpe_dt <- render_DT_child(DF_NAME = ffpe_Dat)
   
   # PDX DT
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
@@ -111,7 +115,7 @@ server <- function(input, output, session) {
            `FFPE` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))
+               choices = search_keyword(DF = ffpe, N_vec = c(3,4,6,7))
              )
            },
            `PDX` = {
@@ -165,10 +169,10 @@ server <- function(input, output, session) {
         
         },
       `FF` = {
-        ff_search <- ff %>% 
+        ff_search <- ffpe %>% 
           filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function(list_df = ., result_df = ff_result)
-        output$search_dt <- render_DT_search(ff_search, child = T)
+          child_function(list_df = ., result_df = ffpe_result)
+        output$search_dt <- render_DT_search(ffpe_search, child = T)
       },
       `FFPE` = { ## 추가되면 수정
         ffpe_search <- ff %>% 

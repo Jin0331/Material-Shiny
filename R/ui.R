@@ -84,7 +84,7 @@ ui <- dashboardPage(
               fluidRow(
                 align = "center", 
                 width = 12,
-                # HTML("<br>"),
+                HTML("<br>"),
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="160"></center>'),
                 HTML("<br>"),
                 HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
@@ -140,8 +140,8 @@ ui <- dashboardPage(
                            choices = NULL,
                            label = "",
                            ),
-                         actionButton(inputId = "ac_btn", label = "search"),
-                         actionButton(inputId = "re_btn", label = "reset"),
+                         actionButton(inputId = "ac_btn", label = "", icon = icon("check")),
+                         actionButton(inputId = "re_btn", label = "", icon = icon("backspace")),
                          
                          ),
                 ), # flouidRow end,
@@ -149,7 +149,7 @@ ui <- dashboardPage(
                 #                                  type = "html", loader="loader10"), style = "font-size:100%")
                 # div(DT::dataTableOutput("search_dt"), style = "font-size:100%")
                 div(shinycustomloader::withLoader(DT::dataTableOutput("search_dt"),
-                                                 type = "image", loader="http://192.168.0.7:18080/KakaoTalk_Photo_2021-06-28-14-04-34.gif"), style = "font-size:100%")
+                                                 type = "image", loader="http://192.168.0.7:18080/loading.gif"), style = "font-size:100%")
                   
                 ),
               # INFOBOX UI

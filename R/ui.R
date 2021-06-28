@@ -122,11 +122,29 @@ ui <- dashboardPage(
                                      label = "", 
                                      choices = c("Blood", "FF", "FFPE", "PDX", "Antibody", "Cell Line", 
                                                  "Commercial Drug", "Protein", "siRNA/shRNA"), 
-                                     width = "200", 
-                                     inline = T,
-                                     options = list( `live-search` = TRUE),
-                                     )
-                         ),
+                                     width = "230", 
+                                     inline = FALSE,
+                                     options = list( `live-search` = TRUE,
+                                                     `actions-box` = TRUE,
+                                                     `selectedTextFormat` = TRUE
+                                                     ),
+                                     choicesOpt = list(
+                                       content = c("<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FF</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FFPE</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>PDX</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
+                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+                                                   )))    
+                                       # style = rep(("color: black;
+                                       #              text-align: center;
+                                       #              font-weight: bold;
+                                       #              font-size: 15px"),10)))
+                         
+                  ),
                   column(12, 
                          offset = 0, 
                          style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
@@ -136,15 +154,17 @@ ui <- dashboardPage(
                            label = "",
                            ),
                          actionButton(inputId = "ac_btn", label = "search"),
-                         actionButton(inputId = "re_btn", label = "reset")
+                         actionButton(inputId = "re_btn", label = "reset"),
+                         
                          ),
                 ), # flouidRow end,
-                div(shinycssloaders::withSpinner(DT::dataTableOutput("search_dt")), style = "font-size:100%")
+                # div(shinycustomloader::withLoader(DT::dataTableOutput("search_dt"),
+                #                                  type = "html", loader="loader10"), style = "font-size:100%")
+                # div(DT::dataTableOutput("search_dt"), style = "font-size:100%")
+                div(shinycustomloader::withLoader(DT::dataTableOutput("search_dt"),
+                                                 type = "image", loader="http://192.168.0.7:18080/KakaoTalk_Photo_2021-06-28-14-04-34.gif"), style = "font-size:100%")
                   
-              ),
-              HTML("<br><br>")
-
-        
+                ),
       ),
       # TABLE PAGE ----
       # BLOOD UI

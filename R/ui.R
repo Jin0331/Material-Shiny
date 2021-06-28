@@ -95,7 +95,7 @@ ui <- dashboardPage(
                   collapsed = TRUE,
                   collapsible = TRUE,
                   title = tags$p("Search", style = "font-size: 150%; font-weight: bold; color: white"),
-                  status = "warning",
+                  status = "info",
                   solidHeader = TRUE,
                   icon = icon("search"),
                   
@@ -154,7 +154,7 @@ ui <- dashboardPage(
                 ),
               # INFOBOX UI
               box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
-                  status = "warning",
+                  status = "info",
                   solidHeader = TRUE, 
                   icon = icon("window-restore"),
                   width = 12,

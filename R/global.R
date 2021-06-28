@@ -844,7 +844,7 @@ drug <- drug %>%
                                paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
                                paste0("<a href='", fileUrl, "PDF/drug/",
                                       str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                      ".pdf'>", "PDF</a>")))
+                                      ".pdf'>", "View</a>")))
                                # paste0('<a href="#" onclick="window.open("', fileUrl, "PDF/drug/",
                                #        str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"), ".pdf'" , "'_blank'",
                                #        "'fullscreen=yes');", ' return false;"', "PDF</a")))

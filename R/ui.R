@@ -91,19 +91,6 @@ ui <- dashboardPage(
                      color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
                 HTML("<br><br><br>")
                 ),
-              # INFOBOX UI
-              box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
-                  status = "warning",
-                  solidHeader = TRUE, 
-                  icon = icon("window-restore"),
-                  width = 12,
-                  collapsible = TRUE,
-                  collapsed = FALSE,
-                  # VALUEBOX 
-                  infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
-                  infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
-                  infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
-              ),
               box(width = 12,
                   collapsed = TRUE,
                   collapsible = TRUE,
@@ -165,6 +152,19 @@ ui <- dashboardPage(
                                                  type = "image", loader="http://192.168.0.7:18080/KakaoTalk_Photo_2021-06-28-14-04-34.gif"), style = "font-size:100%")
                   
                 ),
+              # INFOBOX UI
+              box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
+                  status = "warning",
+                  solidHeader = TRUE, 
+                  icon = icon("window-restore"),
+                  width = 12,
+                  collapsible = TRUE,
+                  collapsed = FALSE,
+                  # VALUEBOX 
+                  infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
+                  infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
+                  infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
+              ),
       ),
       # TABLE PAGE ----
       # BLOOD UI
@@ -293,7 +293,7 @@ ui <- dashboardPage(
 )
 
 # LOGIN UI ----
-# ui <- secure_app(ui, theme = shinythemes::shinytheme("journal"),
-#                  tags_top = tags$img(
-#                    src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
-#                  ), enable_admin = TRUE)
+ui <- secure_app(ui, theme = shinythemes::shinytheme("journal"),
+                 tags_top = tags$img(
+                   src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
+                 ), enable_admin = TRUE)

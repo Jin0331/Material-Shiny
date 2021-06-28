@@ -1,8 +1,8 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
-fileUrl <- "http://192.168.0.7:18080/"
-mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
-sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/user_db.sqlite"
+fileUrl <- "http://210.115.229.80:18080/"
+mongoUrl <- "mongodb://root:sempre813!@210.115.229.80:27017/admin"
+sqlite_path <- "/Users/jinoo/Desktop/gitworking/Material-Shiny/data/user_db.sqlite"
 # CUSTOM THEME ----
 ### creating custom theme object
 customTheme <- shinyDashboardThemeDIY(
@@ -815,7 +815,7 @@ pdx_result <- pdx_result %>%
   mutate(`이미지(실험관련)`  = ifelse(`이미지(실험관련)`  == "" | `이미지(실험관련)`  == "-", 
                                `이미지(실험관련)` ,
                                paste0("<a href='", fileUrl, "IMG/pdx/", 
-                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
+                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".JPG'>", "View</a>")))
 
 ## antibody colname and DF
 antibody_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
@@ -874,10 +874,10 @@ shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoU
 shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
 
 # Shiny run with global --------------------------------------------------
+# options(shiny.port = 8888)
+# options(shiny.host = "192.168.0.7")
 source("./ui.R", local = TRUE)  
 source("./server.R", local = TRUE)  
 
-options(shiny.port = 8888)
-options(shiny.host = "192.168.0.7")
 shinyApp(ui, server)
 

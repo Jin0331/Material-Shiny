@@ -3,6 +3,9 @@ source('dependencies.R')
 fileUrl <- "http://192.168.0.7:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
 sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/user_db.sqlite"
+shiny_host <- "192.168.0.7"
+shiny_port <- 8888
+
 # CUSTOM THEME ----
 ### creating custom theme object
 customTheme <- shinyDashboardThemeDIY(
@@ -839,16 +842,13 @@ drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구
 drug <- collection_to_DF(collection_name = "drug_collection", url = mongoUrl);names(drug) <- drug_colname
 drug <- drug %>% 
   select(-WMB_NO, -New1:-New6) %>% 
-  mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, "_PDF"), 
-                               str_remove(`Data sheet`, pattern = "_PDF"), `Data sheet`)) %>% 
   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
                                paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
-                               paste0("<a href='", fileUrl, "PDF/drug/",
-                                      str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                      ".pdf'>", "View</a>")))
-                               # paste0('<a href="#" onclick="window.open("', fileUrl, "PDF/drug/",
-                               #        str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"), ".pdf'" , "'_blank'",
-                               #        "'fullscreen=yes');", ' return false;"', "PDF</a")))
+                               ifelse(str_detect(`Data sheet`, pattern = "_PDF"), 
+                                      paste0("<a href='", fileUrl, "PDF/drug/",
+                                             str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]|PDF"),".pdf'>", "View</a>"),
+                                      `Data sheet`)))
+                               
 
 ## protein colname and DF
 protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "Lot no", "남은량", "위치", "Data sheet",
@@ -877,7 +877,7 @@ shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
 source("./ui.R", local = TRUE)  
 source("./server.R", local = TRUE)  
 
-options(shiny.port = 8888)
-options(shiny.host = "192.168.0.7")
+options(shiny.port = shiny_port)
+options(shiny.host = shiny_host)
 shinyApp(ui, server)
 

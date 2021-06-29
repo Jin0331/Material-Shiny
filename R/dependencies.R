@@ -10,12 +10,13 @@ new.packages <- required_packages[!(required_packages %in% installed.packages()[
 
 if (length(new.packages)) {
   install.packages(new.packages)
+  devtools::install_github("Appsilon/shiny.collections")
 }
 
 rm(new.packages)
 
 library(checkpoint)
-checkpoint(snapshot_date ="2021-06-21", checkpoint_location = "/Users/jinoo/")
+checkpoint(snapshot_date ="2021-06-29", checkpoint_location = "/Users/wmbio/")
 
 
 # LIST OF REQUIRED PACKAGES -----------------------------------------------

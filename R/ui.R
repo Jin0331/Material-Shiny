@@ -294,7 +294,10 @@ ui <- dashboardPage(
 )
 
 # LOGIN UI ----
-ui <- secure_app(ui, theme = shinythemes::shinytheme("journal"),
+ui <- secure_app(ui, 
+                 theme = shinythemes::shinytheme("journal"),
                  tags_top = tags$img(
                    src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
-                 ), enable_admin = TRUE)
+                 ), 
+                 enable_admin = TRUE
+                 )

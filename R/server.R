@@ -6,7 +6,9 @@ server <- function(input, output, session) {
       sqlite_path,
       #passphrase = key_get("R-shinymanager-key", "sempre813!")
       passphrase = "passphrase_wihtout_keyring"
-    )
+    ),
+    timeout = 100
+    # keep_token = TRUE
   )
   
   # AUTO-REFRESH

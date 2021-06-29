@@ -149,7 +149,7 @@ ui <- dashboardPage(
                 #                                  type = "html", loader="loader10"), style = "font-size:100%")
                 # div(DT::dataTableOutput("search_dt"), style = "font-size:100%")
                 div(shinycustomloader::withLoader(DT::dataTableOutput("search_dt"),
-                                                 type = "image", loader="http://192.168.0.7:18080/loading.gif"), style = "font-size:100%")
+                                                 type = "image", loader="http://210.115.229.80:18080/loading.gif"), style = "font-size:100%")
                   
                 ),
               # INFOBOX UI
@@ -161,7 +161,8 @@ ui <- dashboardPage(
                   collapsible = TRUE,
                   collapsed = FALSE,
                   # VALUEBOX 
-                  infoBoxOutput("valuebox1"), infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
+                  withLoader(infoBoxOutput("valuebox1"), type = "html", loader = "dnaspin"),
+                  infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
                   infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
                   infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
               ),

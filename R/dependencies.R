@@ -15,7 +15,7 @@ if (length(new.packages)) {
 rm(new.packages)
 
 library(checkpoint)
-checkpoint(snapshot_date ="2021-06-21", checkpoint_location = "/Users/wmbio/")
+checkpoint(snapshot_date ="2021-06-21", checkpoint_location = "/Users/jinoo/")
 
 
 # LIST OF REQUIRED PACKAGES -----------------------------------------------
@@ -41,7 +41,9 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(shinycssloaders)
 library(shinycustomloader)
+library(shinythemes)
 library(dashboardthemes)
+devtools::install_github("Appsilon/shiny.collections")
 library(shiny.collections)
 library(survival)
 library(survminer)

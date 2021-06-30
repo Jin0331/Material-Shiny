@@ -24,19 +24,28 @@ ui <- dashboardPage(
   ),
   
   # SIDEBAR -----------------------------------------------------------------
-  dashboardSidebar(width = 230, collapsed = FALSE,
+  dashboardSidebar(
+    width = 230, 
+    collapsed = FALSE,
     sidebarMenu(id = "side", 
-      menuItem("Home", tabName = "home", icon = icon("home")),
-      menuItem("Blood", tabName = "blood", icon = icon("tint")),
-      menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
-      menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
-      menuItem("PDX", tabName = "pdx", icon = icon("prescription")),
-      menuItem("Antibody", tabName = "antibody", icon = icon("vial")),
-      menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
-      menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
-      menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-      menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-      menuItem("Help", tabName = "help", icon = icon("volume-down"))
+                menuItemOutput("side_menu")
+                # menuItemOutput("home"), menuItemOutput("blood"),
+                # menuItemOutput("ff"), menuItemOutput("ffpe"),
+                # menuItemOutput("pdx"), menuItemOutput("antibody"),
+                # menuItemOutput("celline"), menuItemOutput("drug"),
+                # menuItemOutput("protein"), menuItemOutput("shsirna"),
+                # menuItemOutput("help")
+                # menuItem("Home", tabName = "home", icon = icon("home")),
+                # menuItem("Blood", tabName = "blood", icon = icon("tint")),
+                # menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
+                # menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
+                # menuItem("PDX", tabName = "pdx", icon = icon("prescription")),  
+                # menuItem("Antibody", tabName = "antibody", icon = icon("vial")),
+                # menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+                # menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+                # menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+                # menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+                # menuItem("Help", tabName = "help", icon = icon("volume-down"))
     )), 
   # BODY --------------------------------------------------------------------
   
@@ -80,16 +89,18 @@ ui <- dashboardPage(
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
       # HOME PAGE ---------------------------------------------------------------
+      
       tabItem(tabName = "home", 
               fluidRow(
                 align = "center", 
                 width = 12,
                 HTML("<br>"),
-                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="160"></center>'),
+                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="110"></center>'),
+                # HTML('<center><img src="http://www.wmbio.co/images/common/logo.png" width="310"></center>'),
                 HTML("<br>"),
-                HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
-                     color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
-                HTML("<br><br><br>")
+                # HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
+                #      color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
+                HTML("<br>")
                 ),
               box(width = 12,
                   collapsed = TRUE,
@@ -126,11 +137,6 @@ ui <- dashboardPage(
                                                    "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
                                                    "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
                                                    )))    
-                                       # style = rep(("color: black;
-                                       #              text-align: center;
-                                       #              font-weight: bold;
-                                       #              font-size: 15px"),10)))
-                         
                   ),
                   column(12, 
                          offset = 0, 
@@ -153,7 +159,7 @@ ui <- dashboardPage(
                   
                 ),
               # INFOBOX UI
-              box(title = tags$p("Material", style = "font-size: 150%; font-weight: bold; color: white"),
+              box(title = tags$p("Biobank", style = "font-size: 150%; font-weight: bold; color: white"),
                   status = "info",
                   solidHeader = TRUE, 
                   icon = icon("window-restore"),
@@ -213,10 +219,10 @@ ui <- dashboardPage(
                            div(DT::dataTableOutput("ffpe_dt"), style = "font-size:105%")
                        )))
       ),
-      tabItem(tabName = "antibody",
+      tabItem(tabName = "antibody_wb",
               fluidRow(
                 column(width = 12, 
-                       box(title = tags$p("Antibody", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("WB", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "warning",
                            solidHeader = TRUE,

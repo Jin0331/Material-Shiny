@@ -11,6 +11,11 @@ server <- function(input, output, session) {
     # keep_token = TRUE
   )
   
+  output$res_auth <- reactive({
+    res_auth$role  
+  })
+  outputOptions(output, "res_auth", suspendWhenHidden = FALSE)
+  
   # AUTO-REFRESH
   shinyjs::runjs(
     "function reload_page() {
@@ -19,6 +24,62 @@ server <- function(input, output, session) {
     }
     setTimeout(reload_page, 500000);
 ")
+  # RENDERMENU ----
+  output$side_menu <- renderMenu({
+    role <- res_auth$role
+    if(role == "A"){
+      menu_list <- list(
+        menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
+        menuItem("Blood", tabName = "blood", icon = icon("tint")),
+        menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
+        menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
+        menuItem("PDX", tabName = "pdx", icon = icon("prescription" )),
+        menuItem("Antibody", tabName = "antibody_main", icon = icon("vial"),
+                 menuSubItem(
+                   text = "WB",
+                   tabName = "antibody_wb"
+                   ),
+                 menuSubItem(
+                   text = "IHC",
+                   tabName = "antybody_ihc"
+                 ),
+                 menuSubItem(
+                   text = "FACS",
+                   tabName = "antybody_facs"
+                 )),
+        menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+        menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+        menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+        menuItem("Help", tabName = "help", icon = icon("volume-down"))
+      )
+    } else {
+      menu_list <- list(
+        menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
+        menuItem("Antibody", tabName = "antibody_wb", icon = icon("vial"),
+                 menuSubItem(
+                   text = "WB",
+                   tabName = "antybody_wb"
+                 ),
+                 menuSubItem(
+                   text = "IHC",
+                   tabName = "antybody_ihc"
+                 ),
+                 menuSubItem(
+                   text = "FACS",
+                   tabName = "antybody_facs"
+                 )),
+        menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+        menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+        menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+        menuItem("Help", tabName = "help", icon = icon("volume-down"))
+      )
+    }
+
+    
+    sidebarMenu(.list = menu_list)
+  })
   # VALUEBOX_RENDER ----
   output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>% 
     value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")

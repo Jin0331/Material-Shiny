@@ -3,7 +3,7 @@ source('dependencies.R')
 connection <- shiny.collections::connect(
   host = "192.168.0.90"
 ) # chat
-fileUrl <- "http://192.168.0.7:18080/"
+fileUrl <- "http://192.168.0.90:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.90:27017/admin"
 sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/user_db.sqlite"
 shiny_host <- "192.168.0.7"

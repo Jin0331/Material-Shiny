@@ -1,7 +1,10 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
+connection <- shiny.collections::connect(
+  host = "192.168.0.90"
+) # chat
 fileUrl <- "http://192.168.0.7:18080/"
-mongoUrl <- "mongodb://root:sempre813!@192.168.0.6:27017/admin"
+mongoUrl <- "mongodb://root:sempre813!@192.168.0.90:27017/admin"
 sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/user_db.sqlite"
 shiny_host <- "192.168.0.7"
 shiny_port <- 8888
@@ -244,7 +247,6 @@ value_func <<- function(N, tab_name,row_count, icon, color){
 }
 
 ## chat db & function ----
-connection <- shiny.collections::connect()
 get_random_username <- function() {
   paste0("User", round(runif(1, 10000, 99999)))
 }

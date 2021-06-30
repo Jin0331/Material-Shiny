@@ -21,7 +21,6 @@ checkpoint(snapshot_date ="2021-06-29", checkpoint_location = "/Users/wmbio/")
 
 # LIST OF REQUIRED PACKAGES -----------------------------------------------
 library(jsonlite)
-library(reactable)
 library(devtools)
 library(mongolite)
 library(data.table)

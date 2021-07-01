@@ -5,9 +5,12 @@ connection <- shiny.collections::connect(
 ) # chat
 fileUrl <- "http://192.168.0.90:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.90:27017/admin"
-sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/wmbio_users.sqlite"
+user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.90", port = 3306, user = "root", password = "sempre813!",
+                           dbname = "material_users")
+# sqlite_path <- "/Users/wmbio/Desktop/gitworking/Material-Shiny/data/wmbio_users.sqlite"
 shiny_host <- "192.168.0.7"
 shiny_port <- 8888
+
 
 # CUSTOM THEME ----
 ### creating custom theme object

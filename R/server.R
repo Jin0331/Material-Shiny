@@ -1,11 +1,14 @@
 server <- function(input, output, session) {
   # LOGIN -----
-  # check_credentials directly on sqlite db
+  user_df <- tbl(user_con, "user") %>% 
+    collect() %>% 
+    mutate(admin = ifelse(admin == 0, FALSE, TRUE)) %>% 
+    as.data.frame()
+  
   res_auth <- secure_server(
     check_credentials = check_credentials(
-      sqlite_path,
-      #passphrase = key_get("R-shinymanager-key", "sempre813!")
-      passphrase = "passphrase_wihtout_keyring"
+        db = user_df,
+        passphrase = "passphrase_wihtout_keyring"
     ),
     timeout = 100
     # keep_token = TRUE

@@ -186,6 +186,48 @@ server <- function(input, output, session) {
   output$shsirna_dt <- render_DT_rowgroup(shsirna)
   
   # TOTAL SEARCH ----
+  observeEvent(res_auth$role, {
+    if(res_auth$role == "A"){
+      updatePickerInput(
+        session = session, 
+        inputId = "table_picker",
+        label = "",
+        choices = c("Blood", "FF", "FFPE", "PDX", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line", 
+                    "Commercial Drug", "Protein", "siRNA/shRNA"), 
+        choicesOpt = list(
+          content = c(
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FF</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FFPE</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>PDX</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+          )))     
+    } else {
+      updatePickerInput(
+        session = session, 
+        inputId = "table_picker",
+        label = "",
+        choices = c("Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line", 
+                    "Commercial Drug", "Protein", "siRNA/shRNA"), 
+        choicesOpt = list(
+          content = c(
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+          ))) 
+    }
+  })
+  
   observeEvent(input$table_picker, {
     table_select <- input$table_picker
     switch(table_select,
@@ -214,10 +256,22 @@ server <- function(input, output, session) {
                choices = search_keyword(DF = pdx, N_vec = c(3,4,6,7))
              )
            },
-           `Antibody` = {
+           `Antibody(WB)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(antibody, N_vec = c(1,2,5,6,7,9,12,13))
+               choices = search_keyword(antibody_wb, N_vec = c(1,2,5,6,7,9,12,13))
+             )
+           },
+           `Antibody(IHC)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(antibody_ihc, N_vec = c(1,2,5,6,7,9,12,13))
+             )
+           },
+           `Antibody(FACS)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(antibody_facs, N_vec = c(1:8))
              )
            },
            `Cell Line` = {
@@ -276,10 +330,20 @@ server <- function(input, output, session) {
           child_function(list_df = ., result_df = pdx_result)
         output$search_dt <- render_DT_search(pdx_search, child = T)
       },
-      `Antibody` = {
-        antibody_search <- antibody %>% 
+      `Antibody(WB)` = {
+        antibody_wb_search <- antibody_wb %>% 
           filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(antibody_search)
+        output$search_dt <- render_DT_search(antibody_wb_search)
+      },
+      `Antibody(IHC)` = {
+        antibody_ihc_search <- antibody_ihc %>% 
+          filter_all(., any_vars(. == search_keyword)) 
+        output$search_dt <- render_DT_search(antibody_ihc_search)
+      },
+      `Antibody(FACS)` = {
+        antibody_facs_search <- antibody_facs %>% 
+          filter_all(., any_vars(. == search_keyword)) 
+        output$search_dt <- render_DT_search(antibody_facs_search)
       },
       `Cell Line` = {
         celline_search <- celline %>% 

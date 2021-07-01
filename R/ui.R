@@ -101,26 +101,14 @@ ui <- dashboardPage(
                          style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
                          pickerInput(inputId = "table_picker", 
                                      label = "", 
-                                     choices = c("Blood", "FF", "FFPE", "PDX", "Antibody", "Cell Line", 
-                                                 "Commercial Drug", "Protein", "siRNA/shRNA"), 
+                                     choices = "", 
                                      width = "230", 
                                      inline = FALSE,
                                      options = list( `live-search` = TRUE,
                                                      `actions-box` = TRUE,
                                                      `selectedTextFormat` = TRUE
-                                                     ),
-                                     choicesOpt = list(
-                                       content = c("<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FF</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FFPE</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>PDX</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
-                                                   "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
-                                                   )))    
-                  ),
+                                                     ))
+                         ),
                   column(12, 
                          offset = 0, 
                          style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
@@ -163,7 +151,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("Blood", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("tint"),
                            div(DT::dataTableOutput("blood_dt"), style = "font-size:105%")
@@ -174,7 +162,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("PDX", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("prescription"),
                            div(DT::dataTableOutput("pdx_dt"), style = "font-size:105%")
@@ -185,7 +173,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("FF", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("prescription-bottle"),
                            div(DT::dataTableOutput("ff_dt"), style = "font-size:105%")
@@ -196,7 +184,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("FFPE", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("flask"),
                            div(DT::dataTableOutput("ffpe_dt"), style = "font-size:105%")
@@ -207,7 +195,7 @@ ui <- dashboardPage(
                 column(width = 12,
                        box(title = tags$p("ㅤWB", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("yandex-international"),
                            div(DT::dataTableOutput("antibody_wb_dt"), style = "font-size:105%")
@@ -218,7 +206,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("ㅤIHC", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("yandex-international"),
                            div(DT::dataTableOutput("antibody_ihc_dt"), style = "font-size:105%")
@@ -229,7 +217,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("ㅤFACS", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("yandex-international"),
                            div(DT::dataTableOutput("antibody_facs_dt"), style = "font-size:105%")
@@ -240,7 +228,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("Cell Line", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("virus"),
                            div(DT::dataTableOutput("celline_dt"), style = "font-size:105%")
@@ -251,7 +239,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("Commercial Drug", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("capsules"),
                            div(DT::dataTableOutput("drug_dt"), style = "font-size:105%")
@@ -262,7 +250,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("Protein", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("share-alt"),
                            div(DT::dataTableOutput("protein_dt"), style = "font-size:105%")
@@ -273,7 +261,7 @@ ui <- dashboardPage(
                 column(width = 12, 
                        box(title = tags$p("shRNA / siRNA", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
-                           status = "warning",
+                           status = "info",
                            solidHeader = TRUE,
                            icon = icon("dna"),
                            div(DT::dataTableOutput("shsirna_dt"), style = "font-size:105%")

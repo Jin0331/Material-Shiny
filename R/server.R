@@ -6,18 +6,8 @@ server <- function(input, output, session) {
     as.data.frame()
   
   res_auth <- secure_server(
-    check_credentials = check_credentials(
-        db = user_df,
-        passphrase = "passphrase_wihtout_keyring"
-    ),
-    timeout = 100
-    # keep_token = TRUE
+    check_credentials = check_credentials(user_df)
   )
-  
-  output$res_auth <- reactive({
-    res_auth$role
-  })
-  # outputOptions(output, "res_auth", suspendWhenHidden = FALSE)
   
   # AUTO-REFRESH
   shinyjs::runjs(

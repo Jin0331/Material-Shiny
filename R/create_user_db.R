@@ -44,8 +44,8 @@ user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.90", port = 3306, 
                            dbname = "material_users")
 
 create_user(user_con = user_con, 
-            user = "wmbio",
-            password = "sempre813!",
+            user = "yleelwj13",
+            password = "1",
             admin = TRUE,
             role = "A")
 

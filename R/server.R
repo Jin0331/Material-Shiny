@@ -94,9 +94,13 @@ server <- function(input, output, session) {
 
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
-
-      output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>%
-        value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+      
+      # antibody cnt
+      antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
+      collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
+      collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
+      output$valuebox5 <- antibody_cnt %>%
+        value_func(N = "Antibody(WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
 
       output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
         value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
@@ -122,9 +126,13 @@ server <- function(input, output, session) {
 
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
-
-      output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>%
-        value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+      
+      # antibody cnt
+      antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
+      output$valuebox5 <- antibody_cnt %>%
+        value_func(N = "Antibody(WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
 
       output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
         value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
@@ -160,8 +168,6 @@ server <- function(input, output, session) {
   # PDX DT
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
 
-    
-  
   # ANTIBODY DT
   output$antibody_wb_dt <- render_DT(antibody_wb)
   output$antibody_ihc_dt <- render_DT(antibody_ihc)

@@ -238,12 +238,20 @@ collection_cnt <- function(collection_name, url) {
              options = ssl_options())
   m$count() %>% return()
 }
-value_func <<- function(N, tab_name,row_count, icon, color){
-  renderInfoBox({
-    infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
-      a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('",tab_name,"')"), href = "#"),
-        icon = icon, color = color)
-  })
+value_func <<- function(N, tab_name,row_count, icon, color, role = F){
+  if(role == T){
+    renderInfoBox({
+      infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
+        a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('",tab_name,"')"), href = "#"),
+          icon = icon, color = color)
+    })
+  } else {
+    renderInfoBox({
+      infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
+              a(tags$p(row_count, style = "font-size: 120%;color: black;")),
+              icon = icon, color = color)
+    })
+  }
 }
 
 ## chat db & function ----
@@ -823,11 +831,29 @@ pdx_result <- pdx_result %>%
                                       str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
 
 ## antibody colname and DF
-antibody_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
+### wb
+antibody_wb_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
                       "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
-                      "보관 위치", "관리자(관리팀)", "제조사", "비고" )
-antibody <- collection_to_DF(collection_name = "antibody_collection", url = mongoUrl);names(antibody) <- antibody_colname
-antibody <- antibody %>% select(-WMB_NO, -No)
+                      "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
+                      "New8")
+antibody_wb <- collection_to_DF(collection_name = "antibody_wb_collection", url = mongoUrl);names(antibody_wb) <- antibody_wb_colname
+antibody_wb <- antibody_wb %>% select(-WMB_NO, -No, -New1:-New8)
+
+### ihc
+antibody_ihc_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
+                         "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
+                         "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
+                         "New8")
+antibody_ihc <- collection_to_DF(collection_name = "antibody_ihc_collection", url = mongoUrl);names(antibody_ihc) <- antibody_ihc_colname
+antibody_ihc <- antibody_ihc %>% select(-WMB_NO, -No, -New1:-New8)
+
+### facs
+antibody_facs_colname <- c("Antibody", "Cat no.", "Host", "Species Reactivity", "Application", "보관 위치", "관리자(관리팀)",
+                           "제조사", "비고", "New1","New2","New3","New4","New5")
+antibody_facs <- collection_to_DF(collection_name = "antibody_facs_collection", url = mongoUrl);names(antibody_facs) <-antibody_facs_colname
+antibody_facs <- antibody_facs %>% select(-New1:-New5)
+
+
 
 ## celline colname and DF
 celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Picture", "Chemoresistance status",

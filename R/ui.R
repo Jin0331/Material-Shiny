@@ -221,13 +221,35 @@ ui <- dashboardPage(
       ),
       tabItem(tabName = "antibody_wb",
               fluidRow(
-                column(width = 12, 
+                column(width = 12,
                        box(title = tags$p("WB", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "warning",
                            solidHeader = TRUE,
+                           icon = icon("yandex-international"),
+                           div(DT::dataTableOutput("antibody_wb_dt"), style = "font-size:105%")
+                       )))
+      ),
+      tabItem(tabName = "antibody_ihc",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("IHC", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "warning",
+                           solidHeader = TRUE,
                            icon = icon("vial"),
-                           div(DT::dataTableOutput("antibody_dt"), style = "font-size:105%")
+                           div(DT::dataTableOutput("antibody_ihc_dt"), style = "font-size:105%")
+                       )))
+      ),
+      tabItem(tabName = "antibody_facs",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("FACS", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "warning",
+                           solidHeader = TRUE,
+                           icon = icon("vial"),
+                           div(DT::dataTableOutput("antibody_facs_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "celline",

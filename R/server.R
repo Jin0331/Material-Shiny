@@ -12,9 +12,9 @@ server <- function(input, output, session) {
   )
   
   output$res_auth <- reactive({
-    res_auth$role  
+    res_auth$role
   })
-  outputOptions(output, "res_auth", suspendWhenHidden = FALSE)
+  # outputOptions(output, "res_auth", suspendWhenHidden = FALSE)
   
   # AUTO-REFRESH
   shinyjs::runjs(
@@ -34,18 +34,18 @@ server <- function(input, output, session) {
         menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
         menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
         menuItem("PDX", tabName = "pdx", icon = icon("prescription" )),
-        menuItem("Antibody", tabName = "antibody_main", icon = icon("vial"),
+        menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
                    tabName = "antibody_wb"
                    ),
                  menuSubItem(
                    text = "IHC",
-                   tabName = "antybody_ihc"
+                   tabName = "antibody_ihc"
                  ),
                  menuSubItem(
                    text = "FACS",
-                   tabName = "antybody_facs"
+                   tabName = "antibody_facs"
                  )),
         menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
@@ -56,18 +56,18 @@ server <- function(input, output, session) {
     } else {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
-        menuItem("Antibody", tabName = "antibody_wb", icon = icon("vial"),
+        menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
-                   tabName = "antybody_wb"
+                   tabName = "antibody_wb"
                  ),
                  menuSubItem(
                    text = "IHC",
-                   tabName = "antybody_ihc"
+                   tabName = "antibody_ihc"
                  ),
                  menuSubItem(
                    text = "FACS",
-                   tabName = "antybody_facs"
+                   tabName = "antibody_facs"
                  )),
         menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
@@ -80,34 +80,65 @@ server <- function(input, output, session) {
     
     sidebarMenu(.list = menu_list)
   })
-  # VALUEBOX_RENDER ----
-  output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>% 
-    value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
-  
-  output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>% 
-    value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
-  
-  # # 이부분 수정해야됨, FFPE ---
-  output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
-    value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
-  
-  output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>% 
-    value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
-  
-  output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>% 
-    value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("vial"), color = "fuchsia")
-  
-  output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>% 
-    value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon")
-  
-  output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>% 
-    value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal")
-  
-  output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>% 
-    value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive")
-  
-  output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>% 
-    value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime")
+    
+  observeEvent(res_auth$role, {
+    if(res_auth$role == "A"){
+      output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
+        value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
+
+      output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange", role = T)
+
+      output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua", role = T)
+
+      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
+        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
+
+      output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>%
+        value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+
+      output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
+        value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
+
+      output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
+        value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
+
+      output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
+        value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
+
+      output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
+        value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
+
+    } else{
+      output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
+        value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
+
+      output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
+
+      output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
+
+      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
+        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+
+      output$valuebox5 <- collection_cnt(collection_name = "antibody_collection", url = mongoUrl) %>%
+        value_func(N = "Antibody", tab_name = "antibody", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+
+      output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
+        value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
+
+      output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
+        value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
+
+      output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
+        value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
+
+      output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
+        value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
+    }
+  })
   
   # DT ----
   
@@ -132,7 +163,9 @@ server <- function(input, output, session) {
     
   
   # ANTIBODY DT
-  output$antibody_dt <- render_DT(antibody)
+  output$antibody_wb_dt <- render_DT(antibody_wb)
+  output$antibody_ihc_dt <- render_DT(antibody_ihc)
+  output$antibody_facs_dt <- render_DT(antibody_facs)
   
   # CELLINE DT
   output$celline_dt <- render_DT(celline)
@@ -146,18 +179,6 @@ server <- function(input, output, session) {
   # shRNA/siRNA DT
   output$shsirna_dt <- render_DT_rowgroup(shsirna)
   
-  # filter 기능 보류 --- 추후 삭제 
-  # observeEvent(input$columns, {
-  #   # cols <- input$columns ### <<<<<<<<<<<----- dsadsadzxcasdzxcasd
-  #   if("ALL" %in% input$columns){
-  #     blood_temp <- blood
-  #   } else {
-  #     blood_temp <- blood %>% select(input$columns)    
-  #   }
-  #   
-  #   output$blood_list_dt <- render_DT(blood_temp)
-  #   # output$blood_list_dt <- reder_DT(blood_temp)
-  # })
   # TOTAL SEARCH ----
   observeEvent(input$table_picker, {
     table_select <- input$table_picker

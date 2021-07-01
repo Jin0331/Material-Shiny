@@ -28,25 +28,8 @@ ui <- dashboardPage(
     width = 230, 
     collapsed = FALSE,
     sidebarMenu(id = "side", 
-                menuItemOutput("side_menu")
-                # menuItemOutput("home"), menuItemOutput("blood"),
-                # menuItemOutput("ff"), menuItemOutput("ffpe"),
-                # menuItemOutput("pdx"), menuItemOutput("antibody"),
-                # menuItemOutput("celline"), menuItemOutput("drug"),
-                # menuItemOutput("protein"), menuItemOutput("shsirna"),
-                # menuItemOutput("help")
-                # menuItem("Home", tabName = "home", icon = icon("home")),
-                # menuItem("Blood", tabName = "blood", icon = icon("tint")),
-                # menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
-                # menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
-                # menuItem("PDX", tabName = "pdx", icon = icon("prescription")),  
-                # menuItem("Antibody", tabName = "antibody", icon = icon("vial")),
-                # menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
-                # menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
-                # menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-                # menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-                # menuItem("Help", tabName = "help", icon = icon("volume-down"))
-    )), 
+                menuItemOutput("side_menu"))
+    ), 
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
@@ -323,7 +306,7 @@ ui <- dashboardPage(
 
 # LOGIN UI ----
 ui <- secure_app(ui, 
-                 theme = shinythemes::shinytheme("journal"),
+                 theme = shinythemes::shinytheme("flatly"),
                  tags_top = tags$img(
                    src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
                  ), 

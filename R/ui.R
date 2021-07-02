@@ -298,5 +298,8 @@ ui <- secure_app(ui,
                  tags_top = tags$img(
                    src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
                  ), 
-                 enable_admin = TRUE
+                 enable_admin = FALSE,
+                 language = "en",
+                 keep_token = TRUE
+                 
                  )

@@ -547,7 +547,7 @@ callback_function_2 <- function(){
     "  $('th', thead).css({",
     "    'border-top': '3px solid indigo',", 
     "    'color': 'indigo',",
-    "    'background-color': '#cecece'",
+    "    'background-color': '#e3cd5d'",
     "  });",
     "};",
     "var format_datatable = function(d, childId){",
@@ -655,7 +655,7 @@ render_DT_child <- function(DF_NAME){
   DT::renderDataTable(
     datatable(
       DF_NAME[[1]], 
-      # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]), 
+      # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]),
       callback = callback_function_2(),
       # callback = callback_function_3(),
       rownames = rowNames, escape = -DF_NAME[[3]]-1,

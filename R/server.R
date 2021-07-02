@@ -6,7 +6,8 @@ server <- function(input, output, session) {
     as.data.frame()
   
   res_auth <- secure_server(
-    check_credentials = check_credentials(user_df)
+    check_credentials = check_credentials(user_df), 
+    keep_token = TRUE
   )
   
   # AUTO-REFRESH
@@ -93,7 +94,7 @@ server <- function(input, output, session) {
       collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
       collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
       output$valuebox5 <- antibody_cnt %>%
-        value_func(N = "Antibody(WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+        value_func(N = "Antibody (WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
 
       output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
         value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)

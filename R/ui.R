@@ -79,10 +79,7 @@ ui <- dashboardPage(
                 width = 12,
                 HTML("<br>"),
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="110"></center>'),
-                # HTML('<center><img src="http://www.wmbio.co/images/common/logo.png" width="310"></center>'),
                 HTML("<br>"),
-                # HTML('<center><span style= "font-weight: bold; font-size: 500%;line-height: 1.0em; 
-                #      color: #996600;font-family: helvetica;"> WMB Biobank </span></center>'),
                 HTML("<br>")
                 ),
               box(width = 12,
@@ -122,12 +119,11 @@ ui <- dashboardPage(
                          
                          ),
                 ), # flouidRow end,
-                # div(shinycustomloader::withLoader(DT::dataTableOutput("search_dt"),
-                #                                  type = "html", loader="loader10"), style = "font-size:100%")
-                # div(DT::dataTableOutput("search_dt"), style = "font-size:100%")
-                div(shinycustomloader::withLoader(DT::dataTableOutput("search_dt"),
-                                                 type = "image", loader="http://210.115.229.80:18080/loading.gif"), style = "font-size:100%")
-                  
+                div(shinycustomloader::withLoader(
+                  DT::dataTableOutput("search_dt"),
+                  type = "image", loader="http://192.168.0.90:18080/loading.gif"), 
+                  style = "font-size:100%"
+                  )
                 ),
               # INFOBOX UI
               box(title = tags$p("Biobank", style = "font-size: 150%; font-weight: bold; color: white"),

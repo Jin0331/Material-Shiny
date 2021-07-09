@@ -1,13 +1,13 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
 connection <- shiny.collections::connect(
-  host = "192.168.0.90"
+  host = "192.168.0.99"
 ) # chat
-fileUrl <- "http://192.168.0.90:18080/"
-mongoUrl <- "mongodb://root:sempre813!@192.168.0.90:27017/admin"
-user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.90", port = 3306, user = "root", password = "sempre813!",
+fileUrl <- "http://192.168.0.99:18080/"
+mongoUrl <- "mongodb://root:sempre813!@192.168.0.99:27017/admin"
+user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.99", port = 3306, user = "root", password = "sempre813!",
                            dbname = "material_users")
-shiny_host <- "192.168.0.7"
+shiny_host <- "192.168.0.9"
 shiny_port <- 8888
 
 

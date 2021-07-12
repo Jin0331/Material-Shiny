@@ -18,7 +18,7 @@ if (length(new.packages)) {
 rm(new.packages)
 
 library(checkpoint)
-checkpoint(snapshot_date ="2021-07-8", checkpoint_location = "/home/rstudio/checkpoint/")
+checkpoint(snapshot_date ="2021-07-12", checkpoint_location = "/home/rstudio/checkpoint/")
 
 
 # LIST OF REQUIRED PACKAGES -----------------------------------------------

@@ -121,7 +121,7 @@ ui <- dashboardPage(
                 ), # flouidRow end,
                 div(shinycustomloader::withLoader(
                   DT::dataTableOutput("search_dt"),
-                  type = "image", loader="http://192.168.0.90:18080/loading.gif"), 
+                  type = "image", loader="http://192.168.0.99:18080/loading.gif"), 
                   style = "font-size:100%"
                   )
                 ),
@@ -289,13 +289,11 @@ ui <- dashboardPage(
 )
 
 # LOGIN UI ----
-ui <- secure_app(ui, 
+ui <- secure_app(ui, enable_admin = TRUE,
                  theme = shinythemes::shinytheme("flatly"),
                  tags_top = tags$img(
                    src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
                  ), 
-                 enable_admin = FALSE,
                  language = "en",
                  keep_token = TRUE
-                 
                  )

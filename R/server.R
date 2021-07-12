@@ -1,12 +1,19 @@
 server <- function(input, output, session) {
   # LOGIN -----
-  user_df <- tbl(user_con, "user") %>% 
-    collect() %>% 
-    mutate(admin = ifelse(admin == 0, FALSE, TRUE)) %>% 
-    as.data.frame()
+  # MySQL
+  # user_df <- tbl(user_con, "user") %>% 
+  #   collect() %>% 
+  #   mutate(admin = ifelse(admin == 0, FALSE, TRUE)) %>% 
+  #   as.data.frame()
+  
+  # res_auth <- secure_server(
+  #   check_credentials = check_credentials(user_df), 
+  #   keep_token = TRUE
+  # )
   
   res_auth <- secure_server(
-    check_credentials = check_credentials(user_df), 
+    check_credentials = check_credentials("/home/rstudio/material/Material-Shiny/user_db.sqlite",
+                                          passphrase = "passphrase_wihtout_keyring"),
     keep_token = TRUE
   )
   

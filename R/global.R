@@ -7,7 +7,8 @@ fileUrl <- "http://192.168.0.99:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.99:27017/admin"
 user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.99", port = 3306, user = "root", password = "sempre813!",
                            dbname = "material_users")
-shiny_host <- "192.168.0.9"
+
+shiny_host <- "172.17.0.2"
 shiny_port <- 8888
 
 

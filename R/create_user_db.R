@@ -40,7 +40,7 @@ create_user <- function(user_con = user_con, user, password, admin, role){
 }
 
 ## main
-user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.90", port = 3306, user = "root", password = "sempre813!",
+user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.99", port = 3306, user = "root", password = "sempre813!",
                            dbname = "material_users")
 
 create_user(user_con = user_con, 
@@ -49,3 +49,23 @@ create_user(user_con = user_con,
             admin = TRUE,
             role = "A")
 
+# using sqlite
+credentials <- data.frame(
+  user = c("wmbio"),
+  password = c("sempre813!"),
+  admin = c(TRUE),
+  role = c("A"),
+  stringsAsFactors = FALSE
+)
+
+# you can use keyring package to set database key
+# library(keyring)
+# key_set("R-shinymanager-key", "obiwankenobi")
+
+# Init the database
+create_db(
+  credentials_data = credentials,
+  sqlite_path = "/home/rstudio/material/Material-Shiny/user_db.sqlite", # will be created
+  # passphrase = key_get("R-shinymanager-key", "obiwankenobi")
+  passphrase = "passphrase_wihtout_keyring"
+)

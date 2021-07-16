@@ -831,16 +831,16 @@ pdx_result <- pdx_result %>%
   mutate(`이미지(실험관련)`  = ifelse(`이미지(실험관련)`  == "" | `이미지(실험관련)`  == "-", 
                                `이미지(실험관련)` ,
                                paste0("<a href='", fileUrl, "IMG/pdx/", 
-                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".jpg'>", "View</a>")))
+                                      str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".JPG'>", "View</a>")))
 
 ## antibody colname and DF
 ### wb
-antibody_wb_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
+antibody_wb_colname <- c("No", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
                       "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
                       "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
                       "New8")
 antibody_wb <- collection_to_DF(collection_name = "antibody_wb_collection", url = mongoUrl);names(antibody_wb) <- antibody_wb_colname
-antibody_wb <- antibody_wb %>% select(-WMB_NO, -No, -New1:-New8)
+antibody_wb <- antibody_wb %>% select(-No, -New1:-New8)
 
 ### ihc
 antibody_ihc_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
@@ -859,13 +859,11 @@ antibody_facs <- antibody_facs %>% select(-New1:-New5)
 
 
 ## celline colname and DF
-celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Picture", "Chemoresistance status",
+celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Chemoresistance status",
                      "Mutation status", "RON Genotype", "IGSF1 Genotype", "P34 Genotype", "Media Condition",
-                     "GROWTH PATTERN", "계대비율 및 주기", "구매처", "특이사항", "RON(RT-PCR)", "KRAS(RT)", "BRAF(RT-PCR)",
-                     "EGFR(RT-PCR)", "RON(WB)", "BRAF(WB)", "EGFR(WB)", "New1","New2","New3","New4","New5","New6","New7",
-                     "New8","New9","New10")
+                     "GROWTH PATTERN", "계대비율 및 주기", "구매처", "특이사항")
 celline <- collection_to_DF(collection_name = "celline_collection", url = mongoUrl);names(celline) <- celline_colname
-celline <- celline %>% select(-WMB_NO, -New1:-New10)
+celline <- celline %>% select(-WMB_NO)
 
 ## drug colname and DF
 drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
@@ -882,11 +880,10 @@ drug <- drug %>%
                                
 
 ## protein colname and DF
-protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "Lot no", "남은량", "위치", "Data sheet",
-                     "New1","New2", "New3", "New4", "New5", "New6", "New7","New8", "New9", "New10")
+protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "남은량", "위치", "Data sheet")
 protein <- collection_to_DF(collection_name = "protein_collection", url = mongoUrl);names(protein) <- protein_colname
 protein <- protein %>% 
-  select(-WMB_NO, -New1:-New10) %>% 
+  select(-WMB_NO) %>% 
   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
                                paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
                                ifelse(`Data sheet` == "" | `Data sheet` == "-",
@@ -899,7 +896,7 @@ protein <- protein %>%
 ## si/shRNA colname and DF
 shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "Type", "농도", "Sequence", "제조사",
                      "Stock vial 입고일", "Stock vial 재고 수량", "Stock vial 보관 위치", "소분 vial 재고 수량",
-                     "위치(냉동고/Box이름)", "관리자", "Data sheet", "여분1","여분2","여분3","여분4","여분5","여분6",
+                     "위치(냉동고/Box이름)", "관리자", "여분1","여분2","여분3","여분4","여분5","여분6",
                      "여분7","여분8","여분9","여분10")
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
 shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)

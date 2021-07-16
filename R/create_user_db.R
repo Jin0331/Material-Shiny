@@ -55,7 +55,7 @@ credentials <- data.frame(
   user = c("wmbio"),
   password = c("sempre813!"),
   admin = c(TRUE),
-  role = c("A"),
+  role = c("A"), # A, B, C
   stringsAsFactors = FALSE
 )
 

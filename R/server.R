@@ -54,6 +54,31 @@ server <- function(input, output, session) {
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
         menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
+    } else if(role == "B"){
+      menu_list <- list(
+        menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
+        menuItem("Blood", tabName = "blood", icon = icon("tint")),
+        menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
+        menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
+        menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
+                 menuSubItem(
+                   text = "WB",
+                   tabName = "antibody_wb"
+                 ),
+                 menuSubItem(
+                   text = "IHC",
+                   tabName = "antibody_ihc"
+                 ),
+                 menuSubItem(
+                   text = "FACS",
+                   tabName = "antibody_facs"
+                 )),
+        menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+        menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+        menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+        menuItem("Help", tabName = "help", icon = icon("volume-down"))
+      )
     } else {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
@@ -115,6 +140,38 @@ server <- function(input, output, session) {
       output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
         value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
 
+    } else if(res_auth$role == "B"){
+      output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
+        value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
+      
+      output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange", role = T)
+      
+      output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua", role = T)
+      
+      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
+        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+      
+      # antibody cnt
+      antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
+      output$valuebox5 <- antibody_cnt %>%
+        value_func(N = "Antibody (WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+      
+      output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
+        value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
+      
+      output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
+        value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
+      
+      output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
+        value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
+      
+      output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
+        value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
+      
     } else{
       output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
@@ -209,6 +266,26 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
           )))     
+    } else if(res_auth$role == "B"){
+      updatePickerInput(
+        session = session, 
+        inputId = "table_picker",
+        label = "",
+        choices = c("Blood", "FF", "FFPE", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line", 
+                    "Commercial Drug", "Protein", "siRNA/shRNA"), 
+        choicesOpt = list(
+          content = c(
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FF</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FFPE</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+          ))) 
     } else {
       updatePickerInput(
         session = session, 

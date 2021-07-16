@@ -24,5 +24,6 @@ excel_to_trimTxt <- function(path, sheet_number){
 rm_DF <- excel_to_trimTxt(path = "/home/rstudio/material/WMBio-시약목록_CMC팀(2021년)_2021.06.30.xlsx",
                  sheet_number = 1)
 
-rm_DF %>% bind_cols() %>% write_delim("/home/rstudio/material/WMBio-시약목록_CMC팀(2021년)_2021.06.30.xlsx", 
-                                      delim = "\t")
+rm_DF %>% bind_cols() %>% write_delim("/home/rstudio/material/cmc.txt", 
+                                      delim = "\t",
+                                      na = " ")

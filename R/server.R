@@ -12,7 +12,7 @@ server <- function(input, output, session) {
   # )
   
   res_auth <- secure_server(
-    check_credentials = check_credentials("/home/rstudio/material/Material-Shiny/user_db.sqlite",
+    check_credentials = check_credentials("/home/rstudio/Material-Shiny/user_db.sqlite",
                                           passphrase = "passphrase_wihtout_keyring"),
     keep_token = TRUE
   )
@@ -32,8 +32,8 @@ server <- function(input, output, session) {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
         menuItem("Blood", tabName = "blood", icon = icon("tint")),
-        menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
-        menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
+        menuItem("FF", tabName = "ff", icon = icon("lungs-virus")),
+        menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
         menuItem("PDX", tabName = "pdx", icon = icon("prescription" )),
         menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
@@ -52,7 +52,25 @@ server <- function(input, output, session) {
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("Help", tabName = "help", icon = icon("volume-down"))
+        menuItem("CMC 연구소", tabName = "cmc_main", icon = icon("copy"),
+                 menuSubItem(
+                   text = "시약목록",
+                   tabName = "cmc_siyac"
+                 ),
+                 menuSubItem(
+                   text = "Column",
+                   tabName = "cmc_column")
+                 ),
+        menuItem("의약화학센터", tabName = "mc_main", icon = icon("copy"),
+                 menuSubItem(
+                   text = "시약목록",
+                   tabName = "mc_siyac"
+                 ),
+                 menuSubItem(
+                   text = "Column",
+                   tabName = "mc_column"
+                 ))
+        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     } else if(role == "B"){
       menu_list <- list(
@@ -76,8 +94,8 @@ server <- function(input, output, session) {
         menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("Help", tabName = "help", icon = icon("volume-down"))
+        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna"))
+        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     } else {
       menu_list <- list(
@@ -99,7 +117,8 @@ server <- function(input, output, session) {
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("Help", tabName = "help", icon = icon("volume-down"))
+        
+        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     }
 
@@ -449,26 +468,26 @@ server <- function(input, output, session) {
     output$search_dt <- NULL
   })
   # LiveCHAT ----
-  chat <- shiny.collections::collection("chat", connection)
-  updateTextInput(session, "username_field",
-                  value = get_random_username()
-  )
-  
-  observeEvent(input$send, {
-    new_message <- list(user = input$username_field,
-                        text = input$message_field,
-                        time = Sys.time())
-    shiny.collections::insert(chat, new_message)
-    updateTextInput(session, "message_field", value = "")
-  })
-  
-  output$chatbox <- renderUI({
-    if (!is_empty(chat$collection)) {
-      render_msg_divs(chat$collection)
-    } else {
-      tags$span("Empty chat")
-    }
-  })
+  # chat <- shiny.collections::collection("chat", connection)
+  # updateTextInput(session, "username_field",
+  #                 value = get_random_username()
+  # )
+  # 
+  # observeEvent(input$send, {
+  #   new_message <- list(user = input$username_field,
+  #                       text = input$message_field,
+  #                       time = Sys.time())
+  #   shiny.collections::insert(chat, new_message)
+  #   updateTextInput(session, "message_field", value = "")
+  # })
+  # 
+  # output$chatbox <- renderUI({
+  #   if (!is_empty(chat$collection)) {
+  #     render_msg_divs(chat$collection)
+  #   } else {
+  #     tags$span("Empty chat")
+  #   }
+  # })
   
 
 }

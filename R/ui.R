@@ -137,7 +137,8 @@ ui <- dashboardPage(
                   withLoader(infoBoxOutput("valuebox1"), type = "html", loader = "dnaspin"),
                   infoBoxOutput("valuebox2"), infoBoxOutput("valuebox3"),
                   infoBoxOutput("valuebox4"), infoBoxOutput("valuebox5"), infoBoxOutput("valuebox6"),
-                  infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9")
+                  infoBoxOutput("valuebox7"), infoBoxOutput("valuebox8"), infoBoxOutput("valuebox9"),
+                  infoBoxOutput("valuebox10"), infoBoxOutput("valuebox11"), infoBoxOutput("valuebox12")
               ),
       ),
       # TABLE PAGE ----
@@ -171,7 +172,7 @@ ui <- dashboardPage(
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
-                           icon = icon("prescription-bottle"),
+                           icon = icon("lungs-virus"),
                            div(DT::dataTableOutput("ff_dt"), style = "font-size:105%")
                        )))
       ),
@@ -182,7 +183,7 @@ ui <- dashboardPage(
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
-                           icon = icon("flask"),
+                           icon = icon("ruler"),
                            div(DT::dataTableOutput("ffpe_dt"), style = "font-size:105%")
                        )))
       ),
@@ -263,23 +264,67 @@ ui <- dashboardPage(
                            div(DT::dataTableOutput("shsirna_dt"), style = "font-size:105%")
                        )))
       ),
-      tabItem(tabName = "help",
-              ## LIVECHAT UI
-              box(
-                title = tags$p("Help", style = "font-size: 150%; font-weight: bold; color: white"),
-                status = "black",
-                icon = icon("user-friends"),
-                solidHeader = TRUE,
-                width = 12,
-                div(textInput(
-                  "username_field", "ID", width = "200px")),
-                uiOutput("chatbox"),
-                div(style = "display:inline-block; font-size: 150%;",
-                    textInput("message_field", "Message", width = "400px")),
-                div(style = "display:inline-block; font-size: 150%;",
-                    actionButton("send", "", icon = icon("arrow-alt-circle-up")))
-              )
-              )
+      tabItem(tabName = "cmc_siyac",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("시약목록", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "info",
+                           solidHeader = TRUE,
+                           icon = icon("copy"),
+                           div(DT::dataTableOutput("cmc_siyac_dt"), style = "font-size:105%")
+                       )))
+      ),
+      tabItem(tabName = "cmc_column",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Column", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "info",
+                           solidHeader = TRUE,
+                           icon = icon("copy"),
+                           div(DT::dataTableOutput("cmc_column_dt"), style = "font-size:105%")
+                       )))
+      ),
+      tabItem(tabName = "mc_siyac",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("시약목록", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "info",
+                           solidHeader = TRUE,
+                           icon = icon("copy"),
+                           div(DT::dataTableOutput("mc_siyac_dt"), style = "font-size:105%")
+                       )))
+      ),
+      tabItem(tabName = "mc_column",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("Column", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "info",
+                           solidHeader = TRUE,
+                           icon = icon("copy"),
+                           div(DT::dataTableOutput("mc_column_dt"), style = "font-size:105%")
+                       )))
+      )
+      # tabItem(tabName = "help",
+      #         ## LIVECHAT UI
+      #         box(
+      #           title = tags$p("Help", style = "font-size: 150%; font-weight: bold; color: white"),
+      #           status = "black",
+      #           icon = icon("user-friends"),
+      #           solidHeader = TRUE,
+      #           width = 12,
+      #           div(textInput(
+      #             "username_field", "ID", width = "200px")),
+      #           uiOutput("chatbox"),
+      #           div(style = "display:inline-block; font-size: 150%;",
+      #               textInput("message_field", "Message", width = "400px")),
+      #           div(style = "display:inline-block; font-size: 150%;",
+      #               actionButton("send", "", icon = icon("arrow-alt-circle-up")))
+      #         )
+      #         )
     ) # tabItems END
   ), # BODY end
   footer = dashboardFooter(

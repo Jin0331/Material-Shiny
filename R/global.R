@@ -690,7 +690,7 @@ render_DT <- function(DF_NAME){
                       options = list(iDisplayLength = 25, searchHighlight = TRUE,
                                      keys = TRUE,
                                      fixedColumns = list(leftColumns = 1),
-                                     fixedHeader = TRUE,
+                                     fixedHeader = FALSE,
                                      buttons = c("colvis",'copy', 'csv'),
                                      dom = "Bfrtip",
                                      scrollX = TRUE, 
@@ -841,7 +841,7 @@ antibody_wb_colname <- c("No", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host"
                       "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
                       "New8")
 antibody_wb <- collection_to_DF(collection_name = "antibody_wb_collection", url = mongoUrl);names(antibody_wb) <- antibody_wb_colname
-antibody_wb <- antibody_wb %>% select(No, Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
+antibody_wb <- antibody_wb %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
                                       `재고량 vial`, `보관 위치`, 제조사, 비고)
 
 
@@ -851,7 +851,8 @@ antibody_ihc_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Con
                          "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
                          "New8")
 antibody_ihc <- collection_to_DF(collection_name = "antibody_ihc_collection", url = mongoUrl);names(antibody_ihc) <- antibody_ihc_colname
-antibody_ihc <- antibody_ihc %>% select(-WMB_NO, -No, -New1:-New8)
+antibody_ihc <- antibody_ihc %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
+                                        `재고량 vial`, `보관 위치`, 제조사, 비고)
 
 ### facs
 antibody_facs_colname <- c("Antibody", "Cat no.", "Host", "Species Reactivity", "Application", "보관 위치", "관리자(관리팀)",
@@ -862,11 +863,25 @@ antibody_facs <- antibody_facs %>% select(-New1:-New5)
 
 
 ## celline colname and DF
-celline_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Chemoresistance status",
+# total
+celline_wb_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Chemoresistance status",
                      "Mutation status", "RON Genotype", "IGSF1 Genotype", "P34 Genotype", "Media Condition",
                      "GROWTH PATTERN", "계대비율 및 주기", "구매처", "특이사항")
-celline <- collection_to_DF(collection_name = "celline_collection", url = mongoUrl);names(celline) <- celline_colname
-celline <- celline %>% select(-WMB_NO)
+celline_wb <- collection_to_DF(collection_name = "celline_wb_collection", url = mongoUrl);names(celline_wb) <- celline_wb_colname
+celline_wb <- celline_wb %>% select(-WMB_NO)
+
+# td cell
+celline_td_colname <- c("No.", "Tissue", "Cell line", "Organism", "Passage", "doubling time", "특징", "Media Condition", "GROWTH PATTERN", "구매처", "보유자", 
+                        "소속 (팀)", "Picture")
+celline_td <- collection_to_DF(collection_name = "celline_td_collection", url = mongoUrl);names(celline_td) <- celline_td_colname
+celline_td <- celline_td %>% 
+  mutate(Picture = ifelse(Picture == "" | Picture == "-" | Picture == " ",
+                          " ", paste0("<a href='", Picture,"'>", "View</a>"))
+    ) %>% 
+  select(`Cell line`, Tissue, Organism, Passage, `doubling time`, 특징, `Media Condition`, `GROWTH PATTERN`, 구매처, 보유자, 
+         `소속 (팀)`, Picture)
+
+# dd cell
 
 ## drug colname and DF
 drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
@@ -889,11 +904,10 @@ protein <- protein %>%
   select(-WMB_NO) %>% 
   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
                                paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
-                               ifelse(`Data sheet` == "" | `Data sheet` == "-",
-                                      `Data sheet`,
-                                      paste0("<a href='", fileUrl, "PDF/protein/",
-                                             str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                             ".pdf'>", "View</a>"))
+                               ifelse(`Data sheet` == "" | `Data sheet` == "-" | `Data sheet` == " ",
+                                      " ", paste0("<a href='", fileUrl, "PDF/protein/",
+                                                  str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
+                                                  ".pdf'>", "View</a>"))
   ))
 
 ## si/shRNA colname and DF
@@ -903,6 +917,22 @@ shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "T
                      "여분7","여분8","여분9","여분10")
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
 shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
+
+# CMC 시약목록/column 
+cmc_reagent_colname <- c("CAS NO", "제조회사", "prefix", "이름", "CAT NO", "단위", "수량", "보관위치", "입고일자", "MSDS", "비고")
+cmc_reagent <- collection_to_DF(collection_name = "cmc_reagent_collection", url = mongoUrl);names(cmc_reagent) <- cmc_reagent_colname
+
+cmc_reagent_column_colname <- c("관리번호", "제조회사", "이름", "CAT NO", "Size", "Pore size", "입고일자", "상태")
+cmc_reagent_column <- collection_to_DF(collection_name = "cmc_reagent_column_collection", url = mongoUrl);names(cmc_reagent_column) <- cmc_reagent_column_colname
+
+# 의약화한센터 시약목록/column 
+mc_reagent_colname <- c("CAS NO", "제조회사", "prefix", "이름", "CAT NO", "단위", "수량", "보관위치", "입고날짜", "특수건강진단 대상 유해인자", 
+                        "유해인자-상태", "비고")
+mc_reagent <- collection_to_DF(collection_name = "medicalchemistry_reagent_collection", url = mongoUrl);names(mc_reagent) <- mc_reagent_colname
+
+mc_reagent_column_colname <- c("관리번호", "제조회사", "제품명"," Cat. No.", "Size", "Pore size", "입고일자", "상태")
+mc_reagent_column <- collection_to_DF(collection_name = "medicalchemistry_reagent_column_collection", url = mongoUrl);names(mc_reagent_column) <- mc_reagent_column_colname
+
 
 # Shiny run with global --------------------------------------------------
 source("./ui.R", local = TRUE)  

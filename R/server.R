@@ -32,9 +32,9 @@ server <- function(input, output, session) {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
         menuItem("Blood", tabName = "blood", icon = icon("tint")),
-        menuItem("FF", tabName = "ff", icon = icon("lungs-virus")),
+        menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
         menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
-        menuItem("PDX", tabName = "pdx", icon = icon("prescription" )),
+        menuItem("PDX", tabName = "pdx", icon = icon("prescription")),
         menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
@@ -48,11 +48,24 @@ server <- function(input, output, session) {
                    text = "FACS",
                    tabName = "antibody_facs"
                  )),
-        menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+        menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
+                 menuSubItem(
+                   text = "WB",
+                   tabName = "celline_wb"
+                 ),
+                 menuSubItem(
+                   text = "TD",
+                   tabName = "celline_td"
+                 ),
+                 menuSubItem(
+                   text = "DD",
+                   tabName = "celline_dd"
+                 )
+                 ),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC 연구소", tabName = "cmc_main", icon = icon("copy"),
+        menuItem("CMC", tabName = "cmc_main", icon = icon("copy"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "cmc_siyac"
@@ -76,7 +89,7 @@ server <- function(input, output, session) {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
         menuItem("Blood", tabName = "blood", icon = icon("tint")),
-        menuItem("FF", tabName = "ff", icon = icon("lungs-virus")),
+        menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
         menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
         menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
@@ -91,10 +104,41 @@ server <- function(input, output, session) {
                    text = "FACS",
                    tabName = "antibody_facs"
                  )),
-        menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+        menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
+                 menuSubItem(
+                   text = "WB",
+                   tabName = "celline_wb"
+                 ),
+                 menuSubItem(
+                   text = "TD",
+                   tabName = "celline_td"
+                 ),
+                 menuSubItem(
+                   text = "DD",
+                   tabName = "celline_dd"
+                 )
+        ),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna"))
+        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+        menuItem("CMC", tabName = "cmc_main", icon = icon("copy"),
+                 menuSubItem(
+                   text = "시약목록",
+                   tabName = "cmc_siyac"
+                 ),
+                 menuSubItem(
+                   text = "Column",
+                   tabName = "cmc_column")
+        ),
+        menuItem("의약화학센터", tabName = "mc_main", icon = icon("copy"),
+                 menuSubItem(
+                   text = "시약목록",
+                   tabName = "mc_siyac"
+                 ),
+                 menuSubItem(
+                   text = "Column",
+                   tabName = "mc_column"
+                 ))
         # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     } else {
@@ -113,10 +157,41 @@ server <- function(input, output, session) {
                    text = "FACS",
                    tabName = "antibody_facs"
                  )),
-        menuItem("Cell Line", tabName = "celline", icon = icon("virus")),
+        menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
+                 menuSubItem(
+                   text = "WB",
+                   tabName = "celline_wb"
+                 ),
+                 menuSubItem(
+                   text = "TD",
+                   tabName = "celline_td"
+                 ),
+                 menuSubItem(
+                   text = "DD",
+                   tabName = "celline_dd"
+                 )
+        ),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+        menuItem("CMC", tabName = "cmc_main", icon = icon("copy"),
+                 menuSubItem(
+                   text = "시약목록",
+                   tabName = "cmc_siyac"
+                 ),
+                 menuSubItem(
+                   text = "Column",
+                   tabName = "cmc_column")
+        ),
+        menuItem("의약화학센터", tabName = "mc_main", icon = icon("copy"),
+                 menuSubItem(
+                   text = "시약목록",
+                   tabName = "mc_siyac"
+                 ),
+                 menuSubItem(
+                   text = "Column",
+                   tabName = "mc_column"
+                 ))
         
         # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
@@ -132,97 +207,57 @@ server <- function(input, output, session) {
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
 
       output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("lungs-virus"), color = "orange", role = T)
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("diagnoses"), color = "orange", role = T)
 
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
 
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
-      
-      # antibody cnt
-      antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
-      collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
-      collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
-      output$valuebox5 <- antibody_cnt %>%
-        value_func(N = "Antibody (WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
-
-      output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
-        value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
-
-      output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
-        value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
-
-      output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
-        value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
-
-      output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
-        value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
-
+    
     } else if(res_auth$role == "B"){
       output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
       
       output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("lungs-virus"), color = "orange", role = T)
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("diagnoses"), color = "orange", role = T)
       
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
       
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
-      
-      # antibody cnt
-      antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
-        collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
-        collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
-      output$valuebox5 <- antibody_cnt %>%
-        value_func(N = "Antibody (WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
-      
-      output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
-        value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
-      
-      output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
-        value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
-      
-      output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
-        value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
-      
-      output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
-        value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
-      
-    } else{
-      output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
-        value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
-
-      output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("lungs-virus"), color = "orange")
-
-      output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
-        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua")
-
-      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
-        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
-      
-      # antibody cnt
-      antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
-        collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
-        collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
-      output$valuebox5 <- antibody_cnt %>%
-        value_func(N = "Antibody(WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
-
-      output$valuebox6 <- collection_cnt(collection_name = "celline_collection", url = mongoUrl) %>%
-        value_func(N = "Cell Line", tab_name = "celline",row_count = ., icon = icon("virus"), color = "maroon", role = T)
-
-      output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
-        value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
-
-      output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
-        value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
-
-      output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
-        value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
     }
+    
+    # material
+    # antibody cnt
+    antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
+      collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
+      collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
+    output$valuebox5 <- antibody_cnt %>%
+      value_func(N = "Antibody (WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
+    
+    # celline cnt
+    celline_cnt <- collection_cnt(collection_name = "celline_wb_collection", url = mongoUrl) +
+      collection_cnt(collection_name = "celline_td_collection", url = mongoUrl)
+    output$valuebox6 <- celline_cnt %>% 
+      value_func(N = "Cell Line (WB+TD)", tab_name = "celline_wb", row_count = ., icon = icon("virus"), color = "maroon", role = T)
+    
+    output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
+      value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
+    
+    output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
+      value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
+    
+    output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
+      value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
+    
+    output$valuebox10 <- collection_cnt(collection_name = "cmc_reagent_collection", url = mongoUrl) %>%
+      value_func(N = "CMC", tab_name = "cmc_siyac", row_count = ., icon = icon("copy"), color = "navy", role = T)
+    
+    output$valuebox11 <- collection_cnt(collection_name = "medicalchemistry_reagent_collection", url = mongoUrl) %>%
+      value_func(N = "의약화학센터", tab_name = "mc_siyac", row_count = ., icon = icon("copy"), color = "black", role = T)
+    
   })
   
   # DT ----
@@ -251,7 +286,8 @@ server <- function(input, output, session) {
   output$antibody_facs_dt <- render_DT(antibody_facs)
   
   # CELLINE DT
-  output$celline_dt <- render_DT(celline)
+  output$celline_wb_dt <- render_DT(celline_wb)
+  output$celline_td_dt <- render_DT(celline_td)
   
   # DRUG DT
   output$drug_dt <- render_DT(drug)
@@ -262,6 +298,14 @@ server <- function(input, output, session) {
   # shRNA/siRNA DT
   output$shsirna_dt <- render_DT_rowgroup(shsirna)
   
+  # cmc dT
+  output$cmc_siyac_dt <- render_DT(cmc_reagent)
+  output$cmc_column_dt <- render_DT(cmc_reagent_column)
+  
+  # 의약화학센터 DT
+  output$mc_siyac_dt <- render_DT(mc_reagent)
+  output$mc_column_dt <- render_DT(mc_reagent_column)
+  
   # TOTAL SEARCH ----
   observeEvent(res_auth$role, {
     if(res_auth$role == "A"){
@@ -269,8 +313,9 @@ server <- function(input, output, session) {
         session = session, 
         inputId = "table_picker",
         label = "",
-        choices = c("Blood", "FF", "FFPE", "PDX", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line", 
-                    "Commercial Drug", "Protein", "siRNA/shRNA"), 
+        choices = c("Blood", "FF", "FFPE", "PDX", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
+                    "Cell Line(TD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
+                    "의약화학센터(Column)"), 
         choicesOpt = list(
           content = c(
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
@@ -280,18 +325,25 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(TD)</div>",
+            # "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>CMC(시약목록)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>CMC(Column)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>의약화학센터(시약목록)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>의약화학센터(Column)</div>"
           )))     
     } else if(res_auth$role == "B"){
       updatePickerInput(
         session = session, 
         inputId = "table_picker",
         label = "",
-        choices = c("Blood", "FF", "FFPE", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line", 
-                    "Commercial Drug", "Protein", "siRNA/shRNA"), 
+        choices = c("Blood", "FF", "FFPE", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
+                    "Cell Line(TD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
+                    "의약화학센터(Column)"), 
         choicesOpt = list(
           content = c(
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
@@ -300,27 +352,40 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(TD)</div>",
+            # "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>CMC(시약목록)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>CMC(Column)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>의약화학센터(시약목록)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>의약화학센터(Column)</div>"
           ))) 
     } else {
       updatePickerInput(
         session = session, 
         inputId = "table_picker",
         label = "",
-        choices = c("Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line", 
-                    "Commercial Drug", "Protein", "siRNA/shRNA"), 
+        choices = c("Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
+                    "Cell Line(TD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
+                    "의약화학센터(Column)"), 
         choicesOpt = list(
           content = c(
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(TD)</div>",
+            # "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>"
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>CMC(시약목록)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>CMC(Column)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>의약화학센터(시약목록)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>의약화학센터(Column)</div>"
           ))) 
     }
   })
@@ -356,13 +421,13 @@ server <- function(input, output, session) {
            `Antibody(WB)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(antibody_wb, N_vec = c(1,2,5,6,7,9,12,13))
+               choices = search_keyword(antibody_wb, N_vec = c(2,3,4,5,6,7,8,9,10,11))
              )
            },
            `Antibody(IHC)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(antibody_ihc, N_vec = c(1,2,5,6,7,9,12,13))
+               choices = search_keyword(antibody_ihc, N_vec = c(2,3,4,5,6,7,8,9,10,11))
              )
            },
            `Antibody(FACS)` = {
@@ -371,10 +436,16 @@ server <- function(input, output, session) {
                choices = search_keyword(antibody_facs, N_vec = c(1:8))
              )
            },
-           `Cell Line` = {
+           `Cell Line(WB)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(celline, N_vec = c(1,2,3,4, 6,7,8,9,10,11,12,13,14))
+               choices = search_keyword(celline_wb, N_vec = c(1,2,3,4,6,7,8,9,10,11,12,13,14))
+             )
+           },
+           `Cell Line(TD)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(celline_td, N_vec = c(2:12))
              )
            },
            `Commercial Drug` = {
@@ -393,6 +464,38 @@ server <- function(input, output, session) {
              updateSelectInput(
                inputId = "search",
                choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))
+             )
+           },
+           `siRNA/shRNA` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))
+             )
+           },
+           
+           # CMC(시약목록), CMC(Column), 의약화학센터(시약목록), 의약화학센터(Column)
+           `CMC(시약목록)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(cmc_reagent)
+             )
+           },
+           `CMC(Column)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(cmc_reagent_column)
+             )
+           },
+           `의약화학센터(시약목록)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(mc_reagent)
+             )
+           },
+           `의약화학센터(시약목록)` = {
+             updateSelectInput(
+               inputId = "search",
+               choices = search_keyword(mc_reagent_column)
              )
            }
     )

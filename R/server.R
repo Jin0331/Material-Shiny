@@ -21,9 +21,9 @@ server <- function(input, output, session) {
   shinyjs::runjs(
     "function reload_page() {
       window.location.reload();
-      setTimeout(reload_page, 500000);
+      setTimeout(reload_page, 5000000);
     }
-    setTimeout(reload_page, 500000);
+    setTimeout(reload_page, 5000000);
 ")
   # RENDERMENU ----
   output$side_menu <- renderMenu({

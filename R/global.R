@@ -858,7 +858,8 @@ antibody_ihc <- antibody_ihc %>% select(Antibody, `Cat no.`, Host, `Species Reac
 antibody_facs_colname <- c("Antibody", "Cat no.", "Host", "Species Reactivity", "Application", "보관 위치", "관리자(관리팀)",
                            "제조사", "비고", "New1","New2","New3","New4","New5")
 antibody_facs <- collection_to_DF(collection_name = "antibody_facs_collection", url = mongoUrl);names(antibody_facs) <-antibody_facs_colname
-antibody_facs <- antibody_facs %>% select(-New1:-New5)
+antibody_facs <- antibody_facs %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `보관 위치`,
+                                          제조사, 비고)
 
 
 

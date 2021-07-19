@@ -458,7 +458,7 @@ server <- function(input, output, session) {
            `Cell Line(TD)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(celline_td, N_vec = c(2:12))
+               choices = search_keyword(celline_td, N_vec = c(2:11))
              )
            },
            `Commercial Drug` = {
@@ -504,7 +504,7 @@ server <- function(input, output, session) {
                choices = search_keyword(mc_reagent)
              )
            },
-           `의약화학센터(시약목록)` = {
+           `의약화학센터(Column)` = {
              updateSelectInput(
                inputId = "search",
                choices = search_keyword(mc_reagent_column)
@@ -557,10 +557,15 @@ server <- function(input, output, session) {
           filter_all(., any_vars(. == search_keyword)) 
         output$search_dt <- render_DT_search(antibody_facs_search)
       },
-      `Cell Line` = {
-        celline_search <- celline %>% 
+      `Cell Line(WB)` = {
+        celline_wb_search <- celline_wb %>% 
           filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(celline_search)
+        output$search_dt <- render_DT_search(celline_wb_search)
+      },
+      `Cell Line(TD)` = {
+        celline_td_search <- celline_td %>% 
+          filter_all(., any_vars(. == search_keyword)) 
+        output$search_dt <- render_DT_search(celline_td_search)
       },
       `Commercial Drug` = {
         drug_search <- drug %>% 
@@ -576,6 +581,26 @@ server <- function(input, output, session) {
         shsirna_search <- shsirna %>% 
           filter_all(., any_vars(. == search_keyword))
         output$search_dt <- render_DT_search(shsirna_search)
+      },
+      `CMC(시약목록)` = {
+        cmc_siyac_search <- cmc_reagent %>% 
+          filter_all(., any_vars(. == search_keyword))
+        output$search_dt <- render_DT_search(cmc_siyac_search)
+      },
+      `CMC(Column)` = {
+        cmc_column_search <- cmc_reagent_column %>% 
+          filter_all(., any_vars(. == search_keyword))
+        output$search_dt <- render_DT_search(cmc_column_search)
+      },
+      `의약화학센터(시약목록)` = {
+        mc_siyac_search <- mc_reagent %>% 
+          filter_all(., any_vars(. == search_keyword))
+        output$search_dt <- render_DT_search(mc_siyac_search)
+      },
+      `의약화학센터(Column)` = {
+        mc_column_search <- mc_reagent_column %>% 
+          filter_all(., any_vars(. == search_keyword))
+        output$search_dt <- render_DT_search(mc_column_search)
       }
     )
   }) # oberveEvent

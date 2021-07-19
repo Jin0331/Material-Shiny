@@ -76,8 +76,8 @@ server <- function(input, output, session) {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
         menuItem("Blood", tabName = "blood", icon = icon("tint")),
-        menuItem("FF", tabName = "ff", icon = icon("prescription-bottle")),
-        menuItem("FFPE", tabName = "ffpe", icon = icon("flask")),
+        menuItem("FF", tabName = "ff", icon = icon("lungs-virus")),
+        menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
         menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
@@ -132,10 +132,10 @@ server <- function(input, output, session) {
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
 
       output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange", role = T)
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("lungs-virus"), color = "orange", role = T)
 
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
-        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua", role = T)
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
 
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
@@ -164,10 +164,10 @@ server <- function(input, output, session) {
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
       
       output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange", role = T)
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("lungs-virus"), color = "orange", role = T)
       
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
-        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua", role = T)
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
       
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
@@ -196,10 +196,10 @@ server <- function(input, output, session) {
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
 
       output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
-        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("prescription-bottle"), color = "orange")
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("lungs-virus"), color = "orange")
 
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
-        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("flask"), color = "aqua")
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua")
 
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")

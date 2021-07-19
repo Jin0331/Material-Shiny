@@ -78,7 +78,7 @@ ui <- dashboardPage(
                 align = "center", 
                 width = 12,
                 HTML("<br>"),
-                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="110"></center>'),
+                HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
                 HTML("<br>"),
                 HTML("<br>")
                 ),

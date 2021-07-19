@@ -229,7 +229,7 @@ server <- function(input, output, session) {
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
     }
     
-    # material
+    # material, for all users
     # antibody cnt
     antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
       collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
@@ -421,13 +421,13 @@ server <- function(input, output, session) {
            `Antibody(WB)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(antibody_wb, N_vec = c(2,3,4,5,6,7,8,9,10,11))
+               choices = search_keyword(antibody_wb, N_vec = c(2:10))
              )
            },
            `Antibody(IHC)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(antibody_ihc, N_vec = c(2,3,4,5,6,7,8,9,10,11))
+               choices = search_keyword(antibody_ihc, N_vec = c(2:10))
              )
            },
            `Antibody(FACS)` = {
@@ -473,7 +473,6 @@ server <- function(input, output, session) {
              )
            },
            
-           # CMC(시약목록), CMC(Column), 의약화학센터(시약목록), 의약화학센터(Column)
            `CMC(시약목록)` = {
              updateSelectInput(
                inputId = "search",

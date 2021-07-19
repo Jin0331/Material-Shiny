@@ -1,8 +1,8 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
-connection <- shiny.collections::connect(
-  host = "192.168.0.99"
-) # chat
+# connection <- shiny.collections::connect(
+#   host = "192.168.0.99"
+# ) # chat
 fileUrl <- "http://192.168.0.99:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.99:27017/admin"
 # user_con <- DBI::dbConnect(drv = MariaDB(), host = "192.168.0.99", port = 3306, user = "root", password = "sempre813!",
@@ -894,7 +894,7 @@ drug <- drug %>%
                                ifelse(str_detect(`Data sheet`, pattern = "_PDF"), 
                                       paste0("<a href='", fileUrl, "PDF/drug/",
                                              str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]|PDF"),".pdf'>", "View</a>"),
-                                      `Data sheet`)))
+                                      " ")))
                                
 
 ## protein colname and DF

@@ -227,8 +227,21 @@ server <- function(input, output, session) {
       
       output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+    } else {
+      output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
+        value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
+      
+      output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+        value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("diagnoses"), color = "orange")
+      
+      output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
+        value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua")
+      
+      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
+        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+      
     }
-    
+     
     # material, for all users
     # antibody cnt
     antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +

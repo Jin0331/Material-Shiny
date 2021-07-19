@@ -65,7 +65,7 @@ server <- function(input, output, session) {
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC", tabName = "cmc_main", icon = icon("copy"),
+        menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "cmc_siyac"
@@ -74,7 +74,7 @@ server <- function(input, output, session) {
                    text = "Column",
                    tabName = "cmc_column")
                  ),
-        menuItem("의약화학센터", tabName = "mc_main", icon = icon("copy"),
+        menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "mc_siyac"
@@ -121,7 +121,7 @@ server <- function(input, output, session) {
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC", tabName = "cmc_main", icon = icon("copy"),
+        menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "cmc_siyac"
@@ -130,7 +130,7 @@ server <- function(input, output, session) {
                    text = "Column",
                    tabName = "cmc_column")
         ),
-        menuItem("의약화학센터", tabName = "mc_main", icon = icon("copy"),
+        menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "mc_siyac"
@@ -174,7 +174,7 @@ server <- function(input, output, session) {
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC", tabName = "cmc_main", icon = icon("copy"),
+        menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "cmc_siyac"
@@ -183,7 +183,7 @@ server <- function(input, output, session) {
                    text = "Column",
                    tabName = "cmc_column")
         ),
-        menuItem("의약화학센터", tabName = "mc_main", icon = icon("copy"),
+        menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
                  menuSubItem(
                    text = "시약목록",
                    tabName = "mc_siyac"
@@ -253,10 +253,10 @@ server <- function(input, output, session) {
       value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
     
     output$valuebox10 <- collection_cnt(collection_name = "cmc_reagent_collection", url = mongoUrl) %>%
-      value_func(N = "CMC", tab_name = "cmc_siyac", row_count = ., icon = icon("copy"), color = "navy", role = T)
+      value_func(N = "CMC", tab_name = "cmc_siyac", row_count = ., icon = icon("atom"), color = "navy", role = T)
     
     output$valuebox11 <- collection_cnt(collection_name = "medicalchemistry_reagent_collection", url = mongoUrl) %>%
-      value_func(N = "의약화학센터", tab_name = "mc_siyac", row_count = ., icon = icon("copy"), color = "black", role = T)
+      value_func(N = "의약화학센터", tab_name = "mc_siyac", row_count = ., icon = icon("prescription-bottle-alt"), color = "black", role = T)
     
   })
   
@@ -439,7 +439,7 @@ server <- function(input, output, session) {
            `Cell Line(WB)` = {
              updateSelectInput(
                inputId = "search",
-               choices = search_keyword(celline_wb, N_vec = c(1,2,3,4,6,7,8,9,10,11,12,13,14))
+               choices = search_keyword(celline_wb, N_vec = c(1:4,6:14))
              )
            },
            `Cell Line(TD)` = {

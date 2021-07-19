@@ -293,7 +293,7 @@ ui <- dashboardPage(
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
-                           icon = icon("copy"),
+                           icon = icon("atom"),
                            div(DT::dataTableOutput("cmc_siyac_dt"), style = "font-size:105%")
                        )))
       ),
@@ -304,7 +304,7 @@ ui <- dashboardPage(
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
-                           icon = icon("copy"),
+                           icon = icon("atom"),
                            div(DT::dataTableOutput("cmc_column_dt"), style = "font-size:105%")
                        )))
       ),
@@ -315,7 +315,7 @@ ui <- dashboardPage(
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
-                           icon = icon("copy"),
+                           icon = icon("prescription-bottle-alt"),
                            div(DT::dataTableOutput("mc_siyac_dt"), style = "font-size:105%")
                        )))
       ),
@@ -326,7 +326,7 @@ ui <- dashboardPage(
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
-                           icon = icon("copy"),
+                           icon = icon("prescription-bottle-alt"),
                            div(DT::dataTableOutput("mc_column_dt"), style = "font-size:105%")
                        )))
       )

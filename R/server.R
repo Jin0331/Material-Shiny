@@ -296,33 +296,47 @@ server <- function(input, output, session) {
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
 
   # ANTIBODY DT
-  output$antibody_wb_dt <- render_DT(antibody_wb)
-  output$antibody_ihc_dt <- render_DT(antibody_ihc)
-  output$antibody_facs_dt <- render_DT(antibody_facs)
+  # output$antibody_wb_dt <- render_DT(antibody_wb)
+  output$antibody_wb_dt <- render_DT_searchpane(antibody_wb, not_view = c(0,1,5,8,9))
+  
+  # output$antibody_ihc_dt <- render_DT(antibody_ihc)
+  output$antibody_ihc_dt <- render_DT_searchpane(antibody_ihc, not_view = c(0,1,5))
+  
+  # output$antibody_facs_dt <- render_DT(antibody_facs)
+  output$antibody_facs_dt <- render_DT_searchpane(antibody_facs, not_view = c(0,1,7))
   
   # CELLINE DT
   # output$celline_wb_dt <- render_DT(celline_wb)
-  output$celline_wb_dt <- render_DT_searchpane(celline_wb, c(0,4:13))
+  output$celline_wb_dt <- render_DT_searchpane(celline_wb, not_view = c(0,4:13))
 
   # output$celline_td_dt <- render_DT(celline_td)
-  output$celline_td_dt <- render_DT_searchpane(celline_td, c(3:7))
+  output$celline_td_dt <- render_DT_searchpane(celline_td, not_view = c(3:7))
   
   # DRUG DT
-  output$drug_dt <- render_DT(drug)
+  # output$drug_dt <- render_DT(drug)
+  output$drug_dt <- render_DT_searchpane(drug, not_view = c(0,2,4,5,9))
   
   # PROTEIN DT
-  output$protein_dt <- render_DT_rowgroup(protein)
+  # output$protein_dt <- render_DT_rowgroup(protein)
+  output$protein_dt <- render_DT_searchpane(protein, not_view = 6)
   
   # shRNA/siRNA DT
-  output$shsirna_dt <- render_DT_rowgroup(shsirna)
+  # output$shsirna_dt <- render_DT_rowgroup(shsirna)
+  output$shsirna_dt <- render_DT_searchpane(shsirna, not_view = NULL)
   
   # cmc dT
-  output$cmc_siyac_dt <- render_DT(cmc_reagent)
-  output$cmc_column_dt <- render_DT(cmc_reagent_column)
+  # output$cmc_siyac_dt <- render_DT(cmc_reagent)
+  output$cmc_siyac_dt <- render_DT_searchpane(cmc_reagent, not_view = c(2,5,8))
+  
+  # output$cmc_column_dt <- render_DT(cmc_reagent_column)
+  output$cmc_column_dt <- render_DT_searchpane(cmc_reagent_column, not_view = c(2:6))
   
   # 의약화학센터 DT
-  output$mc_siyac_dt <- render_DT(mc_reagent)
-  output$mc_column_dt <- render_DT(mc_reagent_column)
+  # output$mc_siyac_dt <- render_DT(mc_reagent)
+  output$mc_siyac_dt <- render_DT_searchpane(mc_reagent, not_view = c(2:5,8))
+  
+  # output$mc_column_dt <- render_DT(mc_reagent_column)
+  output$mc_column_dt <- render_DT_searchpane(mc_reagent_column, not_view = c(2:6))
   
   # TOTAL SEARCH ----
   observeEvent(res_auth$role, {
@@ -532,13 +546,13 @@ server <- function(input, output, session) {
       `FF` = {
         ff_search <- ff %>% 
           filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function(list_df = ., result_df = ff_result)
+          child_function_FF(list_df = ., result_df = ff_result)
         output$search_dt <- render_DT_search(ff_search, child = T)
       },
       `FFPE` = { 
         ffpe_search <- ffpe %>% 
           filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function(list_df = ., result_df = ffpe_result)
+          child_function_FF(list_df = ., result_df = ffpe_result)
         output$search_dt <- render_DT_search(ffpe_search, child = T)
       },
       `PDX` = {

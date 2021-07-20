@@ -203,18 +203,20 @@ server <- function(input, output, session) {
     
   observeEvent(res_auth$role, {
     if(res_auth$role == "A"){
-      output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
+      output$valuebox1 <<- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
 
-      output$valuebox2 <- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
+      output$valuebox2 <<- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
         value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("diagnoses"), color = "orange", role = T)
 
-      output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
+      output$valuebox3 <<- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
 
-      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
+      output$valuebox4 <<- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
-    
+      
+      
+      
     } else if(res_auth$role == "B"){
       output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
@@ -247,28 +249,28 @@ server <- function(input, output, session) {
     antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
       collection_cnt(collection_name = "antibody_ihc_collection", url = mongoUrl) +
       collection_cnt(collection_name = "antibody_facs_collection", url = mongoUrl)
-    output$valuebox5 <- antibody_cnt %>%
+    output$valuebox5 <<- antibody_cnt %>%
       value_func(N = "Antibody (WB+IHC+FACS)", tab_name = "antibody_wb", row_count = ., icon = icon("yandex-international"), color = "fuchsia", role = T)
     
     # celline cnt
     celline_cnt <- collection_cnt(collection_name = "celline_wb_collection", url = mongoUrl) +
       collection_cnt(collection_name = "celline_td_collection", url = mongoUrl)
-    output$valuebox6 <- celline_cnt %>% 
+    output$valuebox6 <<- celline_cnt %>% 
       value_func(N = "Cell Line (WB+TD)", tab_name = "celline_wb", row_count = ., icon = icon("virus"), color = "maroon", role = T)
     
-    output$valuebox7 <- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
+    output$valuebox7 <<- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
       value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
     
-    output$valuebox8 <- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
+    output$valuebox8 <<- collection_cnt(collection_name = "protein_collection", url = mongoUrl) %>%
       value_func(N = "Protein", tab_name = "protein",row_count = ., icon = icon("share-alt"), color = "olive", role = T)
     
-    output$valuebox9 <- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
+    output$valuebox9 <<- collection_cnt(collection_name = "shsirna_collection", url = mongoUrl) %>%
       value_func(N = "shRNA / siRNA", tab_name = "shsirna", row_count = ., icon = icon("dna"), color = "lime", role = T)
     
-    output$valuebox10 <- collection_cnt(collection_name = "cmc_reagent_collection", url = mongoUrl) %>%
+    output$valuebox10 <<- collection_cnt(collection_name = "cmc_reagent_collection", url = mongoUrl) %>%
       value_func(N = "CMC", tab_name = "cmc_siyac", row_count = ., icon = icon("atom"), color = "navy", role = T)
     
-    output$valuebox11 <- collection_cnt(collection_name = "medicalchemistry_reagent_collection", url = mongoUrl) %>%
+    output$valuebox11 <<- collection_cnt(collection_name = "medicalchemistry_reagent_collection", url = mongoUrl) %>%
       value_func(N = "의약화학센터", tab_name = "mc_siyac", row_count = ., icon = icon("prescription-bottle-alt"), color = "black", role = T)
     
   })
@@ -300,7 +302,10 @@ server <- function(input, output, session) {
   
   # CELLINE DT
   output$celline_wb_dt <- render_DT(celline_wb)
+  # output$celline_wb_dt <- render_DT_searchpane(celline_wb, c(0,4:13))
+
   output$celline_td_dt <- render_DT(celline_td)
+  # output$celline_td_dt <- render_DT_searchpane(celline_td, c(3:7))
   
   # DRUG DT
   output$drug_dt <- render_DT(drug)

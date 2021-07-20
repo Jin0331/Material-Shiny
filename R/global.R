@@ -245,6 +245,7 @@ value_func <<- function(N, tab_name,row_count, icon, color, role = F){
     renderInfoBox({
       infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
         a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('",tab_name,"')"), href = "#"),
+        # a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('ff')"), href = "#"),
           icon = icon, color = color)
     })
   } else {
@@ -655,8 +656,8 @@ render_DT_child <- function(DF_NAME){
   DT::renderDataTable(
     datatable(
       DF_NAME[[1]], 
-      callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]),
-      # callback = callback_function_2(),
+      # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]),
+      callback = callback_function_2(),
       rownames = rowNames, escape = -DF_NAME[[3]]-1,
       selection=list(mode="single", target="cell"),
       options = list(
@@ -702,6 +703,45 @@ render_DT <- function(DF_NAME){
                                      )
                       )
 }
+render_DT_searchpane <- function(DF_NAME, not_view){
+  DT::renderDataTable(DF_NAME, 
+                      server = FALSE,
+                      escape = FALSE, 
+                      rownames = FALSE, 
+                      extensions = c("Select", "SearchPanes", "Buttons", "FixedHeader", "Scroller"), 
+                      selection = "none",
+                      options = list(
+                        buttons = list(
+                          list(
+                            extend = "searchPanes",
+                            config = list(
+                              dtOpts = list(
+                                paging = FALSE
+                              )
+                            )
+                          ),
+                          list(extend = "csv"),
+                          list(extend = "copy")
+                        ),
+                        language = list(searchPanes = list(collapse = "Filter Rows")),
+                        dom = "Bfrtip",
+                        autoWidth = T,
+                        iDisplayLength = 25,
+                        searchHighlight = TRUE,
+                        fixedHeader = FALSE,
+                        deferRender = TRUE,
+                        scrollY = 700,
+                        scroller = TRUE,
+                        scrollX = TRUE, 
+                        columnDefs = list(
+                          list(searchPanes = list(show = FALSE), targets = not_view),
+                          # list(searchPanes = list(controls = FALSE), targets = 0:2),
+                          list(className = "dt-center", width = '200px', targets = "_all")
+                        )
+                      )
+  )
+}
+
 render_DT_rowgroup <- function(DF_NAME){
   DT::renderDataTable(DF_NAME, rownames = FALSE, extensions = c('Buttons', "KeyTable", "RowGroup", "FixedHeader", "Scroller"), 
                       escape = FALSE,
@@ -870,14 +910,14 @@ celline_wb <- collection_to_DF(collection_name = "celline_wb_collection", url = 
 celline_wb <- celline_wb %>% select(-WMB_NO)
 
 # td cell
-celline_td_colname <- c("No.", "Tissue", "Cell line", "Organism", "Passage", "doubling time", "특징", "Media Condition", "GROWTH PATTERN", "구매처", "보유자", 
+celline_td_colname <- c("No.", "Tissue", "Cell line", "Organism", "Passage", "Doubling time", "특징", "Media Condition", "GROWTH PATTERN", "구매처", "보유자", 
                         "소속 (팀)", "Picture")
 celline_td <- collection_to_DF(collection_name = "celline_td_collection", url = mongoUrl);names(celline_td) <- celline_td_colname
 celline_td <- celline_td %>% 
   mutate(Picture = ifelse(Picture == "" | Picture == "-" | Picture == " ",
                           " ", paste0("<a href='", Picture,"'>", "View</a>"))
     ) %>% 
-  select(`Cell line`, Tissue, Organism, Passage, `doubling time`, 특징, `Media Condition`, `GROWTH PATTERN`, 구매처, 보유자, 
+  select(`Cell line`, Tissue, Organism, Passage, `Doubling time`, 특징, `Media Condition`, `GROWTH PATTERN`, 구매처, 보유자, 
          `소속 (팀)`, Picture)
 
 # dd cell

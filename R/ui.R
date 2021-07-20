@@ -20,7 +20,7 @@ ui <- dashboardPage(
       ),
       class = "dropdown"
     )
-
+    
   ),
   
   # SIDEBAR -----------------------------------------------------------------
@@ -29,7 +29,7 @@ ui <- dashboardPage(
     collapsed = FALSE,
     sidebarMenu(id = "side", 
                 menuItemOutput("side_menu"))
-    ), 
+  ), 
   # BODY --------------------------------------------------------------------
   
   dashboardBody(
@@ -40,24 +40,8 @@ ui <- dashboardPage(
                 href = "http://www.wmbio.co/images/main/main_second_logo.png"),
       tags$style(HTML("
                     .sidebar-menu li a {font-size: 17px;}
-                    .selectize-input { 
-                      height: 100px;
-                      width: 800px;
-                      font-size: 15pt;
-                      font-weight: bold;
-                      
-                    }
-                    .selectize-dropdown { 
-                      font-size: 20px; 
-                      height: 1100px;
-                      line-height: 20px;
-                    }
-                    #chatbox {
-                      padding: .5em;
-                      border: 1px solid #777;
-                      height: 300px;
-                      overflow-y: scroll;
-                    }
+                    #search{height: 45px; font-size: 22px; font-weight: bold; text-align: center;}
+                    #table_picker{height: 35px;}
                     "
       ))
     ),
@@ -82,7 +66,7 @@ ui <- dashboardPage(
                 HTML('<center><img src="http://www.wmbio.co/images/main/main_second_logo.png" width="130"></center>'),
                 HTML("<br>"),
                 HTML("<br>")
-                ),
+              ),
               box(width = 12,
                   collapsed = TRUE,
                   collapsible = TRUE,
@@ -90,42 +74,45 @@ ui <- dashboardPage(
                   status = "info",
                   solidHeader = TRUE,
                   icon = icon("search"),
-
-                fluidRow(
-                  align = "center",
-                  ## TOTAL SEARCH UI
-                  column(12,
-                         offset = 0,
-                         style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
-                         pickerInput(inputId = "table_picker",
-                                     label = "",
-                                     choices = "",
-                                     width = "230",
-                                     inline = FALSE,
-                                     options = list( `live-search` = TRUE,
-                                                     `actions-box` = TRUE,
-                                                     `selectedTextFormat` = TRUE
-                                                     ))
-                         ),
-                  column(12,
-                         offset = 0,
-                         style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
-                         selectizeInput(
-                           inputId = "search",
-                           choices = NULL,
-                           label = "",
+                  
+                  fluidRow(
+                    align = "center",
+                    ## TOTAL SEARCH UI
+                    column(12,
+                           offset = 0,
+                           style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
+                           pickerInput(inputId = "table_picker",
+                                       label = "",
+                                       choices = "",
+                                       width = "230",
+                                       inline = FALSE,
+                                       options = list( `live-search` = TRUE,
+                                                       `actions-box` = TRUE,
+                                                       `selectedTextFormat` = TRUE
+                                       ))
+                    ),
+                    column(12,
+                           offset = 0,
+                           style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
+                           textInput(
+                             inputId = "search",
+                             label = "",
+                             placeholder = "",
+                             width = "800px",
+                             # class = "form-group shiny-input-container",
+                             # style = "width: 300px; height: 34px; font-weight: bold"
                            ),
-                         actionButton(inputId = "ac_btn", label = "", icon = icon("search")),
-                         actionButton(inputId = "re_btn", label = "", icon = icon("remove")),
-
-                         ),
-                ), # flouidRow end,
-                div(shinycustomloader::withLoader(
-                  DT::dataTableOutput("search_dt"),
-                  type = "image", loader="http://192.168.0.99:18080/loading.gif"),
-                  style = "font-size:100%"
+                           actionButton(inputId = "ac_btn", label = "", icon = icon("search")),
+                           actionButton(inputId = "re_btn", label = "", icon = icon("remove")),
+                           
+                    ),
+                  ), # flouidRow end,
+                  div(shinycustomloader::withLoader(
+                    DT::dataTableOutput("search_dt"),
+                    type = "image", loader="http://192.168.0.99:18080/loading.gif"),
+                    style = "font-size:100%"
                   )
-                ),
+              ),
               # INFOBOX UI
               box(title = tags$p("Biobank", style = "font-size: 170%; font-weight: bold; color: white"),
                   status = "info",
@@ -364,4 +351,4 @@ ui <- secure_app(ui, enable_admin = TRUE,
                  ), 
                  language = "en",
                  keep_token = TRUE
-                 )
+)

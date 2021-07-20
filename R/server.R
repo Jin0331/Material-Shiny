@@ -39,7 +39,7 @@ server <- function(input, output, session) {
                  menuSubItem(
                    text = "WB",
                    tabName = "antibody_wb"
-                   ),
+                 ),
                  menuSubItem(
                    text = "IHC",
                    tabName = "antibody_ihc"
@@ -61,7 +61,7 @@ server <- function(input, output, session) {
                    text = "DD",
                    tabName = "celline_dd"
                  )
-                 ),
+        ),
         menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
         menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
         menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
@@ -73,7 +73,7 @@ server <- function(input, output, session) {
                  menuSubItem(
                    text = "Column",
                    tabName = "cmc_column")
-                 ),
+        ),
         menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
                  menuSubItem(
                    text = "시약목록",
@@ -196,22 +196,22 @@ server <- function(input, output, session) {
         # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     }
-
+    
     
     sidebarMenu(.list = menu_list)
   })
-    
+  
   observeEvent(res_auth$role, {
     if(res_auth$role == "A"){
       output$valuebox1 <<- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red", role = T)
-
+      
       output$valuebox2 <<- collection_cnt(collection_name = "ff_collection", url = mongoUrl) %>%
         value_func(N = "FF", tab_name = "ff", row_count = ., icon = icon("diagnoses"), color = "orange", role = T)
-
+      
       output$valuebox3 <<- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
-
+      
       output$valuebox4 <<- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
       
@@ -243,7 +243,7 @@ server <- function(input, output, session) {
         value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
       
     }
-     
+    
     # material, for all users
     # antibody cnt
     antibody_cnt <- collection_cnt(collection_name = "antibody_wb_collection", url = mongoUrl) +
@@ -294,7 +294,7 @@ server <- function(input, output, session) {
   
   # PDX DT
   output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
-
+  
   # ANTIBODY DT
   # output$antibody_wb_dt <- render_DT(antibody_wb)
   output$antibody_wb_dt <- render_DT_searchpane(antibody_wb, not_view = c(0,1,5,8,9))
@@ -308,7 +308,7 @@ server <- function(input, output, session) {
   # CELLINE DT
   # output$celline_wb_dt <- render_DT(celline_wb)
   output$celline_wb_dt <- render_DT_searchpane(celline_wb, not_view = c(0,4:13))
-
+  
   # output$celline_td_dt <- render_DT(celline_td)
   output$celline_td_dt <- render_DT_searchpane(celline_td, not_view = c(3:7))
   
@@ -422,205 +422,117 @@ server <- function(input, output, session) {
     }
   })
   
-  observeEvent(input$table_picker, {
-    table_select <- input$table_picker
-    switch(table_select,
-           `Blood` = {
-             choices <- search_keyword(DF = blood, N_vec = c(3,4,6,7))
-             updateSelectInput(
-               inputId = "search",
-               choices = choices
-             )
-           },
-           `FF` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(DF = ff, N_vec = c(3,4,6,7))
-             )
-           },
-           `FFPE` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(DF = ffpe, N_vec = c(3,4,6,7))
-             )
-           },
-           `PDX` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(DF = pdx, N_vec = c(3,4,6,7))
-             )
-           },
-           `Antibody(WB)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(antibody_wb, N_vec = c(2:10))
-             )
-           },
-           `Antibody(IHC)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(antibody_ihc, N_vec = c(2:10))
-             )
-           },
-           `Antibody(FACS)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(antibody_facs, N_vec = c(1:8))
-             )
-           },
-           `Cell Line(WB)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(celline_wb, N_vec = c(1:4,6:14))
-             )
-           },
-           `Cell Line(TD)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(celline_td, N_vec = c(2:11))
-             )
-           },
-           `Commercial Drug` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(drug, N_vec = c(1,2,4,7,8))
-             )
-           },
-           `Protein` = {
-             updateSelectInput(
-               inputId = "search",
-               choices =search_keyword(protein, N_vec = c(1,2,3,4,5,7))
-             )
-           },
-           `siRNA/shRNA` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))
-             )
-           },
-           `siRNA/shRNA` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(shsirna, N_vec = c(1,2,3,4,5,7,8,9,10,11,13))
-             )
-           },
-           
-           `CMC(시약목록)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(cmc_reagent)
-             )
-           },
-           `CMC(Column)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(cmc_reagent_column)
-             )
-           },
-           `의약화학센터(시약목록)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(mc_reagent)
-             )
-           },
-           `의약화학센터(Column)` = {
-             updateSelectInput(
-               inputId = "search",
-               choices = search_keyword(mc_reagent_column)
-             )
-           }
-    )
-  }) # oberve
   observeEvent(input$ac_btn, {
     table_select <- input$table_picker
     search_keyword <- input$search
-
+    
+    if(search_keyword == "") search_keyword <- "   "
+    
     switch(table_select,
-      `Blood` = {
-        blood_search <- blood %>% 
-          filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function(list_df = ., result_df = blood_result)
-        output$search_dt <- render_DT_search(blood_search, child = T)
-        
-        },
-      `FF` = {
-        ff_search <- ff %>% 
-          filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function_FF(list_df = ., result_df = ff_result)
-        output$search_dt <- render_DT_search(ff_search, child = T)
-      },
-      `FFPE` = { 
-        ffpe_search <- ffpe %>% 
-          filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function_FF(list_df = ., result_df = ffpe_result)
-        output$search_dt <- render_DT_search(ffpe_search, child = T)
-      },
-      `PDX` = {
-        pdx_search <- pdx %>% 
-          filter_all(., any_vars(. == search_keyword)) %>% 
-          child_function(list_df = ., result_df = pdx_result)
-        output$search_dt <- render_DT_search(pdx_search, child = T)
-      },
-      `Antibody(WB)` = {
-        antibody_wb_search <- antibody_wb %>% 
-          filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(antibody_wb_search)
-      },
-      `Antibody(IHC)` = {
-        antibody_ihc_search <- antibody_ihc %>% 
-          filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(antibody_ihc_search)
-      },
-      `Antibody(FACS)` = {
-        antibody_facs_search <- antibody_facs %>% 
-          filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(antibody_facs_search)
-      },
-      `Cell Line(WB)` = {
-        celline_wb_search <- celline_wb %>% 
-          filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(celline_wb_search)
-      },
-      `Cell Line(TD)` = {
-        celline_td_search <- celline_td %>% 
-          filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(celline_td_search)
-      },
-      `Commercial Drug` = {
-        drug_search <- drug %>% 
-          filter_all(., any_vars(. == search_keyword)) 
-        output$search_dt <- render_DT_search(drug_search)
-      },
-      `Protein` = {
-        protein_search <- protein %>% 
-          filter_all(., any_vars(. == search_keyword))  
-        output$search_dt <- render_DT_search(protein_search)
-      },
-      `siRNA/shRNA` = {
-        shsirna_search <- shsirna %>% 
-          filter_all(., any_vars(. == search_keyword))
-        output$search_dt <- render_DT_search(shsirna_search)
-      },
-      `CMC(시약목록)` = {
-        cmc_siyac_search <- cmc_reagent %>% 
-          filter_all(., any_vars(. == search_keyword))
-        output$search_dt <- render_DT_search(cmc_siyac_search)
-      },
-      `CMC(Column)` = {
-        cmc_column_search <- cmc_reagent_column %>% 
-          filter_all(., any_vars(. == search_keyword))
-        output$search_dt <- render_DT_search(cmc_column_search)
-      },
-      `의약화학센터(시약목록)` = {
-        mc_siyac_search <- mc_reagent %>% 
-          filter_all(., any_vars(. == search_keyword))
-        output$search_dt <- render_DT_search(mc_siyac_search)
-      },
-      `의약화학센터(Column)` = {
-        mc_column_search <- mc_reagent_column %>% 
-          filter_all(., any_vars(. == search_keyword))
-        output$search_dt <- render_DT_search(mc_column_search)
-      }
+           `Blood` = {
+             blood_search <- blood %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             
+             if(nrow(blood_search) >= 1){
+               blood_search <- child_function(list_df = blood_search, result_df = blood_result)
+               output$search_dt <- render_DT_search(blood_search, child = T)
+             } else {
+               output$search_dt <- render_DT_search(blood_search, child = F)
+             }
+           },
+           `FF` = {
+             ff_search <- ff %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             
+             if(nrow(ff_search) >= 1){
+               ff_search <- child_function(list_df = ff_search, result_df = blood_result)
+               output$search_dt <- render_DT_search(ff_search, child = T)
+             } else {
+               output$search_dt <- render_DT_search(ff_search, child = F)
+             }
+           },
+           `FFPE` = { 
+             ffpe_search <- ffpe %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             
+             if(nrow(ffpe_search) >= 1){
+               ffpe_search <- child_function(list_df = ffpe_search, result_df = blood_result)
+               output$search_dt <- render_DT_search(ffpe_search, child = T)
+             } else {
+               output$search_dt <- render_DT_search(ffpe_search, child = F)
+             }
+           },
+           `PDX` = {
+             pdx_search <- pdx %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             
+             if(nrow(pdx_search) >= 1){
+               pdx_search <- child_function(list_df = pdx_search, result_df = blood_result)
+               output$search_dt <- render_DT_search(pdx_search, child = T)
+             } else {
+               output$search_dt <- render_DT_search(pdx_search, child = F)
+             }
+           },
+           `Antibody(WB)` = {
+             antibody_wb_search <- antibody_wb %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(antibody_wb_search)
+           },
+           `Antibody(IHC)` = {
+             antibody_ihc_search <- antibody_ihc %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(antibody_ihc_search)
+           },
+           `Antibody(FACS)` = {
+             antibody_facs_search <- antibody_facs %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(antibody_facs_search)
+           },
+           `Cell Line(WB)` = {
+             celline_wb_search <- celline_wb %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(celline_wb_search)
+           },
+           `Cell Line(TD)` = {
+             celline_td_search <- celline_td %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(celline_td_search)
+           },
+           `Commercial Drug` = {
+             drug_search <- drug %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(drug_search)
+           },
+           `Protein` = {
+             protein_search <- protein %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(protein_search)
+           },
+           `siRNA/shRNA` = {
+             shsirna_search <- shsirna %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(shsirna_search)
+           },
+           `CMC(시약목록)` = {
+             cmc_siyac_search <- cmc_reagent %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(cmc_siyac_search)
+           },
+           `CMC(Column)` = {
+             cmc_column_search <- cmc_reagent_column %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(cmc_column_search)
+           },
+           `의약화학센터(시약목록)` = {
+             mc_siyac_search <- mc_reagent %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(mc_siyac_search)
+           },
+           `의약화학센터(Column)` = {
+             mc_column_search <- mc_reagent_column %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(mc_column_search)
+           }
     )
   }) # oberveEvent
   observeEvent(input$re_btn, {
@@ -648,5 +560,5 @@ server <- function(input, output, session) {
   #   }
   # })
   
-
+  
 }

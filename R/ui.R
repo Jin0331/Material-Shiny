@@ -39,6 +39,7 @@ ui <- dashboardPage(
       tags$link(rel = "shortcut icon", 
                 href = "http://www.wmbio.co/images/main/main_second_logo.png"),
       tags$style(HTML("
+                    .sidebar-menu li a {font-size: 17px;}
                     .selectize-input { 
                       height: 100px;
                       width: 800px;
@@ -60,15 +61,15 @@ ui <- dashboardPage(
                     "
       ))
     ), # chatbox
-    tags$script(HTML("
-        var openTab = function(tabName){
-          $('a', $('.sidebar')).each(function() {
-            if(this.getAttribute('data-value') == tabName) {
-              this.click()
-            };
-          });
-        }
-      ")),
+    # tags$script(HTML("
+    #     var openTab = function(tabName){
+    #       $('a', $('.sidebar')).each(function() {
+    #         if(this.getAttribute('data-value') == tabName) {
+    #           this.click()
+    #         };
+    #       });
+    #     }
+    #   ")),
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
       # HOME PAGE ---------------------------------------------------------------
@@ -85,48 +86,48 @@ ui <- dashboardPage(
               box(width = 12,
                   collapsed = TRUE,
                   collapsible = TRUE,
-                  title = tags$p("Search", style = "font-size: 150%; font-weight: bold; color: white"),
+                  title = tags$p("Search", style = "font-size: 170%; font-weight: bold; color: white"),
                   status = "info",
                   solidHeader = TRUE,
                   icon = icon("search"),
-                  
+
                 fluidRow(
                   align = "center",
                   ## TOTAL SEARCH UI
-                  column(12, 
+                  column(12,
                          offset = 0,
                          style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:0px',
-                         pickerInput(inputId = "table_picker", 
-                                     label = "", 
-                                     choices = "", 
-                                     width = "230", 
+                         pickerInput(inputId = "table_picker",
+                                     label = "",
+                                     choices = "",
+                                     width = "230",
                                      inline = FALSE,
                                      options = list( `live-search` = TRUE,
                                                      `actions-box` = TRUE,
                                                      `selectedTextFormat` = TRUE
                                                      ))
                          ),
-                  column(12, 
-                         offset = 0, 
+                  column(12,
+                         offset = 0,
                          style='padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:20px',
                          selectizeInput(
-                           inputId = "search", 
+                           inputId = "search",
                            choices = NULL,
                            label = "",
                            ),
                          actionButton(inputId = "ac_btn", label = "", icon = icon("check")),
                          actionButton(inputId = "re_btn", label = "", icon = icon("backspace")),
-                         
+
                          ),
                 ), # flouidRow end,
                 div(shinycustomloader::withLoader(
                   DT::dataTableOutput("search_dt"),
-                  type = "image", loader="http://192.168.0.99:18080/loading.gif"), 
+                  type = "image", loader="http://192.168.0.99:18080/loading.gif"),
                   style = "font-size:100%"
                   )
                 ),
               # INFOBOX UI
-              box(title = tags$p("Biobank", style = "font-size: 150%; font-weight: bold; color: white"),
+              box(title = tags$p("Biobank", style = "font-size: 170%; font-weight: bold; color: white"),
                   status = "info",
                   solidHeader = TRUE, 
                   icon = icon("window-restore"),
@@ -190,7 +191,7 @@ ui <- dashboardPage(
       tabItem(tabName = "antibody_wb",
               fluidRow(
                 column(width = 12,
-                       box(title = tags$p("ㅤWB", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("   WB", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
@@ -201,7 +202,7 @@ ui <- dashboardPage(
       tabItem(tabName = "antibody_ihc",
               fluidRow(
                 column(width = 12, 
-                       box(title = tags$p("ㅤIHC", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("   IHC", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
@@ -212,7 +213,7 @@ ui <- dashboardPage(
       tabItem(tabName = "antibody_facs",
               fluidRow(
                 column(width = 12, 
-                       box(title = tags$p("ㅤFACS", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("   FACS", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,

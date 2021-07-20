@@ -35,7 +35,7 @@ server <- function(input, output, session) {
         menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
         menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
         menuItem("PDX", tabName = "pdx", icon = icon("prescription")),
-        menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
+        menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
                    tabName = "antibody_wb"
@@ -91,7 +91,7 @@ server <- function(input, output, session) {
         menuItem("Blood", tabName = "blood", icon = icon("tint")),
         menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
         menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
-        menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
+        menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
                    tabName = "antibody_wb"
@@ -144,7 +144,7 @@ server <- function(input, output, session) {
     } else {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
-        menuItem("ㅤAntibody", tabName = "antibody_main", icon = icon("yandex-international"),
+        menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
                  menuSubItem(
                    text = "WB",
                    tabName = "antibody_wb"

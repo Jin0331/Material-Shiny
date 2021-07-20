@@ -104,7 +104,7 @@ customTheme <- shinyDashboardThemeDIY(
   ,boxTitleSize = 16
   ,boxDefaultColor = "rgb(210,214,220)"
   ,boxPrimaryColor = "rgba(44,222,235,1)"
-  ,boxInfoColor = "rgb(210,214,220)"
+  ,boxInfoColor = "rgb(189,189,189)"
   ,boxSuccessColor = "rgba(0,255,213,1)"
   ,boxWarningColor = "rgb(244,156,104)"
   ,boxDangerColor = "rgb(255,88,55)"

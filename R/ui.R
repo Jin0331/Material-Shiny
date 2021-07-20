@@ -115,8 +115,8 @@ ui <- dashboardPage(
                            choices = NULL,
                            label = "",
                            ),
-                         actionButton(inputId = "ac_btn", label = "", icon = icon("check")),
-                         actionButton(inputId = "re_btn", label = "", icon = icon("backspace")),
+                         actionButton(inputId = "ac_btn", label = "", icon = icon("search")),
+                         actionButton(inputId = "re_btn", label = "", icon = icon("remove")),
 
                          ),
                 ), # flouidRow end,

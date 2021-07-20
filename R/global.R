@@ -248,7 +248,6 @@ value_func <<- function(N, tab_name,row_count, icon, color, role = F){
           onclick = paste0("openTab('",tab_name,"')"), href = "#"),
         a(tags$p(row_count, style = "font-size: 120%;color: black;"), 
           onclick = paste0("openTab('",tab_name,"')"), href = "#"),
-        # a(tags$p(row_count, style = "font-size: 120%;color: black;"), href = "shiny-tab-ff"),
           icon = icon, color = color)
     })
   } else {
@@ -701,7 +700,7 @@ render_DT <- function(DF_NAME){
                                      scroller = TRUE,
                                      autoWidth = T,
                                      columnDefs = list(
-                                       list(className = "dt-center", width = '250px', targets = "_all")
+                                       list(className = "dt-center", width = '200px', targets = "_all")
                                        )
                                      )
                       )

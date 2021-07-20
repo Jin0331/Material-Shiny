@@ -154,7 +154,6 @@ select_ui <- function(inputid, choices){
             ) %>% 
     return()
 }
-# sample id 제거 
 search_keyword <- function(DF, N_vec = NULL){ 
   if(is.null(N_vec)){
     DF %>% transpose() %>% 
@@ -656,9 +655,8 @@ render_DT_child <- function(DF_NAME){
   DT::renderDataTable(
     datatable(
       DF_NAME[[1]], 
-      # callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]),
-      callback = callback_function_2(),
-      # callback = callback_function_3(),
+      callback = callback_function_1(DF_NAME[[2]], DF_NAME[[3]]),
+      # callback = callback_function_2(),
       rownames = rowNames, escape = -DF_NAME[[3]]-1,
       selection=list(mode="single", target="cell"),
       options = list(

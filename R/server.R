@@ -301,11 +301,11 @@ server <- function(input, output, session) {
   output$antibody_facs_dt <- render_DT(antibody_facs)
   
   # CELLINE DT
-  output$celline_wb_dt <- render_DT(celline_wb)
-  # output$celline_wb_dt <- render_DT_searchpane(celline_wb, c(0,4:13))
+  # output$celline_wb_dt <- render_DT(celline_wb)
+  output$celline_wb_dt <- render_DT_searchpane(celline_wb, c(0,4:13))
 
-  output$celline_td_dt <- render_DT(celline_td)
-  # output$celline_td_dt <- render_DT_searchpane(celline_td, c(3:7))
+  # output$celline_td_dt <- render_DT(celline_td)
+  output$celline_td_dt <- render_DT_searchpane(celline_td, c(3:7))
   
   # DRUG DT
   output$drug_dt <- render_DT(drug)

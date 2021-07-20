@@ -60,16 +60,16 @@ ui <- dashboardPage(
                     }
                     "
       ))
-    ), # chatbox
-    # tags$script(HTML("
-    #     var openTab = function(tabName){
-    #       $('a', $('.sidebar')).each(function() {
-    #         if(this.getAttribute('data-value') == tabName) {
-    #           this.click()
-    #         };
-    #       });
-    #     }
-    #   ")),
+    ),
+    tags$script(HTML("
+        var openTab = function(tabName){
+          $('a', $('.sidebar')).each(function() {
+            if(this.getAttribute('data-value') == tabName) {
+              this.click()
+            };
+          });
+        }
+      ")),
     # MAIN BODY ---------------------------------------------------------------
     tabItems(
       # HOME PAGE ---------------------------------------------------------------

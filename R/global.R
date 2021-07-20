@@ -243,9 +243,11 @@ collection_cnt <- function(collection_name, url) {
 value_func <<- function(N, tab_name,row_count, icon, color, role = F){
   if(role == T){
     renderInfoBox({
-      infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
-        a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('",tab_name,"')"), href = "#"),
-        # a(tags$p(row_count, style = "font-size: 120%;color: black;"), onclick = paste0("openTab('ff')"), href = "#"),
+      infoBox(
+        tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
+        a(tags$p(row_count, style = "font-size: 120%;color: black;"), 
+          onclick = paste0("openTab('",tab_name,"')"), href = "#"),
+        # a(tags$p(row_count, style = "font-size: 120%;color: black;"), href = "shiny-tab-ff"),
           icon = icon, color = color)
     })
   } else {

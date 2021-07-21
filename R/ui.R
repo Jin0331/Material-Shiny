@@ -58,7 +58,7 @@ ui <- dashboardPage(
 
         // Event Tracking Code
         $(document).on('shiny:inputchanged', function(event) {
-          if (event.name === 'ac_btn' || event.name === 'search' || event.name === 're_btn') {
+          if (event.name === 'ac_btn' || event.name === 're_btn') {
             _paq.push(['trackEvent', 'input',
               'updates', event.name, event.value]);
           }

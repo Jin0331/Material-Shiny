@@ -445,7 +445,7 @@ server <- function(input, output, session) {
                filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
              
              if(nrow(ff_search) >= 1){
-               ff_search <- child_function(list_df = ff_search, result_df = ff_result)
+               ff_search <- child_function_FF(list_df = ff_search, result_df = ff_result)
                output$search_dt <- render_DT_search(ff_search, child = T)
              } else {
                output$search_dt <- render_DT_search(ff_search, child = F)
@@ -456,7 +456,7 @@ server <- function(input, output, session) {
                filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
              
              if(nrow(ffpe_search) >= 1){
-               ffpe_search <- child_function(list_df = ffpe_search, result_df = ffpe_result)
+               ffpe_search <- child_function_FF(list_df = ffpe_search, result_df = ffpe_result)
                output$search_dt <- render_DT_search(ffpe_search, child = T)
              } else {
                output$search_dt <- render_DT_search(ffpe_search, child = F)

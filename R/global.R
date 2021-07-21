@@ -154,19 +154,19 @@ select_ui <- function(inputid, choices){
             ) %>% 
     return()
 }
-search_keyword <- function(DF, N_vec = NULL){ 
-  if(is.null(N_vec)){
-    DF %>% transpose() %>% 
-      unlist() %>% unname() %>% c("", .) %>% unique() %>% 
-      sort(decreasing = F) %>% 
-      return()  
-  } else {
-    DF %>% select_at(N_vec) %>% transpose() %>% 
-      unlist() %>% unname() %>% c("", .) %>% unique() %>% 
-      sort(decreasing = F) %>% 
-      return()
-  }
-}
+# search_keyword <- function(DF, N_vec = NULL){ 
+#   if(is.null(N_vec)){
+#     DF %>% transpose() %>% 
+#       unlist() %>% unname() %>% c("", .) %>% unique() %>% 
+#       sort(decreasing = F) %>% 
+#       return()  
+#   } else {
+#     DF %>% select_at(N_vec) %>% transpose() %>% 
+#       unlist() %>% unname() %>% c("", .) %>% unique() %>% 
+#       sort(decreasing = F) %>% 
+#       return()
+#   }
+# }
 render_DT_search <- function(DF_NAME, child = F){
   if(child == T) {
     DT::renderDataTable(

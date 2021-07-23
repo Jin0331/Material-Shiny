@@ -42,6 +42,7 @@ ui <- dashboardPage(
         var _paq = _paq || [];
         _paq.push(['enableLinkTracking']);
         _paq.push(['enableHeartBeatTimer']);
+        _paq.push(['setDoNotTrack', true]);
         (function() {
           var u='//192.168.0.99:8080/';
           _paq.push(['setTrackerUrl', u+'matomo.php']);

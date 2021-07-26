@@ -142,7 +142,7 @@ customTheme <- shinyDashboardThemeDIY(
 )
 # SHINYMANAGER ----
 set_labels(
-  language = "en","Please authenticate" = "")
+  language = "en","Please authenticate" = "WMBIO BioBank")
 
 # SEARCH FUNCTION ----
 select_ui <- function(inputid, choices){
@@ -240,15 +240,20 @@ collection_cnt <- function(collection_name, url) {
              options = ssl_options())
   m$count() %>% return()
 }
+
+# PDX 50개 이상일 시 count로 변경
 value_func <<- function(N, tab_name,row_count, icon, color, role = F){
   if(role == T){
     renderInfoBox({
       infoBox(
         a(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
           onclick = paste0("openTab('",tab_name,"')"), href = "#"),
-        a(tags$p(row_count, style = "font-size: 120%;color: black;"), 
+        a(tags$p(" ", style = "font-size: 120%;color: black;"),
           onclick = paste0("openTab('",tab_name,"')"), href = "#"),
           icon = icon, color = color)
+        # a(tags$p(row_count, style = "font-size: 120%;color: black;"), 
+        #   onclick = paste0("openTab('",tab_name,"')"), href = "#"),
+        #   icon = icon, color = color)
     })
   } else {
     renderInfoBox({

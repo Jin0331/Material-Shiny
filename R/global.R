@@ -147,11 +147,11 @@ set_labels(
 # SEARCH FUNCTION ----
 select_ui <- function(inputid, choices){
   selectizeInput(inputId = inputid, 
-            label = "", 
-            choices = choices, 
-            multiple = FALSE,
-            selected = NA
-            ) %>% 
+                 label = "", 
+                 choices = choices, 
+                 multiple = FALSE,
+                 selected = NA
+  ) %>% 
     return()
 }
 # search_keyword <- function(DF, N_vec = NULL){ 
@@ -215,8 +215,8 @@ render_DT_search <- function(DF_NAME, child = F){
                                paging = TRUE,
                                columnDefs = list(
                                  list(className = "dt-center", width = '150px', targets = "_all")
-                                 )
-                        )
+                               )
+                          )
     )
   }
   
@@ -250,15 +250,15 @@ value_func <<- function(N, tab_name,row_count, icon, color, role = F){
           onclick = paste0("openTab('",tab_name,"')"), href = "#"),
         a(tags$p(" ", style = "font-size: 120%;color: black;"),
           onclick = paste0("openTab('",tab_name,"')"), href = "#"),
-          icon = icon, color = color)
-        # a(tags$p(row_count, style = "font-size: 120%;color: black;"), 
-        #   onclick = paste0("openTab('",tab_name,"')"), href = "#"),
-        #   icon = icon, color = color)
+        icon = icon, color = color)
+      # a(tags$p(row_count, style = "font-size: 120%;color: black;"), 
+      #   onclick = paste0("openTab('",tab_name,"')"), href = "#"),
+      #   icon = icon, color = color)
     })
   } else {
     renderInfoBox({
       infoBox(tags$p(N, style = paste0("font-size: 145%; font-weight: bold; color:", color,";")),
-              a(tags$p(row_count, style = "font-size: 120%;color: black;")),
+              a(tags$p(" ", style = "font-size: 120%;color: black;")),
               icon = icon, color = color)
     })
   }
@@ -706,9 +706,9 @@ render_DT <- function(DF_NAME){
                                      autoWidth = T,
                                      columnDefs = list(
                                        list(className = "dt-center", width = '200px', targets = "_all")
-                                       )
                                      )
                       )
+  )
 }
 render_DT_searchpane <- function(DF_NAME, not_view){
   DT::renderDataTable(DF_NAME, 
@@ -862,7 +862,7 @@ pdx_list_colname <- c("WMB_NO", "Sample ID", "FF ID", "검체번호", "구입처
                       "Chemoresistance status(Characterization)", "Mutation status(Characterization)", 
                       "RON Genotype(Characterization)", "IGSF1 Genotype(Characterization)", "P34 Genotype(Characterization)",
                       "New1","New2","New3","New4","New5","New6","New7", "New8"
-                      )
+)
 pdx <- collection_to_DF(collection_name = "pdx_collection", url = mongoUrl);names(pdx) <- pdx_list_colname
 pdx <- pdx %>% select(-WMB_NO, -Drug2, -New1:-New8)
 
@@ -883,19 +883,19 @@ pdx_result <- pdx_result %>%
 ### wb
 # DP col ->  No.	Antibody	Cat no.	Host	Species Reactivity	Application 	단백질 크기 (kDa)	재고량 vial	보관 위치	제조사	비고
 antibody_wb_colname <- c("No", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
-                      "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
-                      "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
-                      "New8")
+                         "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
+                         "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
+                         "New8")
 antibody_wb <- collection_to_DF(collection_name = "antibody_wb_collection", url = mongoUrl);names(antibody_wb) <- antibody_wb_colname
 antibody_wb <- antibody_wb %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
-                                      `재고량 vial`, `보관 위치`, 제조사, 비고)
+                                      `보관 위치`, 제조사, 비고)
 
 
 ### ihc
 antibody_ihc_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
-                         "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
-                         "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
-                         "New8")
+                          "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
+                          "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
+                          "New8")
 antibody_ihc <- collection_to_DF(collection_name = "antibody_ihc_collection", url = mongoUrl);names(antibody_ihc) <- antibody_ihc_colname
 antibody_ihc <- antibody_ihc %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
                                         `재고량 vial`, `보관 위치`, 제조사, 비고)
@@ -912,8 +912,8 @@ antibody_facs <- antibody_facs %>% select(Antibody, `Cat no.`, Host, `Species Re
 ## celline colname and DF
 # total
 celline_wb_colname <- c("WMB_NO", "Cell line", "Tissue", "Organism", "Disease", "Chemoresistance status",
-                     "Mutation status", "RON Genotype", "IGSF1 Genotype", "P34 Genotype", "Media Condition",
-                     "GROWTH PATTERN", "계대비율 및 주기", "구매처", "특이사항")
+                        "Mutation status", "RON Genotype", "IGSF1 Genotype", "P34 Genotype", "Media Condition",
+                        "GROWTH PATTERN", "계대비율 및 주기", "구매처", "특이사항")
 celline_wb <- collection_to_DF(collection_name = "celline_wb_collection", url = mongoUrl);names(celline_wb) <- celline_wb_colname
 celline_wb <- celline_wb %>% select(-WMB_NO)
 
@@ -924,11 +924,14 @@ celline_td <- collection_to_DF(collection_name = "celline_td_collection", url = 
 celline_td <- celline_td %>% 
   mutate(Picture = ifelse(Picture == "" | Picture == "-" | Picture == " ",
                           " ", paste0("<a href='", Picture,"'>", "View</a>"))
-    ) %>% 
+  ) %>% 
   select(`Cell line`, Tissue, Organism, Passage, `Doubling time`, 특징, `Media Condition`, `GROWTH PATTERN`, 구매처, 보유자, 
          `소속 (팀)`, Picture)
 
 # dd cell
+celline_dd_colname <- c("No.", "Cell line", "Tissue","Organism", "Disease", "Media Condition", "GROWTH PATTERN", "구매처","소속 (팀)")
+celline_dd <- collection_to_DF(collection_name = "celline_dd_collection", url = mongoUrl);names(celline_dd) <- celline_dd_colname
+celline_dd <- celline_dd %>% select(-`No.`)
 
 ## drug colname and DF
 drug_colname <- c("WMB_NO", "Name", "제조사", "용량", "Target", "Cat", "구입일",
@@ -942,7 +945,7 @@ drug <- drug %>%
                                       paste0("<a href='", fileUrl, "PDF/drug/",
                                              str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]|PDF"),".pdf'>", "View</a>"),
                                       " ")))
-                               
+
 
 ## protein colname and DF
 protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "남은량", "위치", "Data sheet")

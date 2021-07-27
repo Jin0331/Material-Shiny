@@ -254,9 +254,10 @@ server <- function(input, output, session) {
     
     # celline cnt
     celline_cnt <- collection_cnt(collection_name = "celline_wb_collection", url = mongoUrl) +
-      collection_cnt(collection_name = "celline_td_collection", url = mongoUrl)
+      collection_cnt(collection_name = "celline_td_collection", url = mongoUrl) +
+      collection_cnt(collection_name = "celline_dd_collection", url = mongoUrl)
     output$valuebox6 <<- celline_cnt %>% 
-      value_func(N = "Cell Line (WB+TD)", tab_name = "celline_wb", row_count = ., icon = icon("virus"), color = "maroon", role = T)
+      value_func(N = "Cell Line (WB+TD+DD)", tab_name = "celline_wb", row_count = ., icon = icon("virus"), color = "maroon", role = T)
     
     output$valuebox7 <<- collection_cnt(collection_name = "drug_collection", url = mongoUrl) %>%
       value_func(N = "Commercial Drug", tab_name = "drug", row_count = ., icon = icon("capsules"), color = "teal", role = T)
@@ -297,7 +298,7 @@ server <- function(input, output, session) {
   
   # ANTIBODY DT
   # output$antibody_wb_dt <- render_DT(antibody_wb)
-  output$antibody_wb_dt <- render_DT_searchpane(antibody_wb, not_view = c(0,1,5,8,9))
+  output$antibody_wb_dt <- render_DT_searchpane(antibody_wb, not_view = NULL)
   
   # output$antibody_ihc_dt <- render_DT(antibody_ihc)
   output$antibody_ihc_dt <- render_DT_searchpane(antibody_ihc, not_view = c(0,1,5))
@@ -311,6 +312,9 @@ server <- function(input, output, session) {
   
   # output$celline_td_dt <- render_DT(celline_td)
   output$celline_td_dt <- render_DT_searchpane(celline_td, not_view = c(3:7))
+  
+  # output$celline_dd_dt <- render_DT(celline_dd)
+  output$celline_dd_dt <- render_DT_searchpane(celline_dd, not_view = NULL)
   
   # DRUG DT
   # output$drug_dt <- render_DT(drug)
@@ -346,7 +350,7 @@ server <- function(input, output, session) {
         inputId = "table_picker",
         label = "",
         choices = c("Blood", "FF", "FFPE", "PDX", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
-                    "Cell Line(TD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
+                    "Cell Line(TD)", "Cell Line(DD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
                     "의약화학센터(Column)"), 
         choicesOpt = list(
           content = c(
@@ -359,7 +363,7 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(TD)</div>",
-            # "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>",
@@ -374,7 +378,7 @@ server <- function(input, output, session) {
         inputId = "table_picker",
         label = "",
         choices = c("Blood", "FF", "FFPE", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
-                    "Cell Line(TD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
+                    "Cell Line(TD)", "Cell Line(DD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
                     "의약화학센터(Column)"), 
         choicesOpt = list(
           content = c(
@@ -386,7 +390,7 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(TD)</div>",
-            # "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>",
@@ -401,7 +405,7 @@ server <- function(input, output, session) {
         inputId = "table_picker",
         label = "",
         choices = c("Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
-                    "Cell Line(TD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
+                    "Cell Line(TD)", "Cell Line(DD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
                     "의약화학센터(Column)"), 
         choicesOpt = list(
           content = c(
@@ -410,7 +414,7 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(TD)</div>",
-            # "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Cell Line(DD)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Commercial Drug</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Protein</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>siRNA/shRNA</div>",
@@ -494,9 +498,14 @@ server <- function(input, output, session) {
              output$search_dt <- render_DT_search(celline_wb_search)
            },
            `Cell Line(TD)` = {
-             celline_td_search <- celline_td %>% 
+             celline_td_search <- celline_td %>%
                filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
              output$search_dt <- render_DT_search(celline_td_search)
+           },
+           `Cell Line(DD)` = {
+             celline_dd_search <- celline_dd %>%
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(celline_dd_search)
            },
            `Commercial Drug` = {
              drug_search <- drug %>% 

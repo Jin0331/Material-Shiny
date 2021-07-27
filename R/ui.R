@@ -59,7 +59,7 @@ ui <- dashboardPage(
 
         // Event Tracking Code
         $(document).on('shiny:inputchanged', function(event) {
-          if (event.name === 'ac_btn' || event.name === 're_btn') {
+          if (event.name === 'ac_btn' || event.name === 'antibody_wb_dt' || event.name === 'celline_wb_dt') {
             _paq.push(['trackEvent', 'input',
               'updates', event.name, event.value]);
           }
@@ -106,7 +106,7 @@ ui <- dashboardPage(
                 HTML("<br>")
               ),
               box(width = 12,
-                  collapsed = TRUE,
+                  collapsed = FALSE,
                   collapsible = TRUE,
                   title = tags$p("Search", style = "font-size: 170%; font-weight: bold; color: white"),
                   status = "info",
@@ -145,11 +145,12 @@ ui <- dashboardPage(
                            
                     ),
                   ), # flouidRow end,
-                  div(shinycustomloader::withLoader(
-                    DT::dataTableOutput("search_dt"),
-                    type = "image", loader="http://192.168.0.99:18080/loading.gif"),
-                    style = "font-size:100%"
-                  )
+                  DT::dataTableOutput("search_dt")
+                  # div(shinycustomloader::withLoader(
+                  #   DT::dataTableOutput("search_dt"),
+                  #   type = "image", loader="http://192.168.0.99:18080/loading.gif"),
+                  #   style = "font-size:100%"
+                  # )
               ),
               # INFOBOX UI
               box(title = tags$p("Biobank", style = "font-size: 170%; font-weight: bold; color: white"),

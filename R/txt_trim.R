@@ -12,7 +12,7 @@ excel_to_trimTxt <- function(path, sheet_number){
     remove_str <- DF[[index]] 
     
     remove_str <- lapply(X = remove_str, FUN = function(value){
-      str_remove_all(string = value, pattern = "[\r\n]")
+      str_replace_all(string = value, pattern = "[\r\n]", replacement = " ")
     }) %>% unlist() %>% as_tibble()
     names(remove_str) <- col_name
     
@@ -21,11 +21,11 @@ excel_to_trimTxt <- function(path, sheet_number){
   rm_DF %>% bind_cols() %>% return()
 }
 
-
 rm_DF <- excel_to_trimTxt(path = "../../Desktop/210722_과제파이프라인회의_S1 Follow up_DD 연구소_PDX Model 정보(별첨자료)_이진우수정.xlsx",
                           sheet_number = 1) %>% lapply(X = ., FUN = function(value){
-                            str_replace_all(string = value, pattern = "^\\-$", replacement = " ")
+                            str_replace_all(string = value, pattern = "^\\-$", replacement = "")
                           }) %>% as_tibble()
-rm_DF %>% bind_cols() %>% write_delim("/home/rstudio/material/cmc.txt", 
+
+rm_DF %>% bind_cols() %>% write_delim("pdx_champion.txt", 
                                       delim = "\t",
                                       na = " ")

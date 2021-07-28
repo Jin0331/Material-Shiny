@@ -879,6 +879,13 @@ pdx_result <- pdx_result %>%
                                paste0("<a href='", fileUrl, "IMG/pdx/", 
                                       str_remove_all(`이미지(실험관련)` ,pattern = "[[:punct:]]|[[:blank:]]|[.jpg]"), ".JPG'>", "View</a>")))
 
+## CHAMPION
+
+pdx_champion_colname <- c("Tissue", "Model", "RON Variant", "p-RON Score", "RON Score", "Patient Treatments - Drug/Drug combination", "PDX Model TGI(%) - Drug/Drug combination",
+                          "Tumor status", "Histology", "Diagnosis", "Treatment history", "Ethnicity", "Alias", "Passage")
+pdx_champion <- collection_to_DF(collection_name = "pdx_champion_collection", url = mongoUrl);names(pdx_champion) <- pdx_champion_colname
+
+
 ## antibody colname and DF
 ### wb
 # DP col ->  No.	Antibody	Cat no.	Host	Species Reactivity	Application 	단백질 크기 (kDa)	재고량 vial	보관 위치	제조사	비고

@@ -28,4 +28,5 @@ rm_DF <- excel_to_trimTxt(path = "../../Desktop/210722_과제파이프라인회�
 
 rm_DF %>% bind_cols() %>% write_delim("pdx_champion.txt", 
                                       delim = "\t",
+                                      col_names = F,
                                       na = " ")

@@ -31,169 +31,188 @@ server <- function(input, output, session) {
     if(role == "A"){
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
-        menuItem("Blood", tabName = "blood", icon = icon("tint")),
-        menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
-        menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
-        menuItem("PDX", tabName = "pdx", icon = icon("prescription")),
-        menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
-                 menuSubItem(
-                   text = "WB",
-                   tabName = "antibody_wb"
-                 ),
-                 menuSubItem(
-                   text = "IHC",
-                   tabName = "antibody_ihc"
-                 ),
-                 menuSubItem(
-                   text = "FACS",
-                   tabName = "antibody_facs"
-                 )),
-        menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
-                 menuSubItem(
-                   text = "WB",
-                   tabName = "celline_wb"
-                 ),
-                 menuSubItem(
-                   text = "TD",
-                   tabName = "celline_td"
-                 ),
-                 menuSubItem(
-                   text = "DD",
-                   tabName = "celline_dd"
-                 )
+        menuItem("인체유래조직", tabName = "human", icon = icon("child"), 
+                 menuItem("Blood", tabName = "blood", icon = icon("tint")),
+                 menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
+                 menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
+                 menuItem("PDX", tabName = "pdx", icon = icon("prescription"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "pdx_wb"
+                          ),
+                          menuSubItem(
+                            text = "CHAMPIONS",
+                            tabName = "pdx_champion"
+                          ))
+                 
         ),
-        menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
-        menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
-                 menuSubItem(
-                   text = "시약목록",
-                   tabName = "cmc_siyac"
+        menuItem("  Material", tabName = "material", icon = icon("maxcdn"),
+                 menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "antibody_wb"
+                          ),
+                          menuSubItem(
+                            text = "IHC",
+                            tabName = "antibody_ihc"
+                          ),
+                          menuSubItem(
+                            text = "FACS",
+                            tabName = "antibody_facs"
+                          )),
+                 menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "celline_wb"
+                          ),
+                          menuSubItem(
+                            text = "TD",
+                            tabName = "celline_td"
+                          ),
+                          menuSubItem(
+                            text = "DD",
+                            tabName = "celline_dd"
+                          )
                  ),
-                 menuSubItem(
-                   text = "Column",
-                   tabName = "cmc_column")
-        ),
-        menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
-                 menuSubItem(
-                   text = "시약목록",
-                   tabName = "mc_siyac"
+                 menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+                 menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+                 menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+                 menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
+                          menuSubItem(
+                            text = "시약목록",
+                            tabName = "cmc_siyac"
+                          ),
+                          menuSubItem(
+                            text = "Column",
+                            tabName = "cmc_column")
                  ),
-                 menuSubItem(
-                   text = "Column",
-                   tabName = "mc_column"
-                 ))
-        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+                 menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
+                          menuSubItem(
+                            text = "시약목록",
+                            tabName = "mc_siyac"
+                          ),
+                          menuSubItem(
+                            text = "Column",
+                            tabName = "mc_column"
+                          ))
+                 # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+        )
       )
+      
     } else if(role == "B"){
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
-        menuItem("Blood", tabName = "blood", icon = icon("tint")),
-        menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
-        menuItem("FFPE", tabName = "ffpe", icon = icon("ruler")),
-        menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
-                 menuSubItem(
-                   text = "WB",
-                   tabName = "antibody_wb"
-                 ),
-                 menuSubItem(
-                   text = "IHC",
-                   tabName = "antibody_ihc"
-                 ),
-                 menuSubItem(
-                   text = "FACS",
-                   tabName = "antibody_facs"
-                 )),
-        menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
-                 menuSubItem(
-                   text = "WB",
-                   tabName = "celline_wb"
-                 ),
-                 menuSubItem(
-                   text = "TD",
-                   tabName = "celline_td"
-                 ),
-                 menuSubItem(
-                   text = "DD",
-                   tabName = "celline_dd"
-                 )
+        menuItem("인체유래조직", tabName = "human", icon = icon("child"), 
+                 menuItem("Blood", tabName = "blood", icon = icon("tint")),
+                 menuItem("FF", tabName = "ff", icon = icon("diagnoses")),
+                 menuItem("FFPE", tabName = "ffpe", icon = icon("ruler"))
         ),
-        menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
-        menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
-                 menuSubItem(
-                   text = "시약목록",
-                   tabName = "cmc_siyac"
+        menuItem("  Material", tabName = "material", icon = icon("maxcdn"),
+                 menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "antibody_wb"
+                          ),
+                          menuSubItem(
+                            text = "IHC",
+                            tabName = "antibody_ihc"
+                          ),
+                          menuSubItem(
+                            text = "FACS",
+                            tabName = "antibody_facs"
+                          )),
+                 menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "celline_wb"
+                          ),
+                          menuSubItem(
+                            text = "TD",
+                            tabName = "celline_td"
+                          ),
+                          menuSubItem(
+                            text = "DD",
+                            tabName = "celline_dd"
+                          )
                  ),
-                 menuSubItem(
-                   text = "Column",
-                   tabName = "cmc_column")
-        ),
-        menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
-                 menuSubItem(
-                   text = "시약목록",
-                   tabName = "mc_siyac"
+                 menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+                 menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+                 menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+                 menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
+                          menuSubItem(
+                            text = "시약목록",
+                            tabName = "cmc_siyac"
+                          ),
+                          menuSubItem(
+                            text = "Column",
+                            tabName = "cmc_column")
                  ),
-                 menuSubItem(
-                   text = "Column",
-                   tabName = "mc_column"
-                 ))
-        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+                 menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
+                          menuSubItem(
+                            text = "시약목록",
+                            tabName = "mc_siyac"
+                          ),
+                          menuSubItem(
+                            text = "Column",
+                            tabName = "mc_column"
+                          ))
+                 # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+        )
       )
     } else {
       menu_list <- list(
         menuItem("Home", tabName = "home", icon = icon("home"), selected = T),
-        menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
-                 menuSubItem(
-                   text = "WB",
-                   tabName = "antibody_wb"
+        menuItem("  Material", tabName = "material", icon = icon("maxcdn"),
+                 menuItem("   Antibody", tabName = "antibody_main", icon = icon("yandex-international"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "antibody_wb"
+                          ),
+                          menuSubItem(
+                            text = "IHC",
+                            tabName = "antibody_ihc"
+                          ),
+                          menuSubItem(
+                            text = "FACS",
+                            tabName = "antibody_facs"
+                          )),
+                 menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
+                          menuSubItem(
+                            text = "WB",
+                            tabName = "celline_wb"
+                          ),
+                          menuSubItem(
+                            text = "TD",
+                            tabName = "celline_td"
+                          ),
+                          menuSubItem(
+                            text = "DD",
+                            tabName = "celline_dd"
+                          )
                  ),
-                 menuSubItem(
-                   text = "IHC",
-                   tabName = "antibody_ihc"
+                 menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
+                 menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
+                 menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
+                 menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
+                          menuSubItem(
+                            text = "시약목록",
+                            tabName = "cmc_siyac"
+                          ),
+                          menuSubItem(
+                            text = "Column",
+                            tabName = "cmc_column")
                  ),
-                 menuSubItem(
-                   text = "FACS",
-                   tabName = "antibody_facs"
-                 )),
-        menuItem("Cell Line", tabName = "celline_main", icon = icon("virus"),
-                 menuSubItem(
-                   text = "WB",
-                   tabName = "celline_wb"
-                 ),
-                 menuSubItem(
-                   text = "TD",
-                   tabName = "celline_td"
-                 ),
-                 menuSubItem(
-                   text = "DD",
-                   tabName = "celline_dd"
-                 )
-        ),
-        menuItem("Commercial Drug", tabName = "drug", icon = icon("capsules")),
-        menuItem("Protein", tabName = "protein", icon = icon("share-alt")),
-        menuItem("shRNA / siRNA", tabName = "shsirna", icon = icon("dna")),
-        menuItem("CMC", tabName = "cmc_main", icon = icon("atom"),
-                 menuSubItem(
-                   text = "시약목록",
-                   tabName = "cmc_siyac"
-                 ),
-                 menuSubItem(
-                   text = "Column",
-                   tabName = "cmc_column")
-        ),
-        menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
-                 menuSubItem(
-                   text = "시약목록",
-                   tabName = "mc_siyac"
-                 ),
-                 menuSubItem(
-                   text = "Column",
-                   tabName = "mc_column"
-                 ))
-        
-        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+                 menuItem("의약화학센터", tabName = "mc_main", icon = icon("prescription-bottle-alt"),
+                          menuSubItem(
+                            text = "시약목록",
+                            tabName = "mc_siyac"
+                          ),
+                          menuSubItem(
+                            text = "Column",
+                            tabName = "mc_column"
+                          ))
+                 # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+        )
       )
     }
     
@@ -212,10 +231,11 @@ server <- function(input, output, session) {
       output$valuebox3 <<- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
       
-      output$valuebox4 <<- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
-        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple", role = T)
-      
-      
+      # pdx multiple
+      pdx_cnt <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "pdx_champion_collection", url = mongoUrl)
+      output$valuebox4 <<- pdx_cnt %>%
+        value_func(N = "PDX(WB+CHAMPIONS)", tab_name = "pdx_wb", row_count = ., icon = icon("prescription"), color = "purple", role = T)
       
     } else if(res_auth$role == "B"){
       output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
@@ -227,8 +247,12 @@ server <- function(input, output, session) {
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua", role = T)
       
-      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
-        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+      # pdx multiple
+      pdx_cnt <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "pdx_champion_collection", url = mongoUrl)
+      output$valuebox4 <<- pdx_cnt %>%
+        value_func(N = "PDX(WB+CHAMPIONS)", tab_name = "pdx_wb", row_count = ., icon = icon("prescription"), color = "purple")
+      
     } else {
       output$valuebox1 <- collection_cnt(collection_name = "blood_collection", url = mongoUrl) %>%
         value_func(N = "Blood", tab_name = "blood", row_count = ., icon = icon("tint"), color = "red")
@@ -239,8 +263,11 @@ server <- function(input, output, session) {
       output$valuebox3 <- collection_cnt(collection_name = "ffpe_collection", url = mongoUrl) %>%
         value_func(N = "FFPE", tab_name = "ffpe", row_count = ., icon = icon("ruler"), color = "aqua")
       
-      output$valuebox4 <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) %>%
-        value_func(N = "PDX", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
+      # pdx multiple
+      pdx_cnt <- collection_cnt(collection_name = "pdx_collection", url = mongoUrl) +
+        collection_cnt(collection_name = "pdx_champion_collection", url = mongoUrl)
+      output$valuebox4 <<- pdx_cnt %>%
+        value_func(N = "PDX(WB+CHAMPIONS)", tab_name = "pdx", row_count = ., icon = icon("prescription"), color = "purple")
       
     }
     
@@ -294,7 +321,11 @@ server <- function(input, output, session) {
   output$ffpe_dt <- render_DT_child(DF_NAME = ffpe_Dat)
   
   # PDX DT
-  output$pdx_dt <- render_DT_child(DF_NAME = pdx_Dat)
+  ## WB
+  output$pdx_wb_dt <- render_DT_child(DF_NAME = pdx_Dat)
+  
+  ## CHAMPION
+  output$pdx_champion_dt <- render_DT_searchpane(pdx_champion, not_view = NULL)
   
   # ANTIBODY DT
   # output$antibody_wb_dt <- render_DT(antibody_wb)
@@ -349,7 +380,7 @@ server <- function(input, output, session) {
         session = session, 
         inputId = "table_picker",
         label = "",
-        choices = c("Blood", "FF", "FFPE", "PDX", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
+        choices = c("Blood", "FF", "FFPE", "PDX(WB)", "PDX(CHAMPIONS)", "Antibody(WB)", "Antibody(IHC)", "Antibody(FACS)", "Cell Line(WB)", 
                     "Cell Line(TD)", "Cell Line(DD)","Commercial Drug", "Protein", "siRNA/shRNA", "CMC(시약목록)", "CMC(Column)", "의약화학센터(시약목록)",
                     "의약화학센터(Column)"), 
         choicesOpt = list(
@@ -357,7 +388,8 @@ server <- function(input, output, session) {
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Blood</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FF</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>FFPE</div>",
-            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>PDX</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>PDX(WB)</div>",
+            "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>PDX(CHAMPIONS)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(WB)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(IHC)</div>",
             "<div style='color: black;text-align: center;font-size: 18px;font-weight: bold;'>Antibody(FACS)</div>",
@@ -466,7 +498,7 @@ server <- function(input, output, session) {
                output$search_dt <- render_DT_search(ffpe_search, child = F)
              }
            },
-           `PDX` = {
+           `PDX(WB)` = {
              pdx_search <- pdx %>% 
                filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
              
@@ -476,6 +508,11 @@ server <- function(input, output, session) {
              } else {
                output$search_dt <- render_DT_search(pdx_search, child = F)
              }
+           },
+           `PDX(CHAMPIONS)` = {
+             pdx_champion_search <- pdx_champion %>% 
+               filter_all(., any_vars(str_detect(string = ., regex(search_keyword, ignore_case = TRUE))))
+             output$search_dt <- render_DT_search(pdx_champion_search)
            },
            `Antibody(WB)` = {
              antibody_wb_search <- antibody_wb %>% 

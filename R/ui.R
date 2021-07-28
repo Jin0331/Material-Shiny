@@ -75,10 +75,12 @@ ui <- dashboardPage(
       # favicon
       tags$link(rel = "shortcut icon", 
                 href = "http://www.wmbio.co/images/main/main_second_logo.png"),
+      # sidebar font size
       tags$style(HTML("
                     .sidebar-menu li a {font-size: 17px;}
                     #search{height: 45px; font-size: 22px; font-weight: bold; text-align: center;}
                     #table_picker{height: 35px;}
+                    .treeview-menu>li>a { font-size: 16px!important; font-weight: bold!important;}
                     "
       ))
     ),
@@ -181,15 +183,26 @@ ui <- dashboardPage(
                            div(DT::dataTableOutput("blood_dt"), style = "font-size:105%")
                        )))
       ),
-      tabItem(tabName = "pdx",
+      tabItem(tabName = "pdx_wb",
               fluidRow(
                 column(width = 12, 
-                       box(title = tags$p("PDX", style = "font-size: 120%; font-weight: bold; color: white"),
+                       box(title = tags$p("WB", style = "font-size: 120%; font-weight: bold; color: white"),
                            width = 12,
                            status = "info",
                            solidHeader = TRUE,
                            icon = icon("prescription"),
-                           div(DT::dataTableOutput("pdx_dt"), style = "font-size:105%")
+                           div(DT::dataTableOutput("pdx_wb_dt"), style = "font-size:105%")
+                       )))
+      ),
+      tabItem(tabName = "pdx_champion",
+              fluidRow(
+                column(width = 12, 
+                       box(title = tags$p("CHAMPIONS", style = "font-size: 120%; font-weight: bold; color: white"),
+                           width = 12,
+                           status = "info",
+                           solidHeader = TRUE,
+                           icon = icon("prescription"),
+                           div(DT::dataTableOutput("pdx_champion_dt"), style = "font-size:105%")
                        )))
       ),
       tabItem(tabName = "ff",

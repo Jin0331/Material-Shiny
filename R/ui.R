@@ -34,6 +34,7 @@ ui <- dashboardPage(
   
   dashboardBody(
     useShinyjs(),
+    useShinyalert(),
     customTheme,
     tags$head( # favicon
       # matomo

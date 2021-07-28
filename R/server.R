@@ -25,6 +25,25 @@ server <- function(input, output, session) {
     }
     setTimeout(reload_page, 5000000);
 ")
+  # SHINYALERT ----
+  shinyalert(
+    title = "[07.28] 업데이트 사항 ...★",
+    text = "<b>1.PDX - Champion 정보 추가<br>2. Sidebar UI 변경</b>",
+    size = "s", 
+    closeOnEsc = TRUE,
+    closeOnClickOutside = TRUE,
+    html = TRUE,
+    type = "",
+    showConfirmButton = TRUE,
+    showCancelButton = FALSE,
+    confirmButtonText = "OK",
+    confirmButtonCol = "#AEDEF4",
+    timer = 12000,
+    imageUrl = "http://192.168.0.99:18080/loading.gif",
+    imageWidth = 200,
+    imageHeight = 200,
+    animation = TRUE
+  )
   # RENDERMENU ----
   output$side_menu <- renderMenu({
     role <- res_auth$role

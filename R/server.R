@@ -26,9 +26,11 @@ server <- function(input, output, session) {
     setTimeout(reload_page, 5000000);
 ")
   # SHINYALERT ----
+  alert_title <- "[07.28] 업데이트 사항 ...★"
+  alert_text <- "<b>1. PDX - Champion 정보 추가<br>2. Sidebar UI 변경</b>"
   shinyalert(
-    title = "[07.28] 업데이트 사항 ...★",
-    text = "<b>1.PDX - Champion 정보 추가<br>2. Sidebar UI 변경</b>",
+    title = alert_title,
+    text = alert_text,
     size = "s", 
     closeOnEsc = TRUE,
     closeOnClickOutside = TRUE,

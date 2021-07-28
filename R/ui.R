@@ -110,11 +110,11 @@ ui <- dashboardPage(
               ),
               box(width = 12,
                   collapsed = FALSE,
-                  collapsible = TRUE,
-                  title = tags$p("Search", style = "font-size: 170%; font-weight: bold; color: white"),
+                  collapsible = FALSE,
+                  title = tags$p("", style = "font-size: 170%; font-weight: bold; color: white"),
                   status = "info",
                   solidHeader = TRUE,
-                  icon = icon("search"),
+                  # icon = icon("search"),
                   
                   fluidRow(
                     align = "center",

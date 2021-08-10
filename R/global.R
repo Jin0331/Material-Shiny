@@ -936,7 +936,7 @@ celline_td <- celline_td %>%
          `소속 (팀)`, Picture)
 
 # dd cell
-celline_dd_colname <- c("No.", "Cell line", "Tissue","Organism", "Disease", "Media Condition", "GROWTH PATTERN", "구매처","소속 (팀)")
+celline_dd_colname <- c("No.", "Cell line", "Tissue","Organism", "Disease", "Media Condition", "GROWTH PATTERN", "구매처","보관")
 celline_dd <- collection_to_DF(collection_name = "celline_dd_collection", url = mongoUrl);names(celline_dd) <- celline_dd_colname
 celline_dd <- celline_dd %>% select(-`No.`)
 

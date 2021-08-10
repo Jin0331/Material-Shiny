@@ -26,8 +26,8 @@ server <- function(input, output, session) {
     setTimeout(reload_page, 5000000);
 ")
   # SHINYALERT ----
-  alert_title <- "[07.28] 업데이트 사항 ...★"
-  alert_text <- "<b>1. PDX - Champion 정보 추가<br>2. Sidebar UI 변경</b>"
+  alert_title <- "[08.10] 업데이트 사항 ...★"
+  alert_text <- "<b>1. Cell Line - WB / DD update"
   
   shinyalert(
     title = alert_title,
@@ -37,7 +37,7 @@ server <- function(input, output, session) {
     closeOnClickOutside = TRUE,
     html = TRUE,
     type = "",
-    showConfirmButton = TRUE,
+    showConfirmButton = FALSE,
     showCancelButton = FALSE,
     confirmButtonText = "OK",
     confirmButtonCol = "#AEDEF4",

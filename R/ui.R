@@ -2,7 +2,7 @@ ui <- dashboardPage(
   skin = "black-light",
   # skin = "midnight",
   scrollToTop = TRUE,
-  title = "WMB Biobank",
+  title = "WMBIO Biobank",
   
   # HEADER ------------------------------------------------------------------
   options = list(sidebarExpandOnHover = TRUE), 
@@ -156,12 +156,12 @@ ui <- dashboardPage(
                   # )
               ),
               # INFOBOX UI
-              box(title = tags$p("Biobank", style = "font-size: 170%; font-weight: bold; color: white"),
+              box(title = tags$p("", style = "font-size: 170%; font-weight: bold; color: white"),
                   status = "info",
                   solidHeader = TRUE, 
-                  icon = icon("window-restore"),
+                  # icon = icon("window-restore"),
                   width = 12,
-                  collapsible = TRUE,
+                  collapsible = FALSE,
                   collapsed = FALSE,
                   # VALUEBOX 
                   withLoader(infoBoxOutput("valuebox1"), type = "html", loader = "dnaspin"),
@@ -400,7 +400,7 @@ ui <- dashboardPage(
 ui <- secure_app(ui, enable_admin = TRUE,
                  theme = shinythemes::shinytheme("flatly"),
                  tags_top = tags$img(
-                   src = "http://www.wmbio.co/images/main/main_second_logo.png", width = 110
+                   src = "http://192.168.0.99:18080/CI/WMBIO_Logo%202.jpg", width = 380, height = 100
                  ), 
                  language = "en",
                  keep_token = TRUE

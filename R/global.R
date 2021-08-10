@@ -142,7 +142,7 @@ customTheme <- shinyDashboardThemeDIY(
 )
 # SHINYMANAGER ----
 set_labels(
-  language = "en","Please authenticate" = "WMBIO BioBank")
+  language = "en","Please authenticate" = "")
 
 # SEARCH FUNCTION ----
 select_ui <- function(inputid, choices){

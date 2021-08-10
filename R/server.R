@@ -26,8 +26,8 @@ server <- function(input, output, session) {
     setTimeout(reload_page, 5000000);
 ")
   # SHINYALERT ----
-  alert_title <- "[08.10] 업데이트 사항 ...★"
-  alert_text <- "<b>1. Cell Line - WB / DD update"
+  alert_title <- "[08.10 ~ 08.11] 업데이트"
+  alert_text <- "<b>1. Cell Line - WB / DD<br>2. Protein<br>3. shRNA/siRNA"
   
   shinyalert(
     title = alert_title,

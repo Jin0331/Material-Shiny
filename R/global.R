@@ -973,7 +973,8 @@ shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "T
                      "위치(냉동고/Box이름)", "관리자", "여분1","여분2","여분3","여분4","여분5","여분6",
                      "여분7","여분8","여분9","여분10")
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
-shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
+shsirna <- shsirna %>% select(-WMB_NO, -`Stock vial 입고일`, -`Stock vial 재고 수량`, -`Stock vial 보관 위치`,
+                              -`소분 vial 재고 수량`, -여분1:-여분10)
 
 # CMC 시약목록/column 
 cmc_reagent_colname <- c("CAS NO", "제조회사", "prefix", "이름", "CAT NO", "단위", "수량", "보관위치", "입고일자", "MSDS", "비고")

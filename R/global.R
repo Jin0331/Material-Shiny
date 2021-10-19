@@ -888,15 +888,24 @@ pdx_champion <- collection_to_DF(collection_name = "pdx_champion_collection", ur
 
 ## antibody colname and DF
 ### wb
+
+# raw
 # DP col ->  No.	Antibody	Cat no.	Host	Species Reactivity	Application 	단백질 크기 (kDa)	재고량 vial	보관 위치	제조사	비고
-antibody_wb_colname <- c("No", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
-                         "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
-                         "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
+# antibody_wb_colname <- c("No", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",
+#                          "Application", "사용 Titer", "Blocking Buffer", "단백질 크기(kDa)", "재고량 vial", "입고 날짜",
+#                          "보관 위치", "관리자(관리팀)", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
+#                          "New8")
+# antibody_wb <- collection_to_DF(collection_name = "antibody_wb_collection", url = mongoUrl);names(antibody_wb) <- antibody_wb_colname
+# antibody_wb <- antibody_wb %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
+#                                       `보관 위치`, 제조사, 비고)
+
+# DP
+antibody_wb_colname <- c("No", "Antibody", "Cat no.", "Host", "Species Reactivity", "Application", "단백질 크기(kDa)",
+                         "보관 위치", "제조사", "비고", "New1","New2","New3","New4","New5","New6","New7",
                          "New8")
 antibody_wb <- collection_to_DF(collection_name = "antibody_wb_collection", url = mongoUrl);names(antibody_wb) <- antibody_wb_colname
 antibody_wb <- antibody_wb %>% select(Antibody, `Cat no.`, Host, `Species Reactivity`, Application, `단백질 크기(kDa)`,
                                       `보관 위치`, 제조사, 비고)
-
 
 ### ihc
 antibody_ihc_colname <- c("No", "WMB_NO", "Antibody", "Cat no.", "Lot no.", "Conc.", "Host", "Species Reactivity",

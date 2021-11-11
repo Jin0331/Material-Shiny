@@ -27,7 +27,7 @@ server <- function(input, output, session) {
 ")
   # SHINYALERT ----
   alert_title <- "[10.19] 업데이트"
-  alert_text <- "<b>1. Antibody - WB"
+  alert_text <- "<b>1. Antibody - WB<br>2. Cell Line - WB"
   # alert_text <- "<b>1. Cell Line - WB / DD<br>2. Protein<br>3. shRNA/siRNA"
   
   shinyalert(

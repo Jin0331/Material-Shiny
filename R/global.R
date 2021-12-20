@@ -964,26 +964,27 @@ drug <- drug %>%
 
 
 ## protein colname and DF
-protein_colname <- c("과제명", "WMB_NO", "시약명", "회사명", "Cat no", "남은량", "위치", "Data sheet")
+protein_colname <- c("과제명", "시약명", "회사명", "Cat no", "남은량", "위치")
 protein <- collection_to_DF(collection_name = "protein_collection", url = mongoUrl);names(protein) <- protein_colname
-protein <- protein %>% 
-  select(-WMB_NO) %>% 
-  mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
-                               paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
-                               ifelse(`Data sheet` == "" | `Data sheet` == "-" | `Data sheet` == " ",
-                                      " ", paste0("<a href='", fileUrl, "PDF/protein/",
-                                                  str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
-                                                  ".pdf'>", "View</a>"))
-  ))
+
+# protein datasheet remove
+# protein <- collection_to_DF(collection_name = "protein_collection", url = mongoUrl);names(protein) <- protein_colname
+# protein <- protein %>% 
+#   select(-WMB_NO) %>% 
+#   mutate(`Data sheet` = ifelse(str_detect(`Data sheet`, pattern = ".html"),
+#                                paste0("<a href='",`Data sheet`,"'>", "View</a>"), 
+#                                ifelse(`Data sheet` == "" | `Data sheet` == "-" | `Data sheet` == " ",
+#                                       " ", paste0("<a href='", fileUrl, "PDF/protein/",
+#                                                   str_remove_all(`Data sheet`,pattern = "[[:punct:]]|[[:blank:]]"),
+#                                                   ".pdf'>", "View</a>"))
+
 
 ## si/shRNA colname and DF
 shsirna_colname <- c("과제명", "WMB_NO", "Name", "Target Gene", "Species", "Type", "농도", "Sequence", "제조사",
-                     "Stock vial 입고일", "Stock vial 재고 수량", "Stock vial 보관 위치", "소분 vial 재고 수량",
                      "위치(냉동고/Box이름)", "관리자", "여분1","여분2","여분3","여분4","여분5","여분6",
                      "여분7","여분8","여분9","여분10")
 shsirna <- collection_to_DF(collection_name = "shsirna_collection", url = mongoUrl);names(shsirna) <- shsirna_colname
-shsirna <- shsirna %>% select(-WMB_NO, -`Stock vial 입고일`, -`Stock vial 재고 수량`, -`Stock vial 보관 위치`,
-                              -`소분 vial 재고 수량`, -여분1:-여분10)
+shsirna <- shsirna %>% select(-WMB_NO, -여분1:-여분10)
 
 # CMC 시약목록/column 
 cmc_reagent_colname <- c("CAS NO", "제조회사", "prefix", "이름", "CAT NO", "단위", "수량", "보관위치", "입고일자", "MSDS", "비고")

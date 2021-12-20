@@ -26,8 +26,8 @@ server <- function(input, output, session) {
     setTimeout(reload_page, 5000000);
 ")
   # SHINYALERT ----
-  alert_title <- "[10.19] 업데이트"
-  alert_text <- "<b>1. Antibody - WB<br>2. Cell Line - WB"
+  alert_title <- "[12.20] 업데이트"
+  alert_text <- "<b>1. shRNA / siRNA<br>2. Protein<br>3. Commercial Drug"
   # alert_text <- "<b>1. Cell Line - WB / DD<br>2. Protein<br>3. shRNA/siRNA"
   
   shinyalert(
@@ -376,7 +376,7 @@ server <- function(input, output, session) {
   
   # PROTEIN DT
   # output$protein_dt <- render_DT_rowgroup(protein)
-  output$protein_dt <- render_DT_searchpane(protein, not_view = 6)
+  output$protein_dt <- render_DT_searchpane(protein, not_view = NULL)
   
   # shRNA/siRNA DT
   # output$shsirna_dt <- render_DT_rowgroup(shsirna)

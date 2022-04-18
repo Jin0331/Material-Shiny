@@ -11,8 +11,9 @@ server <- function(input, output, session) {
   #   keep_token = TRUE
   # )
   
+  
   res_auth <- secure_server(
-    check_credentials = check_credentials("/home/rstudio/Material-Shiny/user_db.sqlite",
+    check_credentials = check_credentials("/home/material/Material/rstudio/Material-Shiny/user_db.sqlite",
                                           passphrase = "passphrase_wihtout_keyring"),
     keep_token = TRUE
   )
@@ -24,7 +25,8 @@ server <- function(input, output, session) {
       setTimeout(reload_page, 5000000);
     }
     setTimeout(reload_page, 5000000);
-")
+  ")
+  
   # SHINYALERT ----
   alert_title <- "[12.20] 업데이트"
   alert_text <- "<b>1. shRNA / siRNA<br>2. Protein<br>3. Commercial Drug"
@@ -33,7 +35,7 @@ server <- function(input, output, session) {
   shinyalert(
     title = alert_title,
     text = alert_text,
-    size = "s", 
+    size = "s",
     closeOnEsc = TRUE,
     closeOnClickOutside = TRUE,
     html = TRUE,
@@ -48,6 +50,7 @@ server <- function(input, output, session) {
     imageHeight = 200,
     animation = TRUE
   )
+
   # RENDERMENU ----
   output$side_menu <- renderMenu({
     role <- res_auth$role

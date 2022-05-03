@@ -302,15 +302,28 @@ child_function <- function(list_df, result_df){
   return_list <- list()
   rowNames = FALSE
   
-  children_list <- list()
-  for(sample in 1:length(sample_list)){
+  # for
+  # children_list <- list()
+  # for(sample in 1:length(sample_list)){
+  #   child_temp <- result_df %>% filter(`Sample ID` == sample_list[sample])
+  #   if(nrow(child_temp) == 0){
+  #     children_list[[sample]] <- data.frame()
+  #   } else {
+  #     children_list[[sample]] <- child_temp %>% as.data.frame()
+  #   }
+  # }
+  # 
+  
+  # parallel
+  children_list <- mclapply(X = 1:length(sample_list), FUN = function(sample){
     child_temp <- result_df %>% filter(`Sample ID` == sample_list[sample])
     if(nrow(child_temp) == 0){
-      children_list[[sample]] <- data.frame()
+      data.frame() %>% return()
     } else {
-      children_list[[sample]] <- child_temp %>% as.data.frame()
+      child_temp %>% as.data.frame() %>% return()
     }
-  }
+  }, mc.cores = 12)
+  
   Dat <- NestedData(dat = list_df, children = unname(children_list))
   colIdx <- as.integer(rowNames)
   parentRows <- which(Dat[,1] != "")
@@ -341,15 +354,27 @@ child_function_FF <- function(list_df, result_df){
   return_list <- list()
   rowNames = FALSE
   
-  children_list <- list()
-  for(sample in 1:length(sample_list)){
+  # for
+  # children_list <- list()
+  # for(sample in 1:length(sample_list)){
+  #   child_temp <- result_df %>% filter(`FF ID` == sample_list[sample])
+  #   if(nrow(child_temp) == 0){
+  #     children_list[[sample]] <- data.frame()
+  #   } else {
+  #     children_list[[sample]] <- child_temp %>% as.data.frame()
+  #   }
+  # }
+  
+  # parallel
+  children_list <- mclapply(X = 1:length(sample_list), FUN = function(sample){
     child_temp <- result_df %>% filter(`FF ID` == sample_list[sample])
     if(nrow(child_temp) == 0){
-      children_list[[sample]] <- data.frame()
+      data.frame() %>% return()
     } else {
-      children_list[[sample]] <- child_temp %>% as.data.frame()
+      child_temp %>% as.data.frame() %>% return()
     }
-  }
+  }, mc.cores = 12)
+  
   Dat <- NestedData(dat = list_df, children = unname(children_list))
   colIdx <- as.integer(rowNames)
   parentRows <- which(Dat[,1] != "")

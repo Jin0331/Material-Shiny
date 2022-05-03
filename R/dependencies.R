@@ -58,4 +58,4 @@ library(AMR)
 library(plotly)
 library(viridis)
 library(zoo)
-
+library(parallel)

@@ -1,7 +1,7 @@
 # INSTALL DEPENDENCIES ----------------------------------------------------
 source('dependencies.R')
 # connection <- shiny.collections::connect(
-#   host = "192.168.0.99"
+#   host = "192.168.0.92"
 # ) # chat
 fileUrl <- "http://192.168.0.99:18080/"
 mongoUrl <- "mongodb://root:sempre813!@192.168.0.99:27017/admin"
@@ -964,7 +964,7 @@ drug <- drug %>%
 
 
 ## protein colname and DF
-protein_colname <- c("과제명", "시약명", "회사명", "Cat no", "남은량", "위치")
+protein_colname <- c("과제명", "시약명", "회사명", "Cat no", "남은량", "위치", "비고")
 protein <- collection_to_DF(collection_name = "protein_collection", url = mongoUrl);names(protein) <- protein_colname
 
 # protein datasheet remove

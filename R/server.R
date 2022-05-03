@@ -28,8 +28,8 @@ server <- function(input, output, session) {
   ")
   
   # SHINYALERT ----
-  alert_title <- "[12.20] 업데이트"
-  alert_text <- "<b>1. shRNA / siRNA<br>2. Protein<br>3. Commercial Drug"
+  alert_title <- "[22.04.27] 업데이트"
+  alert_text <- "<b>1. Antibody<br>2. Commercial Drug<br>3. Protein<br>4. shRNA/siRNA<br>5. FF<br>6. FFPE"
   # alert_text <- "<b>1. Cell Line - WB / DD<br>2. Protein<br>3. shRNA/siRNA"
   
   shinyalert(
@@ -121,8 +121,9 @@ server <- function(input, output, session) {
                             text = "Column",
                             tabName = "mc_column"
                           ))
-                 # menuItem("Help", tabName = "help", icon = icon("volume-down"))
+                 
         )
+        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
       
     } else if(role == "B"){
@@ -182,8 +183,8 @@ server <- function(input, output, session) {
                             text = "Column",
                             tabName = "mc_column"
                           ))
-                 # menuItem("Help", tabName = "help", icon = icon("volume-down"))
         )
+        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     } else {
       menu_list <- list(
@@ -237,8 +238,8 @@ server <- function(input, output, session) {
                             text = "Column",
                             tabName = "mc_column"
                           ))
-                 # menuItem("Help", tabName = "help", icon = icon("volume-down"))
         )
+        # menuItem("Help", tabName = "help", icon = icon("volume-down"))
       )
     }
     
@@ -623,7 +624,7 @@ server <- function(input, output, session) {
   #   shiny.collections::insert(chat, new_message)
   #   updateTextInput(session, "message_field", value = "")
   # })
-  # 
+
   # output$chatbox <- renderUI({
   #   if (!is_empty(chat$collection)) {
   #     render_msg_divs(chat$collection)
